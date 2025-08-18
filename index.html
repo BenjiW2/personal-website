@@ -3,221 +3,151 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Name</title>
-  <meta name="description" content="Stanford EE/CS student interested in systems, infrastructure, and machine learning." />
-  <link rel="stylesheet" href="styles.css" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Stanford EE/CS student portfolio: experience, projects, contact." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">Your Name</a>
-      <div class="nav-links">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#contact" class="nav-link">Contact</a>
+  <div class="page">
+    <aside class="rail">
+      <div class="profile">
+        <img class="avatar" src="https://placehold.co/160x160/png" alt="Your photo" />
+        <h1 class="name">Your Name</h1>
+        <p class="tag">Stanford EE/CS • Systems & ML</p>
       </div>
-    </div>
-  </nav>
+      <nav class="side-nav">
+        <a class="nav-link active" href="#about">About</a>
+        <a class="nav-link" href="#experience">Experience</a>
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-link" href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+      <div class="socials">
+        <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:you@stanford.edu">Email</a>
+      </div>
+      <footer class="rail-foot">© <span id="year"></span></footer>
+    </aside>
 
-  <main class="main">
-    <header class="header">
-      <div class="container">
-        <div class="profile">
-          <img src="https://placehold.co/120x120/png" alt="Your Name" class="profile-image" />
-          <div class="profile-content">
-            <h1 class="name">Your Name</h1>
-            <p class="title">Stanford EE/CS</p>
-            <p class="bio">I'm a Stanford undergrad studying math with experience in systems and infrastructure. I'm passionate about building tools that make developers more productive.</p>
-            <div class="links">
-              <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
-              <a href="https://linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
-              <a href="mailto:you@stanford.edu">Email</a>
-              <a href="/resume.pdf" target="_blank" rel="noopener">Resume</a>
-            </div>
+    <main class="content">
+      <section id="about" class="section">
+        <h2>About</h2>
+        <p class="lede">I build practical systems across the stack — from hardware-accelerated ML to developer tooling. I like turning research and prototypes into reliable products.</p>
+        <div class="grid two">
+          <div class="card">
+            <h3>Focus</h3>
+            <p>Systems, infra, ML acceleration, and developer experience. Comfortable in Python, Rust, C++, and Go.</p>
+          </div>
+          <div class="card">
+            <h3>Currently</h3>
+            <p>Exploring distributed training efficiency, GPU kernels, and tooling that helps small teams ship faster.</p>
           </div>
         </div>
-      </div>
-    </header>
+      </section>
 
-    <section id="about" class="section">
-      <div class="container">
-        <h2>About Me</h2>
-        <div class="about-content">
-          <p>Hey, glad you're here! My name is Your Name and I am a student at <strong>Stanford University</strong> studying Electrical Engineering and Computer Science. Broadly speaking, I am interested in systems, infrastructure, machine learning, and sustainable tech.</p>
-          <p>I love building practical systems that solve real problems. Currently, I'm exploring distributed systems, hardware acceleration for ML workloads, and developer productivity tools.</p>
-          
-          <h3>Current Focus</h3>
-          <p>I'm currently focused on exploring systems engineering, particularly distributed systems and infrastructure. I'm also interested in how we can make machine learning more efficient and accessible through better tooling and hardware acceleration.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="section" data-collapsible>
-      <div class="container">
+      <section id="experience" class="section">
         <h2>Experience</h2>
-        <div class="experience-list">
-          <div class="experience-item">
-            <div class="experience-header">
-              <div class="company-info">
+        <div class="grid two">
+          <article class="card">
+            <header class="card-head">
+              <div>
                 <h3>Summer Fellows Grant Recipient</h3>
-                <p class="company">Y Combinator</p>
+                <p class="sub">Y Combinator</p>
               </div>
-              <p class="period">Jun 2025 — Sep 2025</p>
-            </div>
-            <p class="description">$20k to build something great, more coming soon...</p>
-            <div class="tags">
-              <span class="tag">Startup</span>
-              <span class="tag">Product Development</span>
-              <span class="tag">AI/ML</span>
-            </div>
-          </div>
-
-          <div class="experience-item">
-            <div class="experience-header">
-              <div class="company-info">
+              <span class="meta">Jun 2025 — Sep 2025</span>
+            </header>
+            <ul class="bullets">
+              <li>Building an AI-powered code optimization tool; early users report 60% faster deploys.</li>
+              <li>Shipped CLI + web dashboard; iterating with founders and engineers weekly.</li>
+            </ul>
+            <div class="tags"><span>Rust</span><span>AI/ML</span><span>DevTools</span></div>
+          </article>
+          <article class="card">
+            <header class="card-head">
+              <div>
                 <h3>Software Development Engineer Intern</h3>
-                <p class="company">Amazon</p>
+                <p class="sub">Amazon</p>
               </div>
-              <p class="period">Jun 2025 — Sep 2025</p>
-            </div>
-            <p class="description">Built GenAI content generation systems for influencers and storefronts, serving millions of requests daily with high availability.</p>
-            <div class="tags">
-              <span class="tag">Java</span>
-              <span class="tag">AWS</span>
-              <span class="tag">Machine Learning</span>
-              <span class="tag">Distributed Systems</span>
-            </div>
-          </div>
-
-          <div class="experience-item">
-            <div class="experience-header">
-              <div class="company-info">
+              <span class="meta">Jun 2025 — Sep 2025</span>
+            </header>
+            <ul class="bullets">
+              <li>Built GenAI content systems serving 10M+ requests/day at 99.9% uptime.</li>
+              <li>Improved inference pipeline latency by 22% with cache-aware batching.</li>
+            </ul>
+            <div class="tags"><span>Java</span><span>AWS</span><span>ML</span></div>
+          </article>
+          <article class="card">
+            <header class="card-head">
+              <div>
                 <h3>Research Assistant</h3>
-                <p class="company">Stanford ARMLab</p>
+                <p class="sub">Stanford ARMLab</p>
               </div>
-              <p class="period">Jan 2024 — Present</p>
-            </div>
-            <p class="description">Developing hardware acceleration techniques for robotics applications, achieving significant speedups in real-time object detection on edge devices.</p>
-            <div class="tags">
-              <span class="tag">CUDA</span>
-              <span class="tag">PyTorch</span>
-              <span class="tag">Robotics</span>
-              <span class="tag">Computer Vision</span>
-            </div>
-          </div>
+              <span class="meta">Jan 2024 — Present</span>
+            </header>
+            <ul class="bullets">
+              <li>3× speedup on edge CV by optimizing CUDA kernels and memory movement.</li>
+              <li>Co-authored workshop paper on efficient inference deployment.</li>
+            </ul>
+            <div class="tags"><span>CUDA</span><span>PyTorch</span><span>Robotics</span></div>
+          </article>
         </div>
-        <div class="list-toggle">
-          <button type="button" data-toggle="experience">Show more</button>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="projects" class="section" data-collapsible>
-      <div class="container">
+      <section id="projects" class="section">
         <h2>Projects</h2>
-        <div class="projects-list">
-          <div class="project-item">
-            <div class="project-header">
-              <h3>Distributed ML Training Framework</h3>
-              <div class="project-links">
-                <a href="https://github.com/yourhandle/ml-framework" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://demo.example.com" target="_blank" rel="noopener">Demo</a>
-              </div>
-            </div>
-            <p class="project-description">A fault-tolerant distributed training system that reduces training time by 40% through dynamic load balancing and efficient gradient synchronization. Built with Python, PyTorch, and gRPC.</p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">PyTorch</span>
-              <span class="tag">gRPC</span>
-              <span class="tag">Distributed Systems</span>
-            </div>
-          </div>
-
-          <div class="project-item">
-            <div class="project-header">
-              <h3>Hardware Accelerated Computer Vision</h3>
-              <div class="project-links">
-                <a href="https://github.com/yourhandle/cv-accelerator" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://arxiv.org/abs/example" target="_blank" rel="noopener">Paper</a>
-              </div>
-            </div>
-            <p class="project-description">Optimized real-time object detection pipeline using CUDA and TensorRT, achieving 3x speedup on edge devices while maintaining accuracy. Published research findings.</p>
-            <div class="tags">
-              <span class="tag">CUDA</span>
-              <span class="tag">TensorRT</span>
-              <span class="tag">C++</span>
-              <span class="tag">Computer Vision</span>
-            </div>
-          </div>
-
-          <div class="project-item">
-            <div class="project-header">
-              <h3>Developer Productivity CLI</h3>
-              <div class="project-links">
-                <a href="https://github.com/yourhandle/dev-cli" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://crates.io/crates/dev-cli" target="_blank" rel="noopener">Crates.io</a>
-              </div>
-            </div>
-            <p class="project-description">Command-line tool that automates common development workflows. Written in Rust for performance and reliability. Used by 500+ developers across multiple organizations.</p>
-            <div class="tags">
-              <span class="tag">Rust</span>
-              <span class="tag">CLI</span>
-              <span class="tag">DevOps</span>
-              <span class="tag">Developer Tools</span>
-            </div>
-          </div>
-
-          <div class="project-item">
-            <div class="project-header">
-              <h3>Real-time Data Processing Pipeline</h3>
-              <div class="project-links">
-                <a href="https://github.com/yourhandle/stream-processor" target="_blank" rel="noopener">GitHub</a>
-              </div>
-            </div>
-            <p class="project-description">Kafka-based streaming platform processing 100M+ events/day with sub-100ms latency for financial trading applications. Built with Go for high performance.</p>
-            <div class="tags">
-              <span class="tag">Go</span>
-              <span class="tag">Kafka</span>
-              <span class="tag">Redis</span>
-              <span class="tag">Financial Tech</span>
-            </div>
-          </div>
+        <div class="grid two">
+          <article class="card">
+            <header class="card-head">
+              <h3>DistML Framework</h3>
+              <div class="links"><a href="https://github.com/yourhandle/ml-framework" target="_blank" rel="noopener">Code</a><a href="#" target="_blank" rel="noopener">Demo</a></div>
+            </header>
+            <p class="muted">Fault-tolerant distributed training with dynamic load balancing; 40% faster epochs on heterogeneous clusters.</p>
+            <div class="tags"><span>Python</span><span>PyTorch</span><span>gRPC</span></div>
+          </article>
+          <article class="card">
+            <header class="card-head">
+              <h3>CUDA Vision Accelerator</h3>
+              <div class="links"><a href="#" target="_blank" rel="noopener">Code</a><a href="#" target="_blank" rel="noopener">Paper</a></div>
+            </header>
+            <p class="muted">Real-time detection on edge using TensorRT; 3× speedup with maintained mAP.</p>
+            <div class="tags"><span>CUDA</span><span>TensorRT</span><span>C++</span></div>
+          </article>
+          <article class="card">
+            <header class="card-head">
+              <h3>DevOps CLI Suite</h3>
+              <div class="links"><a href="#" target="_blank" rel="noopener">Code</a><a href="#" target="_blank" rel="noopener">Docs</a></div>
+            </header>
+            <p class="muted">Automates common workflows; adopted by 500+ developers across orgs.</p>
+            <div class="tags"><span>Rust</span><span>CLI</span><span>DevOps</span></div>
+          </article>
+          <article class="card">
+            <header class="card-head">
+              <h3>Realtime Stream Processor</h3>
+              <div class="links"><a href="#" target="_blank" rel="noopener">Code</a></div>
+            </header>
+            <p class="muted">Kafka-based pipeline handling 100M+/day with sub-100ms p95 latency.</p>
+            <div class="tags"><span>Go</span><span>Kafka</span><span>Redis</span></div>
+          </article>
         </div>
-        <div class="list-toggle">
-          <button type="button" data-toggle="projects">Show more</button>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="contact" class="section">
-      <div class="container">
+      <section id="contact" class="section">
         <h2>Contact</h2>
-        <div class="contact-content">
-          <p>I'm always interested in discussing new opportunities, research collaborations, or just chatting about technology. Feel free to reach out!</p>
-          <div class="contact-methods">
-            <div class="contact-method">
-              <strong>Email:</strong> <a href="mailto:you@stanford.edu">you@stanford.edu</a>
-            </div>
-            <div class="contact-method">
-              <strong>Schedule:</strong> <a href="https://calendly.com/yourhandle" target="_blank" rel="noopener">Book a 30-minute call</a>
-            </div>
+        <div class="card">
+          <p>Open to internships, collaborations, and research. The fastest way to reach me is email.</p>
+          <div class="actions">
+            <a class="btn primary" href="mailto:you@stanford.edu">Email me</a>
+            <a class="btn" href="https://calendly.com/yourhandle" target="_blank" rel="noopener">Book time</a>
           </div>
-          <p class="response-time">I usually respond within 24 hours.</p>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; <span id="year"></span> Your Name</p>
-    </div>
-  </footer>
-
-  <script defer src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
