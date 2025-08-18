@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Name — Portfolio</title>
-  <meta name="description" content="Stanford EE/CS student portfolio: experience, projects, contact." />
+  <title>Benji</title>
+  <meta name="description" content="I'm a Stanford student studying EE/CS with a focus on systems, ML, and robotics. " />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,39 +14,31 @@
   <div class="page">
     <aside class="rail">
       <div class="profile">
-        <img class="avatar" src="https://placehold.co/160x160/png" alt="Your photo" />
-        <h1 class="name">Your Name</h1>
-        <p class="tag">Stanford EE/CS • Systems & ML</p>
+        <img class="avatar" src="assets/avatar.png" alt="Your photo" />
+        <h1 class="name">Benji Warburton</h1>
+        <p class="tag">Stanford EE/CS • Systems, ML and Robotics</p>
       </div>
       <nav class="side-nav">
-        <a class="nav-link active" href="#about">About</a>
         <a class="nav-link" href="#experience">Experience</a>
-        <a class="nav-link" href="#projects">Projects</a>
         <a class="nav-link" href="#classes">Classes</a>
+        <a class="nav-link" href="#projects">Projects</a>
         <a class="nav-link" href="#contact">Contact</a>
-        <a class="nav-link" href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
       </nav>
       <div class="socials">
         <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
         <a href="mailto:you@stanford.edu">Email</a>
+        <a href="assets/resume.pdf"target="_blank" rel="noopener">Resume</a>
       </div>
       <footer class="rail-foot">© <span id="year"></span></footer>
     </aside>
 
     <main class="content">
       <section id="about" class="section">
-        <h2>About</h2>
-        <p class="lede">I build practical systems across the stack — from hardware-accelerated ML to developer tooling. I like turning research and prototypes into reliable products.</p>
-        <div class="grid two">
-          <div class="card">
-            <h3>Focus</h3>
-            <p>Systems, infra, ML acceleration, and developer experience. Comfortable in Python, Rust, C++, and Go.</p>
-          </div>
-          <div class="card">
-            <h3>Currently</h3>
-            <p>Exploring distributed training efficiency, GPU kernels, and tooling that helps small teams ship faster.</p>
-          </div>
+        <div class="card">
+          <h3>About</h3>
+          <p>I'm a Stanford student studying EE/CS with a focus on systems, ML, and robotics. I'm interested in working at the intersection of engineering, computer science and physics. Currently, I'm working on end to end VLA robotics systems and other cool stuff</p>
+          <div class="tags"><span>Python</span><span>ROS2</span><span>C/C++</span><span>3D Printing</span></div>
         </div>
       </section>
 
@@ -56,35 +48,35 @@
           <article class="card">
             <header class="card-head">
               <div>
-                <h3>Summer Fellows Grant Recipient</h3>
-                <p class="sub">Y Combinator</p>
+                <div class="exp-title"><img class="exp-icon" src="assets/icons/yc.png" alt="Y Combinator" /><h3>Rise Fellow</h3></div>
+                <p class="sub">Schmidt Futures</p>
               </div>
-              <span class="meta">Jun 2025 — Sep 2025</span>
+              <span class="meta">October 2023 — Present</span>
             </header>
             <ul class="bullets">
-              <li>Building an AI-powered code optimization tool; early users report 60% faster deploys.</li>
-              <li>Shipped CLI + web dashboard; iterating with founders and engineers weekly.</li>
+              <li>Selected as 1 of 100 2023 RISE Fellows (out of 14,000 applicants) for creating a low-cost robotics kit targeted at young children. </li>
+              <li>Over the course of a month, I designed and 3D printed a fully functional robot, created an arduino block programming site, and performed demo lessons with primary school kids.</li>
             </ul>
-            <div class="tags"><span>Rust</span><span>AI/ML</span><span>DevTools</span></div>
+            <div class="tags"><span>Arduino</span><span>Project Management</span><span>3D Printing</span><span>Robotics</span><span>UI/UX</span></div>
           </article>
           <article class="card">
             <header class="card-head">
               <div>
-                <h3>Software Development Engineer Intern</h3>
-                <p class="sub">Amazon</p>
+                <div class="exp-title"><img class="exp-icon" src="assets/icons/amazon.png" alt="Amazon" /><h3>Intern</h3></div>
+                <p class="sub">YASA</p>
               </div>
-              <span class="meta">Jun 2025 — Sep 2025</span>
+              <span class="meta">Jul 2023</span>
             </header>
             <ul class="bullets">
-              <li>Built GenAI content systems serving 10M+ requests/day at 99.9% uptime.</li>
-              <li>Improved inference pipeline latency by 22% with cache-aware batching.</li>
+              <li>Worked with data analysis teams on dyno test data</li>
+              <li>Identified and addressed a key issue with motor testing process</li>
             </ul>
-            <div class="tags"><span>Java</span><span>AWS</span><span>ML</span></div>
+            <div class="tags"><span>Python</span><span>Pandas</span><span>Matplotlib</span><span>MatLAB</span></div>
           </article>
           <article class="card">
             <header class="card-head">
               <div>
-                <h3>Research Assistant</h3>
+                <div class="exp-title"><img class="exp-icon" src="assets/icons/armlab.png" alt="Stanford ARMLab" /><h3>Research Assistant</h3></div>
                 <p class="sub">Stanford ARMLab</p>
               </div>
               <span class="meta">Jan 2024 — Present</span>
@@ -136,38 +128,47 @@
         </div>
       </section>
 
+      
+
       <section id="classes" class="section">
         <h2>Classes</h2>
+        <div class="legend">
+          <span class="key"><span class="dot taken"></span> Taken</span>
+          <span class="key"><span class="dot current"></span> Currently taking</span>
+        </div>
         <div class="grid two">
           <article class="card">
             <h3>Systems</h3>
             <ul class="bullets">
-              <li>CS110: Principles of Computer Systems</li>
-              <li>CS111: Operating Systems</li>
-              <li>EE108: Digital System Design</li>
+              <li data-status="taken">CS107E: Computer Systems from the Ground Up</li>
+              <li data-status="taken">CS153: Infrastructure at Scale</li>
+              <li data-status="taken">CS309A: Cloud Computing</li>
             </ul>
           </article>
-          <article class="card">
-            <h3>AI / ML</h3>
-            <ul class="bullets">
-              <li>CS229: Machine Learning</li>
-              <li>CS231N: Deep Learning for Vision</li>
-              <li>CS224N: NLP with Deep Learning</li>
-            </ul>
-          </article>
+          
           <article class="card">
             <h3>Math / Theory</h3>
             <ul class="bullets">
-              <li>Math 51: Linear Algebra & Diff. Calculus</li>
-              <li>CS109: Probability for CS</li>
-              <li>CS161: Design & Analysis of Algorithms</li>
+              <li data-status="taken">MATH51: Linear Algebra & Differential Calculus</li>
+              <li data-status="taken">CS109: Probability for Computer Scientists</li>
             </ul>
           </article>
           <article class="card">
-            <h3>Hardware</h3>
+            <h3>Hardware / EE</h3>
             <ul class="bullets">
-              <li>EE180: Digital Systems Architecture</li>
-              <li>EE271: Advanced Digital Design</li>
+              <li data-status="taken">ENGR40M: Intro to EE</li>
+              <li data-status="taken">CS123: AI Enabled Robotics</li>
+              <li data-status="current">CS227A: Robot Perception</li>
+              <li data-status="current">EE101A: Circuits I</li>
+              <li data-status="current">EE42: Electromagnetics and Its Applications</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Other Interests</h3>
+            <ul class="bullets">
+              <li data-status="taken">ECON1: Principles of Economics</li>
+              <li data-status="current">PHYSICS61: Mechanics and Special Relativity</li>
+              <li data-status="current">CS148: Computer Graphics and Imaging</li>
             </ul>
           </article>
         </div>
