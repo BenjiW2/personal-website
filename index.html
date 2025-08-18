@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
   <header class="site-header">
@@ -25,19 +25,48 @@
 
   <main>
     <section class="hero container">
-      <p class="eyebrow">Stanford University • EE/CS</p>
-      <h1>Building systems and products at the intersection of hardware and software</h1>
-      <p class="lede">I am a Stanford EE/CS student focused on systems, ML, and tooling. Previously at Example Labs and Example Startups. I love shipping thoughtful products and impactful research projects.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="#projects">View projects</a>
-        <a class="btn" href="#contact">Get in touch</a>
+      <div class="hero-grid">
+        <div class="id-badge" aria-hidden="true">
+          <div class="lanyard"><span></span></div>
+          <div class="badge-card">
+            <div class="badge-head">
+              <div class="badge-chip"></div>
+            </div>
+            <img class="badge-photo" src="https://placehold.co/360x420/png" alt="Profile" />
+            <div class="badge-name">Your Name</div>
+            <div class="badge-sub">EE + CS • Student</div>
+            <div class="badge-stamp">STUDENT</div>
+          </div>
+        </div>
+        <div class="about">
+          <p class="eyebrow">Stanford University • EE/CS</p>
+          <h1>Building systems and products at the intersection of hardware and software</h1>
+          <p class="lede">I design and build pragmatic systems across the stack — from hardware-accelerated ML to developer tools. Previously at Example Labs and Example Startups. I like shipping thoughtful products and impactful research projects.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#projects">View projects</a>
+            <a class="btn" href="#contact">Get in touch</a>
+          </div>
+          <div class="social-row">
+            <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
+            <span>•</span>
+            <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
+            <span>•</span>
+            <a href="mailto:you@stanford.edu">you@stanford.edu</a>
+          </div>
+        </div>
       </div>
-      <div class="social-row">
-        <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
-        <span>•</span>
-        <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
-        <span>•</span>
-        <a href="mailto:you@stanford.edu">you@stanford.edu</a>
+    </section>
+
+    <section class="section container" aria-label="Interactive terminal">
+      <div class="terminal">
+        <div class="terminal-head">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="term-title">visitor@site:~</span>
+          <button class="static-btn" type="button" id="staticToggle">Static Mode</button>
+        </div>
+        <pre id="terminalOutput" class="terminal-body" aria-live="polite"></pre>
       </div>
     </section>
 
@@ -134,10 +163,10 @@
   <footer class="site-footer">
     <div class="container foot">
       <span>© <span id="year"></span> Your Name</span>
-      <a href="/" class="back-to-top">Back to top ↑</a>
+      <a href="#top" class="back-to-top">Back to top ↑</a>
     </div>
   </footer>
 
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script defer src="script.js"></script>
 </body>
 </html>
