@@ -8,140 +8,173 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div id="top"></div>
-  <main class="shell-layout container">
-    <aside class="sidebar">
-      <img class="avatar" src="https://placehold.co/240x240/png" alt="Your portrait" />
-      <h1 class="name">Your Name</h1>
-      <p class="tagline">Stanford EE/CS · systems, infra, ML</p>
-      <nav class="side-nav">
+  <div class="container">
+    <header class="header">
+      <div class="profile">
+        <img class="avatar" src="https://placehold.co/120x120/png" alt="Your Name" />
+        <div class="intro">
+          <h1 class="name">Your Name</h1>
+          <p class="title">Stanford EE/CS</p>
+          <p class="bio">Building systems at the intersection of hardware and software. Interested in infrastructure, ML acceleration, and developer tools.</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
         <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
       </nav>
-      <div class="social-row">
-        <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
-        <span>•</span>
-        <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
-        <span>•</span>
-        <a href="mailto:you@stanford.edu">you@stanford.edu</a>
-      </div>
-    </aside>
-    <section class="content">
-      <section class="terminal-banner">
-        <div class="terminal">
-          <div class="terminal-head">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-            <span class="term-title">visitor@portfolio:~</span>
-            <button class="static-btn" type="button" id="staticToggle">Static Mode</button>
+    </header>
+
+    <main>
+      <section id="about" class="section">
+        <h2>About Me</h2>
+        <div class="about-content">
+          <p>Hey, glad you're here! My name is Your Name and I am a student at <strong>Stanford University</strong> studying Electrical Engineering and Computer Science. Broadly speaking, I am interested in systems, infrastructure, machine learning, and sustainable tech.</p>
+          <p>I love building things that matter — from low-level systems optimization to full-stack applications. Currently exploring hardware acceleration for ML workloads and developer productivity tools.</p>
+          <div class="links">
+            <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="mailto:you@stanford.edu">Email</a>
           </div>
-          <pre id="terminalOutput" class="terminal-body" aria-live="polite"></pre>
         </div>
       </section>
 
       <section id="experience" class="section">
         <h2>Experience</h2>
-        <ul class="timeline">
-          <li class="timeline-item">
-            <div class="ti-header">
-              <div>
-                <h3>Company Name</h3>
-                <p class="subtitle">Software Engineering Intern • Team Name</p>
+        <div class="timeline">
+          <div class="experience-item">
+            <div class="company-logo">Y</div>
+            <div class="experience-content">
+              <h3>Summer Fellows Grant Recipient</h3>
+              <div class="company">Y Combinator</div>
+              <div class="period">Jun 2025 — Sep 2025</div>
+              <p>$20k to build something great, more coming soon...</p>
+              <div class="tags">
+                <span class="tag">Startup</span>
+                <span class="tag">Product</span>
+                <span class="tag">AI/ML</span>
               </div>
-              <div class="meta">Jun 2024 — Sep 2024 • San Francisco, CA</div>
             </div>
-            <ul class="bullets">
-              <li>Designed and implemented a feature that improved X by Y percent using Z technologies.</li>
-              <li>Collaborated with cross functional partners to ship production systems used by N users.</li>
-            </ul>
-            <div class="tags">
-              <span class="tag">TypeScript</span>
-              <span class="tag">Next.js</span>
-              <span class="tag">PostgreSQL</span>
-            </div>
-          </li>
-          <li class="timeline-item">
-            <div class="ti-header">
-              <div>
-                <h3>Research Lab Name</h3>
-                <p class="subtitle">Undergraduate Researcher • Advisor Name</p>
+          </div>
+
+          <div class="experience-item">
+            <div class="company-logo amazon">a</div>
+            <div class="experience-content">
+              <h3>Software Development Engineer Intern</h3>
+              <div class="company">Amazon</div>
+              <div class="period">Jun 2025 — Sep 2025</div>
+              <p>GenAI content for influencers and storefronts @ SEA70.</p>
+              <div class="tags">
+                <span class="tag">Java</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Distributed Systems</span>
               </div>
-              <div class="meta">Jan 2024 — Present • Stanford, CA</div>
             </div>
-            <ul class="bullets">
-              <li>Built reproducible experiments for hardware accelerated ML; reduced training time by 30 percent.</li>
-              <li>Co authored a workshop paper on efficient inference for edge devices.</li>
-            </ul>
-            <div class="tags">
-              <span class="tag">PyTorch</span>
-              <span class="tag">CUDA</span>
-              <span class="tag">RISC-V</span>
+          </div>
+
+          <div class="experience-item">
+            <div class="company-logo stanford">S</div>
+            <div class="experience-content">
+              <h3>Research Assistant</h3>
+              <div class="company">Stanford ARMLab</div>
+              <div class="period">Jan 2024 — Present</div>
+              <p>Hardware acceleration research for robotics and autonomous systems.</p>
+              <div class="tags">
+                <span class="tag">CUDA</span>
+                <span class="tag">PyTorch</span>
+                <span class="tag">Robotics</span>
+              </div>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </section>
 
       <section id="projects" class="section">
         <h2>Projects</h2>
         <div class="projects-grid">
-          <article class="card">
-            <div class="card-head">
-              <h3>Project One</h3>
-              <div class="card-links">
-                <a href="https://github.com/yourhandle/project-one" target="_blank" rel="noopener">Code</a>
-                <span>·</span>
-                <a href="https://project-one.example.com" target="_blank" rel="noopener">Demo</a>
-              </div>
+          <div class="project-card">
+            <h3>Distributed ML Training Framework</h3>
+            <p>Built a fault-tolerant distributed training system that reduces training time by 40% through dynamic load balancing and efficient gradient synchronization.</p>
+            <div class="project-links">
+              <a href="https://github.com/yourhandle/ml-framework" target="_blank" rel="noopener">Code</a>
+              <a href="https://demo.example.com" target="_blank" rel="noopener">Demo</a>
             </div>
-            <p>A brief description of what this project does and why it is interesting. Mention impact, users, or performance.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">PyTorch</span>
+              <span class="tag">gRPC</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <h3>Hardware Accelerated Computer Vision</h3>
+            <p>Optimized real-time object detection pipeline using CUDA and TensorRT, achieving 3x speedup on edge devices while maintaining accuracy.</p>
+            <div class="project-links">
+              <a href="https://github.com/yourhandle/cv-accelerator" target="_blank" rel="noopener">Code</a>
+              <a href="https://arxiv.org/abs/example" target="_blank" rel="noopener">Paper</a>
+            </div>
+            <div class="tags">
+              <span class="tag">CUDA</span>
+              <span class="tag">TensorRT</span>
+              <span class="tag">C++</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <h3>Developer Productivity CLI</h3>
+            <p>Command-line tool that automates common development workflows. Used by 500+ developers across multiple organizations.</p>
+            <div class="project-links">
+              <a href="https://github.com/yourhandle/dev-cli" target="_blank" rel="noopener">Code</a>
+              <a href="https://crates.io/crates/dev-cli" target="_blank" rel="noopener">Crates.io</a>
+            </div>
             <div class="tags">
               <span class="tag">Rust</span>
-              <span class="tag">WASM</span>
-              <span class="tag">WebGPU</span>
+              <span class="tag">CLI</span>
+              <span class="tag">DevOps</span>
             </div>
-          </article>
-          <article class="card">
-            <div class="card-head">
-              <h3>Project Two</h3>
-              <div class="card-links">
-                <a href="https://github.com/yourhandle/project-two" target="_blank" rel="noopener">Code</a>
-                <span>·</span>
-                <a href="https://project-two.example.com" target="_blank" rel="noopener">Demo</a>
-              </div>
+          </div>
+
+          <div class="project-card">
+            <h3>Real-time Data Processing Pipeline</h3>
+            <p>Kafka-based streaming platform processing 100M+ events/day with sub-100ms latency for financial trading applications.</p>
+            <div class="project-links">
+              <a href="https://github.com/yourhandle/stream-processor" target="_blank" rel="noopener">Code</a>
             </div>
-            <p>Another short summary. Focus on results and what you contributed specifically.</p>
             <div class="tags">
+              <span class="tag">Kafka</span>
               <span class="tag">Go</span>
-              <span class="tag">gRPC</span>
-              <span class="tag">Kubernetes</span>
+              <span class="tag">Redis</span>
             </div>
-          </article>
+          </div>
         </div>
       </section>
 
       <section id="contact" class="section">
         <h2>Contact</h2>
-        <p>For collaborations or opportunities, feel free to reach out.</p>
-        <div class="cta-row">
-          <a class="btn primary" href="mailto:you@stanford.edu">Email me</a>
-          <a class="btn" href="https://calendly.com/yourhandle/intro" target="_blank" rel="noopener">Book time</a>
+        <div class="contact-content">
+          <p>I'm always interested in discussing new opportunities, research collaborations, or just chatting about technology. Feel free to reach out!</p>
+          <div class="contact-methods">
+            <a href="mailto:you@stanford.edu" class="contact-btn primary">
+              <span>Email me</span>
+            </a>
+            <a href="https://calendly.com/yourhandle" target="_blank" rel="noopener" class="contact-btn">
+              <span>Schedule a call</span>
+            </a>
+          </div>
         </div>
       </section>
+    </main>
 
-      <footer class="site-footer">
-        <div class="foot">
-          <span>© <span id="year"></span> Your Name</span>
-          <a href="#top" class="back-to-top">Back to top ↑</a>
-        </div>
-      </footer>
-    </section>
-  </main>
+    <footer class="footer">
+      <p>© <span id="year"></span> Your Name</p>
+      <a href="#" class="back-to-top">Back to top ↑</a>
+    </footer>
+  </div>
 
   <script defer src="script.js"></script>
 </body>
