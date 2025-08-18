@@ -18,10 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const sections = Array.from(document.querySelectorAll('main .section'));
   const links = Array.from(document.querySelectorAll('.side-nav .nav-link'));
   function setActive() {
-    const pos = window.scrollY + 120;
+    const scrollBottom = window.scrollY + window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+    const atBottom = Math.abs(scrollBottom - docHeight) < 2; // near bottom
     let current = sections[0]?.id;
-    for (const s of sections) {
-      if (s.offsetTop <= pos) current = s.id;
+    if (atBottom) {
+      current = sections[sections.length - 1]?.id;
+    } else {
+      const pos = window.scrollY + 140; // offset for rail
+      for (const s of sections) {
+        if (s.offsetTop <= pos) current = s.id;
+      }
     }
     links.forEach((l) => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
   }
