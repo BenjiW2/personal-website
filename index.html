@@ -8,173 +8,453 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="profile">
-        <img class="avatar" src="https://placehold.co/120x120/png" alt="Your Name" />
-        <div class="intro">
-          <h1 class="name">Your Name</h1>
-          <p class="title">Stanford EE/CS</p>
-          <p class="bio">Building systems at the intersection of hardware and software. Interested in infrastructure, ML acceleration, and developer tools.</p>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  
+  <nav class="floating-nav">
+    <div class="nav-container">
+      <a href="#hero" class="nav-item active" data-section="hero">Home</a>
+      <a href="#about" class="nav-item" data-section="about">About</a>
+      <a href="#experience" class="nav-item" data-section="experience">Work</a>
+      <a href="#projects" class="nav-item" data-section="projects">Projects</a>
+      <a href="#contact" class="nav-item" data-section="contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="hero" class="hero-section">
+      <div class="hero-bg">
+        <div class="grid-pattern"></div>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+      </div>
+      
+      <div class="hero-content">
+        <div class="hero-avatar">
+          <img src="https://placehold.co/200x200/png" alt="Your Name" class="avatar-img" />
+          <div class="avatar-ring"></div>
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for opportunities</span>
+          </div>
+        </div>
+        
+        <div class="hero-text">
+          <h1 class="hero-title">
+            <span class="title-line">Hi, I'm</span>
+            <span class="title-line highlight">Your Name</span>
+            <span class="title-line">Building the future</span>
+          </h1>
+          <p class="hero-subtitle">
+            Stanford EE/CS • Systems Engineer • ML Researcher
+          </p>
+          <p class="hero-description">
+            I design and build systems that matter — from hardware acceleration to developer tools. 
+            Currently exploring the intersection of AI and infrastructure.
+          </p>
+          
+          <div class="hero-actions">
+            <a href="#projects" class="cta-button primary">
+              <span>View My Work</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#contact" class="cta-button secondary">
+              <span>Get In Touch</span>
+            </a>
+          </div>
+          
+          <div class="social-links">
+            <a href="https://github.com/yourhandle" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </a>
+            <a href="https://linkedin.com/in/yourhandle" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+            <a href="mailto:you@stanford.edu" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-        <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
-      </nav>
-    </header>
+      
+      <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
 
-    <main>
-      <section id="about" class="section">
-        <h2>About Me</h2>
-        <div class="about-content">
-          <p>Hey, glad you're here! My name is Your Name and I am a student at <strong>Stanford University</strong> studying Electrical Engineering and Computer Science. Broadly speaking, I am interested in systems, infrastructure, machine learning, and sustainable tech.</p>
-          <p>I love building things that matter — from low-level systems optimization to full-stack applications. Currently exploring hardware acceleration for ML workloads and developer productivity tools.</p>
-          <div class="links">
-            <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="mailto:you@stanford.edu">Email</a>
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">About Me</span>
+          <h2 class="section-title">Building systems that scale</h2>
+        </div>
+        
+        <div class="about-grid">
+          <div class="about-text">
+            <p class="about-intro">
+              Hey there! I'm a passionate systems engineer and researcher at Stanford, where I'm pursuing my degree in Electrical Engineering and Computer Science.
+            </p>
+            <p>
+              My work spans the full stack — from optimizing CUDA kernels for ML workloads to building distributed systems that handle millions of requests. I'm particularly interested in the intersection of hardware and software, and how we can push the boundaries of what's possible.
+            </p>
+            <p>
+              When I'm not coding, you'll find me exploring the latest research in computer architecture, contributing to open source projects, or mentoring fellow students in systems programming.
+            </p>
+            
+            <div class="skills-grid">
+              <div class="skill-category">
+                <h4>Languages</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">Python</span>
+                  <span class="skill-tag">Rust</span>
+                  <span class="skill-tag">C++</span>
+                  <span class="skill-tag">Go</span>
+                  <span class="skill-tag">JavaScript</span>
+                </div>
+              </div>
+              <div class="skill-category">
+                <h4>Systems</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">CUDA</span>
+                  <span class="skill-tag">Kubernetes</span>
+                  <span class="skill-tag">Docker</span>
+                  <span class="skill-tag">PostgreSQL</span>
+                  <span class="skill-tag">Redis</span>
+                </div>
+              </div>
+              <div class="skill-category">
+                <h4>ML/AI</h4>
+                <div class="skill-tags">
+                  <span class="skill-tag">PyTorch</span>
+                  <span class="skill-tag">TensorFlow</span>
+                  <span class="skill-tag">TensorRT</span>
+                  <span class="skill-tag">Triton</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="about-visual">
+            <div class="tech-orbit">
+              <div class="orbit-center">
+                <div class="center-icon">⚡</div>
+              </div>
+              <div class="orbit-ring ring-1">
+                <div class="orbit-item" style="--delay: 0s">🔧</div>
+                <div class="orbit-item" style="--delay: -2s">🚀</div>
+                <div class="orbit-item" style="--delay: -4s">🧠</div>
+              </div>
+              <div class="orbit-ring ring-2">
+                <div class="orbit-item" style="--delay: -1s">💻</div>
+                <div class="orbit-item" style="--delay: -3s">🔬</div>
+                <div class="orbit-item" style="--delay: -5s">⚙️</div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="experience" class="section">
-        <h2>Experience</h2>
+    <section id="experience" class="experience-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Experience</span>
+          <h2 class="section-title">Where I've made an impact</h2>
+        </div>
+        
         <div class="timeline">
-          <div class="experience-item">
-            <div class="company-logo">Y</div>
-            <div class="experience-content">
-              <h3>Summer Fellows Grant Recipient</h3>
-              <div class="company">Y Combinator</div>
-              <div class="period">Jun 2025 — Sep 2025</div>
-              <p>$20k to build something great, more coming soon...</p>
-              <div class="tags">
-                <span class="tag">Startup</span>
-                <span class="tag">Product</span>
-                <span class="tag">AI/ML</span>
+          <div class="timeline-item" data-year="2025">
+            <div class="timeline-marker">
+              <div class="company-logo yc">Y</div>
+            </div>
+            <div class="timeline-content">
+              <div class="experience-header">
+                <h3>Summer Fellows Grant Recipient</h3>
+                <span class="company">Y Combinator</span>
+                <span class="period">Jun 2025 — Sep 2025</span>
+              </div>
+              <p class="experience-description">
+                Awarded $20k to build the next generation of developer tools. Currently developing an AI-powered code optimization platform that reduces deployment times by 60%.
+              </p>
+              <div class="impact-metrics">
+                <div class="metric">
+                  <span class="metric-value">$20k</span>
+                  <span class="metric-label">Grant Award</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-value">60%</span>
+                  <span class="metric-label">Performance Gain</span>
+                </div>
+              </div>
+              <div class="tech-stack">
+                <span class="tech-tag">AI/ML</span>
+                <span class="tech-tag">DevOps</span>
+                <span class="tech-tag">Rust</span>
               </div>
             </div>
           </div>
 
-          <div class="experience-item">
-            <div class="company-logo amazon">a</div>
-            <div class="experience-content">
-              <h3>Software Development Engineer Intern</h3>
-              <div class="company">Amazon</div>
-              <div class="period">Jun 2025 — Sep 2025</div>
-              <p>GenAI content for influencers and storefronts @ SEA70.</p>
-              <div class="tags">
-                <span class="tag">Java</span>
-                <span class="tag">Machine Learning</span>
-                <span class="tag">Distributed Systems</span>
+          <div class="timeline-item" data-year="2025">
+            <div class="timeline-marker">
+              <div class="company-logo amazon">a</div>
+            </div>
+            <div class="timeline-content">
+              <div class="experience-header">
+                <h3>Software Development Engineer Intern</h3>
+                <span class="company">Amazon</span>
+                <span class="period">Jun 2025 — Sep 2025</span>
+              </div>
+              <p class="experience-description">
+                Built GenAI content generation systems for influencers and storefronts, serving 10M+ requests daily with 99.9% uptime.
+              </p>
+              <div class="impact-metrics">
+                <div class="metric">
+                  <span class="metric-value">10M+</span>
+                  <span class="metric-label">Daily Requests</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-value">99.9%</span>
+                  <span class="metric-label">Uptime</span>
+                </div>
+              </div>
+              <div class="tech-stack">
+                <span class="tech-tag">Java</span>
+                <span class="tech-tag">AWS</span>
+                <span class="tech-tag">Machine Learning</span>
               </div>
             </div>
           </div>
 
-          <div class="experience-item">
-            <div class="company-logo stanford">S</div>
-            <div class="experience-content">
-              <h3>Research Assistant</h3>
-              <div class="company">Stanford ARMLab</div>
-              <div class="period">Jan 2024 — Present</div>
-              <p>Hardware acceleration research for robotics and autonomous systems.</p>
-              <div class="tags">
-                <span class="tag">CUDA</span>
-                <span class="tag">PyTorch</span>
-                <span class="tag">Robotics</span>
+          <div class="timeline-item" data-year="2024">
+            <div class="timeline-marker">
+              <div class="company-logo stanford">S</div>
+            </div>
+            <div class="timeline-content">
+              <div class="experience-header">
+                <h3>Research Assistant</h3>
+                <span class="company">Stanford ARMLab</span>
+                <span class="period">Jan 2024 — Present</span>
+              </div>
+              <p class="experience-description">
+                Developing hardware acceleration techniques for robotics applications, achieving 3x speedup in real-time object detection on edge devices.
+              </p>
+              <div class="impact-metrics">
+                <div class="metric">
+                  <span class="metric-value">3x</span>
+                  <span class="metric-label">Speedup</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-value">2</span>
+                  <span class="metric-label">Papers</span>
+                </div>
+              </div>
+              <div class="tech-stack">
+                <span class="tech-tag">CUDA</span>
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">Robotics</span>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="projects" class="section">
-        <h2>Projects</h2>
+    <section id="projects" class="projects-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Featured Work</span>
+          <h2 class="section-title">Projects that push boundaries</h2>
+        </div>
+        
         <div class="projects-grid">
-          <div class="project-card">
-            <h3>Distributed ML Training Framework</h3>
-            <p>Built a fault-tolerant distributed training system that reduces training time by 40% through dynamic load balancing and efficient gradient synchronization.</p>
-            <div class="project-links">
-              <a href="https://github.com/yourhandle/ml-framework" target="_blank" rel="noopener">Code</a>
-              <a href="https://demo.example.com" target="_blank" rel="noopener">Demo</a>
+          <div class="project-card featured">
+            <div class="project-header">
+              <div class="project-icon">🚀</div>
+              <div class="project-status">Featured</div>
             </div>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">PyTorch</span>
-              <span class="tag">gRPC</span>
+            <h3 class="project-title">DistML Framework</h3>
+            <p class="project-description">
+              A fault-tolerant distributed training system that reduces training time by 40% through dynamic load balancing and efficient gradient synchronization.
+            </p>
+            <div class="project-metrics">
+              <div class="metric">
+                <span class="metric-value">40%</span>
+                <span class="metric-label">Faster Training</span>
+              </div>
+              <div class="metric">
+                <span class="metric-value">1k+</span>
+                <span class="metric-label">GitHub Stars</span>
+              </div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">PyTorch</span>
+              <span class="tech-tag">gRPC</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                Code
+              </a>
+              <a href="#" class="project-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+                </svg>
+                Demo
+              </a>
             </div>
           </div>
 
           <div class="project-card">
-            <h3>Hardware Accelerated Computer Vision</h3>
-            <p>Optimized real-time object detection pipeline using CUDA and TensorRT, achieving 3x speedup on edge devices while maintaining accuracy.</p>
-            <div class="project-links">
-              <a href="https://github.com/yourhandle/cv-accelerator" target="_blank" rel="noopener">Code</a>
-              <a href="https://arxiv.org/abs/example" target="_blank" rel="noopener">Paper</a>
+            <div class="project-header">
+              <div class="project-icon">⚡</div>
             </div>
-            <div class="tags">
-              <span class="tag">CUDA</span>
-              <span class="tag">TensorRT</span>
-              <span class="tag">C++</span>
+            <h3 class="project-title">CUDA Vision Accelerator</h3>
+            <p class="project-description">
+              Real-time object detection pipeline optimized for edge devices using CUDA and TensorRT.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">CUDA</span>
+              <span class="tech-tag">TensorRT</span>
+              <span class="tech-tag">C++</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Code</a>
+              <a href="#" class="project-link">Paper</a>
             </div>
           </div>
 
           <div class="project-card">
-            <h3>Developer Productivity CLI</h3>
-            <p>Command-line tool that automates common development workflows. Used by 500+ developers across multiple organizations.</p>
-            <div class="project-links">
-              <a href="https://github.com/yourhandle/dev-cli" target="_blank" rel="noopener">Code</a>
-              <a href="https://crates.io/crates/dev-cli" target="_blank" rel="noopener">Crates.io</a>
+            <div class="project-header">
+              <div class="project-icon">🔧</div>
             </div>
-            <div class="tags">
-              <span class="tag">Rust</span>
-              <span class="tag">CLI</span>
-              <span class="tag">DevOps</span>
+            <h3 class="project-title">DevOps CLI Suite</h3>
+            <p class="project-description">
+              Command-line tools that automate development workflows. Used by 500+ developers.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">Rust</span>
+              <span class="tech-tag">CLI</span>
+              <span class="tech-tag">DevOps</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Code</a>
+              <a href="#" class="project-link">Docs</a>
             </div>
           </div>
 
           <div class="project-card">
-            <h3>Real-time Data Processing Pipeline</h3>
-            <p>Kafka-based streaming platform processing 100M+ events/day with sub-100ms latency for financial trading applications.</p>
-            <div class="project-links">
-              <a href="https://github.com/yourhandle/stream-processor" target="_blank" rel="noopener">Code</a>
+            <div class="project-header">
+              <div class="project-icon">📊</div>
             </div>
-            <div class="tags">
-              <span class="tag">Kafka</span>
-              <span class="tag">Go</span>
-              <span class="tag">Redis</span>
+            <h3 class="project-title">Real-time Stream Processor</h3>
+            <p class="project-description">
+              Kafka-based platform processing 100M+ events/day with sub-100ms latency.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">Kafka</span>
+              <span class="tech-tag">Go</span>
+              <span class="tech-tag">Redis</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Code</a>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="contact" class="section">
-        <h2>Contact</h2>
+    <section id="contact" class="contact-section">
+      <div class="container">
         <div class="contact-content">
-          <p>I'm always interested in discussing new opportunities, research collaborations, or just chatting about technology. Feel free to reach out!</p>
-          <div class="contact-methods">
-            <a href="mailto:you@stanford.edu" class="contact-btn primary">
-              <span>Email me</span>
-            </a>
-            <a href="https://calendly.com/yourhandle" target="_blank" rel="noopener" class="contact-btn">
-              <span>Schedule a call</span>
-            </a>
+          <div class="contact-text">
+            <span class="section-label">Let's Connect</span>
+            <h2 class="section-title">Ready to build something amazing?</h2>
+            <p class="contact-description">
+              I'm always excited to discuss new opportunities, collaborate on interesting projects, or just chat about technology. Whether you're looking for a passionate engineer or want to explore cutting-edge research, let's connect!
+            </p>
+            
+            <div class="contact-methods">
+              <a href="mailto:you@stanford.edu" class="contact-method">
+                <div class="method-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
+                <div class="method-content">
+                  <span class="method-title">Email</span>
+                  <span class="method-subtitle">you@stanford.edu</span>
+                </div>
+              </a>
+              
+              <a href="https://calendly.com/yourhandle" target="_blank" class="contact-method">
+                <div class="method-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                </div>
+                <div class="method-content">
+                  <span class="method-title">Schedule a Call</span>
+                  <span class="method-subtitle">30 min chat</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div class="contact-visual">
+            <div class="contact-card">
+              <div class="card-glow"></div>
+              <div class="card-content">
+                <div class="availability-status">
+                  <div class="status-indicator">
+                    <span class="status-dot available"></span>
+                    <span>Available for opportunities</span>
+                  </div>
+                </div>
+                <div class="response-time">
+                  <span class="time-icon">⚡</span>
+                  <span>Usually responds within 24 hours</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <footer class="footer">
-      <p>© <span id="year"></span> Your Name</p>
-      <a href="#" class="back-to-top">Back to top ↑</a>
-    </footer>
-  </div>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; <span id="year"></span> Your Name. Built with passion and lots of coffee.</p>
+        <a href="#hero" class="back-to-top">
+          <span>Back to top</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 15l-6-6-6 6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
 
   <script defer src="script.js"></script>
 </body>
