@@ -95,5 +95,3 @@ document.addEventListener('DOMContentLoaded', () => {
     header.style.transform = 'translateY(0)';
   }
 });
-  });
-});
