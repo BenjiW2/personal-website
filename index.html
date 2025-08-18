@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Stanford EE/CS</title>
+  <meta name="description" content="Portfolio of a Stanford EE/CS student: roles, internships, and projects." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="logo" href="#">Your Name</a>
+      <ul class="nav-links">
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <p class="eyebrow">Stanford University • EE/CS</p>
+      <h1>Building systems and products at the intersection of hardware and software</h1>
+      <p class="lede">I am a Stanford EE/CS student focused on systems, ML, and tooling. Previously at Example Labs and Example Startups. I love shipping thoughtful products and impactful research projects.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#projects">View projects</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+      <div class="social-row">
+        <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
+        <span>•</span>
+        <a href="https://www.linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
+        <span>•</span>
+        <a href="mailto:you@stanford.edu">you@stanford.edu</a>
+      </div>
+    </section>
+
+    <section id="experience" class="section container">
+      <h2>Experience</h2>
+      <ul class="timeline">
+        <li class="timeline-item">
+          <div class="ti-header">
+            <div>
+              <h3>Company Name</h3>
+              <p class="subtitle">Software Engineering Intern • Team Name</p>
+            </div>
+            <div class="meta">Jun 2024 — Sep 2024 • San Francisco, CA</div>
+          </div>
+          <ul class="bullets">
+            <li>Designed and implemented a feature that improved X by Y percent using Z technologies.</li>
+            <li>Collaborated with cross functional partners to ship production systems used by N users.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="ti-header">
+            <div>
+              <h3>Research Lab Name</h3>
+              <p class="subtitle">Undergraduate Researcher • Advisor Name</p>
+            </div>
+            <div class="meta">Jan 2024 — Present • Stanford, CA</div>
+          </div>
+          <ul class="bullets">
+            <li>Built reproducible experiments for hardware accelerated ML; reduced training time by 30 percent.</li>
+            <li>Co authored a workshop paper on efficient inference for edge devices.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">CUDA</span>
+            <span class="tag">RISC-V</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="projects" class="section container">
+      <h2>Projects</h2>
+      <div class="projects-grid">
+        <article class="card">
+          <div class="card-head">
+            <h3>Project One</h3>
+            <div class="card-links">
+              <a href="https://github.com/yourhandle/project-one" target="_blank" rel="noopener">Code</a>
+              <span>·</span>
+              <a href="https://project-one.example.com" target="_blank" rel="noopener">Demo</a>
+            </div>
+          </div>
+          <p>A brief description of what this project does and why it is interesting. Mention impact, users, or performance.</p>
+          <div class="tags">
+            <span class="tag">Rust</span>
+            <span class="tag">WASM</span>
+            <span class="tag">WebGPU</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-head">
+            <h3>Project Two</h3>
+            <div class="card-links">
+              <a href="https://github.com/yourhandle/project-two" target="_blank" rel="noopener">Code</a>
+              <span>·</span>
+              <a href="https://project-two.example.com" target="_blank" rel="noopener">Demo</a>
+            </div>
+          </div>
+          <p>Another short summary. Focus on results and what you contributed specifically.</p>
+          <div class="tags">
+            <span class="tag">Go</span>
+            <span class="tag">gRPC</span>
+            <span class="tag">Kubernetes</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section container">
+      <h2>Contact</h2>
+      <p>For collaborations or opportunities, feel free to reach out.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:you@stanford.edu">Email me</a>
+        <a class="btn" href="https://calendly.com/yourhandle/intro" target="_blank" rel="noopener">Book time</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container foot">
+      <span>© <span id="year"></span> Your Name</span>
+      <a href="/" class="back-to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
