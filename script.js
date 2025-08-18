@@ -94,4 +94,30 @@ document.addEventListener('DOMContentLoaded', () => {
     header.style.opacity = '1';
     header.style.transform = 'translateY(0)';
   }
+
+  // Collapsible lists: initially collapse after 2 items
+  function setupCollapsible(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    const container = section.closest('[data-collapsible]');
+    if (!container) return;
+    container.classList.add('is-collapsed');
+  }
+
+  setupCollapsible('experience');
+  setupCollapsible('projects');
+
+  // Toggle buttons
+  document.querySelectorAll('[data-toggle]')
+    .forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-toggle');
+        const section = document.getElementById(targetId);
+        if (!section) return;
+        const container = section.closest('[data-collapsible]');
+        if (!container) return;
+        const collapsed = container.classList.toggle('is-collapsed');
+        btn.textContent = collapsed ? 'Show more' : 'Show less';
+      });
+    });
 });
