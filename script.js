@@ -5,37 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  // Custom cursor
-  const cursor = document.getElementById('cursorGlow');
-  if (cursor) {
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX - 10 + 'px';
-      cursor.style.top = e.clientY - 10 + 'px';
-    });
 
-    // Hide cursor when leaving window
-    document.addEventListener('mouseleave', () => {
-      cursor.style.opacity = '0';
-    });
-
-    document.addEventListener('mouseenter', () => {
-      cursor.style.opacity = '1';
-    });
-
-    // Cursor interactions
-    const interactiveElements = document.querySelectorAll('a, button, .project-card');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(2)';
-        cursor.style.background = 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)';
-      });
-      
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-        cursor.style.background = 'radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, transparent 70%)';
-      });
-    });
-  }
 
   // Floating navigation
   const navItems = document.querySelectorAll('.nav-item');
@@ -122,16 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // Parallax effect for gradient orbs
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.gradient-orb');
-    
-    parallaxElements.forEach((el, index) => {
-      const speed = 0.5 + (index * 0.1);
-      el.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-  });
+
 
   // Typing animation for hero title
   function typeWriter(element, text, speed = 100) {
@@ -188,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const skillTags = document.querySelectorAll('.skill-tag');
   skillTags.forEach(tag => {
     tag.addEventListener('mouseenter', () => {
-      tag.style.background = 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)';
+      tag.style.background = '#3b82f6';
       tag.style.color = 'white';
       tag.style.transform = 'translateY(-2px) scale(1.05)';
     });
