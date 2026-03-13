@@ -233,10 +233,10 @@ p {
 
 .hero-media {
   position: relative;
-  float: left;
-  width: min(43%, 440px);
+  float: right;
+  width: min(40%, 400px);
   height: clamp(270px, 34vh, 360px);
-  margin: clamp(170px, 18vh, 240px) 28px 0 0;
+  margin: clamp(190px, 20vh, 260px) 0 0 30px;
   border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
@@ -267,7 +267,7 @@ p {
   inset: 0;
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.38)),
-    linear-gradient(90deg, transparent 76%, rgba(0, 0, 0, 0.24));
+    linear-gradient(90deg, rgba(0, 0, 0, 0.24), transparent 24%);
 }
 
 .hero-media img {
