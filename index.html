@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Benji Warburton</title>
+  <meta
+    name="description"
+    content="Benji Warburton: robotics, systems, projects, classes, and notes."
+  />
+  <link rel="stylesheet" href="./styles/main.css?v=20260313a" />
+</head>
+<body>
+  <main class="layout">
+    <section class="left-rail">
+      <div class="left-rail__inner">
+        <div class="masthead">
+          <div>
+            <h2 class="site-prompt">benjiw@stanford:~$ whoami</h2>
+            <p class="site-name">Benji Warburton</p>
+            <p class="site-meta">EECS at Stanford / robotics / systems / machine learning</p>
+          </div>
+          <a class="resume-button" href="./assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+        </div>
+
+        <div class="hero-copy">
+          <h2 class="eyebrow">~/overview</h2>
+          <div class="hero-flow">
+            <div class="hero-media">
+              <div class="hero-media__image-wrap">
+                <img src="./assets/avatar.png" alt="Portrait of Benji Warburton" />
+              </div>
+            </div>
+            <p class="hero-text">
+              I like working on projects at the point where software and hardware meet. Right now I'm working on robot manipulation and supervised finetuning of small language models.
+            </p>
+          </div>
+          <ul class="hero-details">
+            <li class="hero-detail-item">
+              <span class="hero-detail-key">currently</span>
+              <span class="hero-detail-value">Palo Alto, California</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="right-rail">
+      <article class="card">
+        <h2 class="eyebrow">~/experiences</h2>
+        <div class="experience-grid">
+          <div class="experience-tile">
+            <div class="experience-head">
+              <p class="experience-kicker">incoming</p>
+              <span class="experience-icon experience-icon--apple" aria-hidden="true">
+                <img src="./assets/logos/apple.svg" alt="" />
+              </span>
+            </div>
+            <h3>Hardware Technology Intern</h3>
+            <p class="experience-org">Apple</p>
+            <p>Advanced Technologies Group</p>
+          </div>
+          <div class="experience-tile">
+            <div class="experience-head">
+              <p class="experience-kicker">current</p>
+              <span class="experience-icon experience-icon--armlab" aria-hidden="true">
+                <img src="./assets/logos/armlab.png" alt="" />
+              </span>
+            </div>
+            <h3>Research Assistant</h3>
+            <p class="experience-org">Stanford ARMLab</p>
+            <p>Working on end-to-end robotics systems</p>
+          </div>
+          <div class="experience-tile">
+            <div class="experience-head">
+              <p class="experience-kicker">teaching</p>
+              <span class="experience-icon experience-icon--stanford" aria-hidden="true">
+                <img src="./assets/logos/stanford-cs.png" alt="" />
+              </span>
+            </div>
+            <h3>CS123 Teaching Assistant</h3>
+            <p class="experience-org">Stanford Department of Computer Science</p>
+            <p>Developing and supporting Stanford's premier undergrad robotics class.</p>
+          </div>
+          <div class="experience-tile">
+            <div class="experience-head">
+              <p class="experience-kicker">fellowship</p>
+              <span class="experience-icon experience-icon--schmidt" aria-hidden="true">
+                <img src="./assets/logos/schmidt.svg" alt="" />
+              </span>
+            </div>
+            <h3>Rise Fellow</h3>
+            <p class="experience-org">Schmidt Futures</p>
+            <p>Built a low-cost robotics kit for elementary school kids</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="eyebrow">~/current-classes</h2>
+        <div class="course-list">
+          <div class="course-item">
+            <strong>CS 224N</strong>
+            <span>Natural Language Processing with Deep Learning</span>
+          </div>
+          <div class="course-item">
+            <strong>EE 108</strong>
+            <span>Digital System Design</span>
+          </div>
+          <div class="course-item">
+            <strong>EE 102A</strong>
+            <span>Signals and Systems</span>
+          </div>
+          <div class="course-item">
+            <strong>EE 118</strong>
+            <span>Mechatronics</span>
+          </div>
+          <div class="course-item">
+            <strong>EE 65</strong>
+            <span>Modern Physics for Engineers</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="eyebrow">~/favourite-classes</h2>
+        <div class="entry-list">
+          <div class="entry entry--compact">
+            <h3>CS 107E: Computer Systems from the Ground Up</h3>
+            <p>built a console from scratch on a RISC-V SBIC. programmed malloc, graphics drivers, I2C protocol. Learned a lot</p>
+          </div>
+          <div class="entry entry--compact">
+            <h3>CS 123: AI Enabled Robotics</h3>
+            <p>put together a robot dog and taught it to walk with RL. Returned as a TA</p>
+          </div>
+          <div class="entry entry--compact">
+            <h3>EE 118: Mechatronics</h3>
+            <p>made a robot to do winter olympics style curling. implemented mecanum drive on arduino from scratch</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="eyebrow">~/recent-projects</h2>
+        <div class="entry-list">
+          <div class="entry entry--compact">
+            <p class="entry-label">ongoing</p>
+            <h3>Tidier-bot</h3>
+            <p>using a kinova gen3 arm and a swerve drive to make a robot to clean rooms</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">march 2026</p>
+            <h3>Compositional Tool-Sequence Generation in Small Language Models</h3>
+            <p>performed supervised finetuning on 0.6B parameter LMs to optimise for tool calls</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">february 2026</p>
+            <h3>ios RGBD streamer</h3>
+            <p>made an app to stream lidar and camera data to a computer as virtual webcams</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
