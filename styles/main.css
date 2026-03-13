@@ -234,9 +234,9 @@ p {
 .hero-media {
   position: relative;
   float: right;
-  width: min(40%, 400px);
+  width: min(38%, 380px);
   height: clamp(270px, 34vh, 360px);
-  margin: clamp(190px, 20vh, 260px) 0 0 30px;
+  margin: 6px 0 22px 30px;
   border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
@@ -400,7 +400,7 @@ p {
   .hero-media {
     width: min(46%, 360px);
     height: 320px;
-    margin-top: 150px;
+    margin: 6px 0 18px 24px;
   }
 
   .right-rail {
