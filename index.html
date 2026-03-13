@@ -8,42 +8,41 @@
     name="description"
     content="Personal website for Benji Warburton: robotics, systems, projects, classes, and notes."
   />
-  <link rel="stylesheet" href="./styles/main.css?v=20260312c" />
+  <link rel="stylesheet" href="./styles/main.css?v=20260312d" />
 </head>
 <body>
   <header class="hero">
-    <div class="hero__frame">
+    <div class="hero__topbar">
+      <div class="hero__identity">
+        <p class="site-prompt">benji@stanford:~$ whoami</p>
+        <p class="site-name">Benji Warburton</p>
+        <p class="site-meta">EE / CS at Stanford / robotics / systems / machine learning</p>
+      </div>
+      <a class="resume-button" href="./assets/resume.pdf" target="_blank" rel="noopener">open resume.pdf</a>
+    </div>
+
+    <div class="hero__grid">
       <div class="hero__content">
-        <div class="hero__topbar">
-          <div>
-            <p class="site-name">Benji Warburton</p>
-            <p class="site-meta">EE / CS at Stanford / robotics / systems / machine learning</p>
-          </div>
-          <a class="resume-button" href="./assets/resume.pdf" target="_blank" rel="noopener">Resume PDF</a>
+        <div class="hero__copy">
+          <p class="eyebrow">overview</p>
+          <h1>Building robotics systems with a bias for measurement, reliability, and physical reality.</h1>
+          <p class="hero-text">
+            I like work at the point where models, hardware, and evaluation all start to matter at once. Right now that means manipulation tooling, perception infrastructure, and experiments that need to survive contact with the real world.
+          </p>
         </div>
 
-        <div class="hero__body">
-          <div class="hero__copy">
-            <p class="eyebrow">$ overview</p>
-            <h1>Building robotics systems with a bias for measurement, reliability, and physical reality.</h1>
-            <p class="hero-text">
-              I like work at the point where models, hardware, and evaluation all start to matter at once. Right now that means manipulation tooling, perception infrastructure, and experiments that need to survive contact with the real world.
-            </p>
+        <div class="hero-meta">
+          <div class="terminal-line">
+            <span class="terminal-key">currently_building</span>
+            <span>bench-top manipulation and evaluation tooling</span>
           </div>
-
-          <div class="hero-terminal">
-            <div class="terminal-line">
-              <span class="terminal-key">currently_building</span>
-              <span>bench-top manipulation and evaluation tooling</span>
-            </div>
-            <div class="terminal-line">
-              <span class="terminal-key">working_at</span>
-              <span>Stanford ARMLab</span>
-            </div>
-            <div class="terminal-line">
-              <span class="terminal-key">focus</span>
-              <span>robotics / systems / perception / hardware</span>
-            </div>
+          <div class="terminal-line">
+            <span class="terminal-key">working_at</span>
+            <span>Stanford ARMLab</span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-key">focus</span>
+            <span>robotics / systems / perception / hardware</span>
           </div>
         </div>
       </div>
@@ -57,7 +56,7 @@
 
   <main class="section-shell">
     <section class="dashboard">
-      <article class="card">
+      <article class="card card--projects">
         <p class="eyebrow">projects/</p>
         <h2>Selected projects</h2>
         <div class="entry-list">
@@ -79,7 +78,7 @@
         </div>
       </article>
 
-      <article class="card">
+      <article class="card card--work">
         <p class="eyebrow">working_at/</p>
         <h2>Stanford ARMLab</h2>
         <p class="card-copy">Research Assistant working on end-to-end robotics systems across perception, data pipelines, and physical hardware.</p>
@@ -99,71 +98,69 @@
         </div>
       </article>
 
-      <div class="stack">
-        <article class="card">
-          <p class="eyebrow">current_classes/</p>
-          <h2>Taking now</h2>
-          <div class="course-list">
-            <div class="course-item">
-              <strong>CS 227A</strong>
-              <span>Robot Perception</span>
-            </div>
-            <div class="course-item">
-              <strong>EE 101A</strong>
-              <span>Circuits I</span>
-            </div>
-            <div class="course-item">
-              <strong>CS 148</strong>
-              <span>Computer Graphics and Imaging</span>
-            </div>
-            <div class="course-item">
-              <strong>PHYSICS 61</strong>
-              <span>Mechanics and Special Relativity</span>
-            </div>
+      <article class="card card--classes">
+        <p class="eyebrow">current_classes/</p>
+        <h2>Taking now</h2>
+        <div class="course-list">
+          <div class="course-item">
+            <strong>CS 227A</strong>
+            <span>Robot Perception</span>
           </div>
-        </article>
+          <div class="course-item">
+            <strong>EE 101A</strong>
+            <span>Circuits I</span>
+          </div>
+          <div class="course-item">
+            <strong>CS 148</strong>
+            <span>Computer Graphics and Imaging</span>
+          </div>
+          <div class="course-item">
+            <strong>PHYSICS 61</strong>
+            <span>Mechanics and Special Relativity</span>
+          </div>
+        </div>
+      </article>
 
-        <article class="card">
-          <p class="eyebrow">selected_past_classes/</p>
-          <h2>Classes that stuck</h2>
-          <div class="entry-list">
-            <div class="entry entry--compact">
-              <h3>CS 107E Computer Systems from the Ground Up</h3>
-              <p>The class that made low-level abstractions feel tangible instead of inherited.</p>
-            </div>
-            <div class="entry entry--compact">
-              <h3>CS 123 AI Enabled Robotics</h3>
-              <p>Interesting because it forced theory, hardware constraints, and data reality into the same room.</p>
-            </div>
-            <div class="entry entry--compact">
-              <h3>CS 153 Infrastructure at Scale</h3>
-              <p>A useful counterweight to research projects because it asks what reliability looks like once systems stop being small.</p>
-            </div>
+      <article class="card card--notes">
+        <p class="eyebrow">notes/</p>
+        <h2>Recent build logs</h2>
+        <div class="entry-list">
+          <div class="entry entry--compact">
+            <p class="entry-label">march 2026</p>
+            <h3>Closing the loop before scaling the dataset</h3>
+            <p>A week spent making teleop logs boringly reliable paid off faster than another round of model changes.</p>
           </div>
-        </article>
+          <div class="entry entry--compact">
+            <p class="entry-label">february 2026</p>
+            <h3>Latency is a pipeline problem, not a single number</h3>
+            <p>Inference speed is easy to advertise. End-to-end timing is what actually shapes the system.</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">january 2026</p>
+            <h3>Building for kids changes your engineering standards</h3>
+            <p>Educational hardware gets judged on confidence, resilience, and setup friction long before it gets judged on features.</p>
+          </div>
+        </div>
+      </article>
 
-        <article class="card">
-          <p class="eyebrow">notes/</p>
-          <h2>Recent build logs</h2>
-          <div class="entry-list">
-            <div class="entry entry--compact">
-              <p class="entry-label">march 2026</p>
-              <h3>Closing the loop before scaling the dataset</h3>
-              <p>A week spent making teleop logs boringly reliable paid off faster than another round of model changes.</p>
-            </div>
-            <div class="entry entry--compact">
-              <p class="entry-label">february 2026</p>
-              <h3>Latency is a pipeline problem, not a single number</h3>
-              <p>Inference speed is easy to advertise. End-to-end timing is what actually shapes the system.</p>
-            </div>
-            <div class="entry entry--compact">
-              <p class="entry-label">january 2026</p>
-              <h3>Building for kids changes your engineering standards</h3>
-              <p>Educational hardware gets judged on confidence, resilience, and setup friction long before it gets judged on features.</p>
-            </div>
+      <article class="card card--past">
+        <p class="eyebrow">selected_past_classes/</p>
+        <h2>Classes that stuck</h2>
+        <div class="entry-list">
+          <div class="entry entry--compact">
+            <h3>CS 107E Computer Systems from the Ground Up</h3>
+            <p>The class that made low-level abstractions feel tangible instead of inherited.</p>
           </div>
-        </article>
-      </div>
+          <div class="entry entry--compact">
+            <h3>CS 123 AI Enabled Robotics</h3>
+            <p>Interesting because it forced theory, hardware constraints, and data reality into the same room.</p>
+          </div>
+          <div class="entry entry--compact">
+            <h3>CS 153 Infrastructure at Scale</h3>
+            <p>A useful counterweight to research projects because it asks what reliability looks like once systems stop being small.</p>
+          </div>
+        </div>
+      </article>
     </section>
   </main>
 </body>
