@@ -357,11 +357,36 @@ p {
     rgba(3, 7, 6, 0.72);
 }
 
+.experience-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .experience-kicker {
   color: var(--accent);
   font-size: 0.8rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+.experience-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(116, 244, 201, 0.03);
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+
+.experience-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .experience-tile h3 {
