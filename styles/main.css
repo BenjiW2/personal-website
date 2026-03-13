@@ -529,7 +529,7 @@ p {
   .copy,
   .entry p,
   .course-item span {
-    font-size: 0.95rem;
+    font-size: 1.5rem;
     color: var(--text);
   }
 
