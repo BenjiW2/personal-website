@@ -6,17 +6,176 @@
   <title>Benji Warburton</title>
   <meta
     name="description"
-    content="Editorial personal website for Benji Warburton: robotics, systems, classes, projects, and notes."
+    content="Personal website for Benji Warburton: robotics, systems, projects, classes, and notes."
   />
   <link rel="stylesheet" href="./styles/site.css" />
 </head>
-<body data-page="home" data-base=".">
-  <div class="site-shell">
-    <header class="site-header" data-site-header></header>
-    <main class="main-content page-width" id="page-root"></main>
-    <footer class="footer page-width" data-site-footer></footer>
-  </div>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div>
+        <p class="site-name">Benji Warburton</p>
+        <p class="site-meta">EE / CS at Stanford. Robotics, systems, and machine learning.</p>
+      </div>
+      <a class="resume-button" href="./assets/resume.pdf" target="_blank" rel="noopener">Resume PDF</a>
+    </div>
+  </header>
 
-  <script type="module" src="./scripts/pages/home.js"></script>
+  <main class="shell">
+    <section class="grid">
+      <article class="panel intro">
+        <p class="eyebrow">Intro</p>
+        <h1>I build systems across robotics, software, and the physical world.</h1>
+        <p class="lede">
+          I am interested in the point where models, hardware, and measurement all start to matter at once.
+        </p>
+        <p class="copy">
+          Right now that mostly means robotics tooling, perception, and experiments that need to be trusted in the real world rather than only described cleanly on paper.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Robotics</span>
+          <span class="pill">Systems</span>
+          <span class="pill">Hardware</span>
+          <span class="pill">Machine learning</span>
+        </div>
+      </article>
+
+      <article class="panel current">
+        <p class="eyebrow">Currently</p>
+        <div class="entry-list">
+          <div class="entry">
+            <p class="entry-label">Building</p>
+            <h2>Bench-top manipulation and evaluation tooling</h2>
+            <p>A tighter loop for collecting demonstrations, replaying failures, and making experiment review faster and more reliable.</p>
+          </div>
+          <div class="entry">
+            <p class="entry-label">Working at</p>
+            <h2>Stanford ARMLab</h2>
+            <p>Research Assistant working on end-to-end robotics systems across perception, data pipelines, and physical hardware.</p>
+          </div>
+          <div class="entry">
+            <p class="entry-label">Taking now</p>
+            <p>CS 227A Robot Perception</p>
+            <p>EE 101A Circuits I</p>
+            <p>CS 148 Computer Graphics and Imaging</p>
+            <p>PHYSICS 61 Mechanics and Special Relativity</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel projects">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Featured projects</p>
+            <h2>Selected engineering work</h2>
+          </div>
+        </div>
+        <div class="entry-list">
+          <div class="entry">
+            <p class="entry-label">Research systems / robotics</p>
+            <h3>Bench-top VLA manipulation stack</h3>
+            <p>A compact research stack for teleoperation, evaluation, replay, and failure review so robotics experiments are faster to inspect and easier to trust.</p>
+          </div>
+          <div class="entry">
+            <p class="entry-label">Hardware / curriculum / software</p>
+            <h3>Rise Robotics Kit</h3>
+            <p>A low-cost robotics kit and classroom software flow designed to make robotics approachable for younger students without making it feel toy-like.</p>
+          </div>
+          <div class="entry">
+            <p class="entry-label">Performance engineering</p>
+            <h3>Vision latency lab</h3>
+            <p>A focused profiling sandbox for understanding where perception time actually goes across preprocessing, inference, and transport.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel classes">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Classes</p>
+            <h2>Courses that matter to the work</h2>
+          </div>
+        </div>
+        <div class="subsection">
+          <p class="entry-label">Taking now</p>
+          <div class="compact-list">
+            <div><strong>CS 227A</strong> Robot Perception</div>
+            <div><strong>EE 101A</strong> Circuits I</div>
+            <div><strong>CS 148</strong> Computer Graphics and Imaging</div>
+            <div><strong>PHYSICS 61</strong> Mechanics and Special Relativity</div>
+          </div>
+        </div>
+        <div class="subsection">
+          <p class="entry-label">Selected past classes</p>
+          <div class="entry-list">
+            <div class="entry entry--compact">
+              <h3>CS 107E Computer Systems from the Ground Up</h3>
+              <p>The class that made low-level abstractions feel tangible instead of inherited.</p>
+            </div>
+            <div class="entry entry--compact">
+              <h3>CS 123 AI Enabled Robotics</h3>
+              <p>Interesting because it forced theory, hardware constraints, and data reality into the same room.</p>
+            </div>
+            <div class="entry entry--compact">
+              <h3>CS 153 Infrastructure at Scale</h3>
+              <p>A useful counterweight to research projects because it asks what reliability looks like once systems stop being small.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel notes">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Recent notes</p>
+            <h2>Build logs and short technical notes</h2>
+          </div>
+        </div>
+        <div class="entry-list">
+          <div class="entry entry--compact">
+            <p class="entry-label">March 2026</p>
+            <h3>Closing the loop before scaling the dataset</h3>
+            <p>A week spent making teleop logs boringly reliable paid off faster than another round of model changes.</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">February 2026</p>
+            <h3>Latency is a pipeline problem, not a single number</h3>
+            <p>Inference speed is easy to advertise. End-to-end timing is what actually shapes the system.</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">January 2026</p>
+            <h3>Building for kids changes your engineering standards</h3>
+            <p>Educational hardware gets judged on confidence, resilience, and setup friction long before it gets judged on features.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel experience">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Experience</p>
+            <h2>Current role and recent work</h2>
+          </div>
+        </div>
+        <div class="entry-list">
+          <div class="entry entry--compact">
+            <p class="entry-label">2024 - Present</p>
+            <h3>Research Assistant, Stanford ARMLab</h3>
+            <p>Working on robotics systems and tooling for end-to-end manipulation, with an emphasis on evaluation loops, perception, and iteration speed.</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">2023 - Present</p>
+            <h3>Rise Fellow, Schmidt Futures</h3>
+            <p>Designed a low-cost robotics kit and classroom flow aimed at making robotics more approachable for younger students.</p>
+          </div>
+          <div class="entry entry--compact">
+            <p class="entry-label">Summer 2023</p>
+            <h3>Engineering Intern, YASA</h3>
+            <p>Worked with dyno test data and debugging workflows to surface a meaningful issue in the motor testing process.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
