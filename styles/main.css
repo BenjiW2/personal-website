@@ -382,6 +382,14 @@ p {
   line-height: 1.2;
 }
 
+.card h2.eyebrow {
+  color: var(--accent);
+  font-size: 1.48rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
 .entry-list,
 .course-list {
   display: grid;
