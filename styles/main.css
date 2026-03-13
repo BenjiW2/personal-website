@@ -213,7 +213,6 @@ p {
   min-height: 0;
 }
 
-.hero-copy h1,
 .simple-state h1 {
   max-width: none;
   font-size: clamp(2.45rem, 3vw, 3.7rem);
@@ -222,7 +221,13 @@ p {
   letter-spacing: -0.06em;
 }
 
-.hero-text,
+.hero-text {
+  max-width: 32ch;
+  color: var(--muted-strong);
+  font-size: clamp(1.32rem, 1.6vw, 1.72rem);
+  line-height: 1.72;
+}
+
 .card-copy,
 .copy,
 .entry p,
@@ -503,11 +508,6 @@ p {
     font-size: clamp(1.85rem, 2.4vw, 2.85rem);
   }
 
-  .hero-copy h1,
-  .simple-state h1 {
-    font-size: clamp(2.15rem, 2.65vw, 3.2rem);
-  }
-
   .hero-text,
   .card-copy,
   .copy,
@@ -581,7 +581,6 @@ p {
     align-items: flex-start;
   }
 
-  .hero-copy h1,
   .simple-state h1 {
     max-width: none;
     font-size: 2.85rem;
@@ -593,6 +592,12 @@ p {
     height: 300px;
     margin: 20px 0 0;
     shape-outside: none;
+  }
+
+  .hero-text {
+    max-width: none;
+    font-size: 1.14rem;
+    line-height: 1.78;
   }
 
   .hero-media__image-wrap {
