@@ -377,11 +377,12 @@ p {
   justify-content: center;
   height: 38px;
   padding: 0 10px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 9px;
-  background: rgba(116, 244, 201, 0.03);
+  background: rgba(255, 255, 255, 0.96);
   flex: 0 0 auto;
   overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .experience-icon img {
@@ -399,6 +400,7 @@ p {
 
 .experience-icon--apple img {
   max-height: 18px;
+  filter: brightness(0);
 }
 
 .experience-icon--armlab {
