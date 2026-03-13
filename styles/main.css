@@ -14,7 +14,7 @@
   --radius-lg: 18px;
   --radius-md: 14px;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
-  --content-width: 1660px;
+  --content-width: 1780px;
 }
 
 *,
@@ -72,17 +72,17 @@ p {
 
 .layout,
 .shell {
-  width: min(calc(100% - 32px), var(--content-width));
+  width: min(calc(100% - 24px), var(--content-width));
   margin: 0 auto;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(420px, 520px);
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(560px, 680px);
+  gap: 22px;
   height: 100vh;
   height: 100svh;
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 .left-rail,
@@ -136,10 +136,10 @@ p {
 .left-rail__inner {
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
-  gap: 18px;
-  height: calc(100vh - 32px);
-  height: calc(100svh - 32px);
-  padding: 56px 22px 22px;
+  gap: 22px;
+  height: calc(100vh - 24px);
+  height: calc(100svh - 24px);
+  padding: 56px 26px 26px;
 }
 
 .masthead {
@@ -209,10 +209,10 @@ p {
 
 .hero-copy h1,
 .simple-state h1 {
-  max-width: 10.5ch;
-  font-size: clamp(2.35rem, 3.8vw, 4.2rem);
+  max-width: none;
+  font-size: clamp(2.55rem, 3.35vw, 4rem);
   font-weight: 700;
-  line-height: 0.93;
+  line-height: 0.97;
   letter-spacing: -0.06em;
 }
 
@@ -222,11 +222,14 @@ p {
 .entry p,
 .course-item span {
   color: var(--muted);
-  font-size: 0.96rem;
+  font-size: 1rem;
 }
 
 .hero-media {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 48%) 1fr;
+  align-items: stretch;
   min-height: 0;
   height: 100%;
   border: 1px solid var(--line);
@@ -241,8 +244,24 @@ p {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.46)),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.38), transparent 36%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.26));
+}
+
+.hero-media__image-wrap {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  border-right: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.hero-media__image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.38)),
+    linear-gradient(90deg, transparent 78%, rgba(0, 0, 0, 0.24));
 }
 
 .hero-media img {
@@ -268,13 +287,14 @@ p {
 
 .right-rail {
   display: grid;
-  gap: 14px;
+  gap: 18px;
   align-content: start;
   min-width: 0;
-  height: calc(100vh - 32px);
-  height: calc(100svh - 32px);
+  height: calc(100vh - 24px);
+  height: calc(100svh - 24px);
   overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 8px;
+  padding-bottom: 20px;
   scrollbar-gutter: stable;
 }
 
@@ -293,12 +313,13 @@ p {
 .simple-state {
   display: grid;
   gap: 14px;
-  padding: 56px 20px 20px;
+  min-height: 240px;
+  padding: 56px 24px 24px;
 }
 
 .card h2 {
   color: var(--text);
-  font-size: 1.28rem;
+  font-size: 1.48rem;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -335,7 +356,7 @@ p {
 .entry h3,
 .course-item strong {
   color: var(--text);
-  font-size: 1rem;
+  font-size: 1.12rem;
   font-weight: 600;
   line-height: 1.45;
 }
@@ -369,6 +390,7 @@ p {
   }
 
   .hero-media {
+    grid-template-columns: minmax(220px, 52%) 1fr;
     min-height: 360px;
   }
 
@@ -397,7 +419,12 @@ p {
   }
 
   .hero-media {
+    grid-template-columns: 1fr;
     min-height: 300px;
+  }
+
+  .hero-media__image-wrap {
+    border-right: 0;
   }
 
   .resume-button {
