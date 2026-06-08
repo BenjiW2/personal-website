@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>CS224R Predicted Practice Midterm</title>
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --paper: #fffdf7;
+      --ink: #24211d;
+      --muted: #625d55;
+      --line: #ded8ca;
+      --soft: #eee8da;
+      --accent: #0f6b63;
+      --accent-2: #9b4c1f;
+      --ok: #1f7a46;
+      --bad: #9a2f2f;
+      --code: #f0efe9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 44px 24px 80px;
+    }
+    header, section, .question, .answer, .note {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+    header {
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0 0 12px;
+    }
+    h1 { font-size: 2.1rem; }
+    h2 {
+      margin-top: 32px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    h3 { font-size: 1.1rem; }
+    p { margin: 0 0 12px; }
+    ul, ol { padding-left: 24px; }
+    li { margin: 5px 0; }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .meta div, .question, .answer, .note {
+      padding: 14px 16px;
+    }
+    .meta div {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf5;
+    }
+    .muted { color: var(--muted); }
+    .question {
+      margin: 18px 0;
+    }
+    .points {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--accent-2);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+    .math {
+      display: inline-block;
+      padding: 0.08rem 0.22rem;
+      border-radius: 4px;
+      background: var(--code);
+      font-family: Georgia, "Times New Roman", serif;
+      white-space: nowrap;
+    }
+    .eq {
+      margin: 12px 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf5;
+      overflow-x: auto;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--paper);
+    }
+    th, td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--soft); }
+    tr:last-child td { border-bottom: 0; }
+    details.answer {
+      margin: 12px 0 18px;
+    }
+    details.answer summary {
+      cursor: pointer;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .choice-list { list-style: upper-alpha; }
+    .tf-list { list-style: none; padding-left: 0; }
+    .tf-list li { padding: 4px 0; }
+    .note {
+      margin: 16px 0;
+      border-left: 4px solid var(--accent);
+    }
+    .top-link {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .top-link:hover { text-decoration: underline; }
+    @media print {
+      body { background: white; }
+      main { max-width: none; padding: 0; }
+      details.answer { display: none; }
+      header, section, .question, .note { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top-link" href="index.html">Back to study guide</a>
+    <header>
+      <h1>CS224R Predicted Practice Midterm</h1>
+      <p class="muted">Original questions, not copied from the provided practice exam. This is written to look like a plausible 80-minute exam through Week 6: concepts, true/false, and computations, with no coding.</p>
+      <div class="meta">
+        <div><strong>Time:</strong><br>80 minutes</div>
+        <div><strong>Points:</strong><br>100</div>
+        <div><strong>Coding:</strong><br>None</div>
+      </div>
+      <p><strong>Instructions.</strong> Treat this like a closed-book exam with the course reference sheet available. For multiple-choice questions, select all answers that apply unless the question says select one. Computation questions should show enough work to make your reasoning clear.</p>
+    </header>
+
+    <section>
+      <h2>Part I: Multiple Choice And True/False</h2>
+
+      <div class="question">
+        <span class="points">1. MDPs, Returns, And Reward Shaping, 7 pts</span>
+        <p>Select all statements that are always true for the usual discounted MDP setting.</p>
+        <ol class="choice-list">
+          <li>The return <span class="math">G<sub>t</sub></span> is the discounted sum of future rewards starting at time <span class="math">t</span>.</li>
+          <li>Multiplying all rewards by a positive constant preserves optimal policies.</li>
+          <li>Adding an arbitrary dense progress reward always preserves optimal policies.</li>
+          <li>Potential-based shaping with <span class="math">γΦ(s') - Φ(s)</span> preserves optimal policies under the standard theorem conditions.</li>
+          <li>Changing <span class="math">γ</span> never changes the optimal policy.</li>
+        </ol>
+      </div>
+
+      <div class="question">
+        <span class="points">2. Imitation Learning, 7 pts</span>
+        <p>For each statement, mark true or false.</p>
+        <ul class="tf-list">
+          <li>___ Behavior cloning is supervised learning where states are inputs and expert actions are labels.</li>
+          <li>___ Low validation loss on expert states guarantees good closed-loop deployment.</li>
+          <li>___ DAgger is still supervised learning on expert-provided actions.</li>
+          <li>___ DAgger helps because it collects labels on states visited by the learned policy.</li>
+          <li>___ For multimodal continuous actions, squared-error regression can average two good modes into a bad middle action.</li>
+          <li>___ Flow matching can represent multimodal action distributions by transforming noise into actions.</li>
+        </ul>
+      </div>
+
+      <div class="question">
+        <span class="points">3. Policy Gradients, 7 pts</span>
+        <p>Select all statements that are true about vanilla policy gradients and REINFORCE.</p>
+        <ol class="choice-list">
+          <li>The log-derivative trick lets us write gradients using sampled trajectories.</li>
+          <li>A high positive return pushes up the log probability of actions in that sampled trajectory.</li>
+          <li>A baseline may depend on the sampled action without changing the expected gradient.</li>
+          <li>Using only future rewards for an action is a causality improvement over multiplying every action by total trajectory return.</li>
+          <li>Subtracting a state-value baseline can reduce variance without changing the expected gradient.</li>
+        </ol>
+      </div>
+
+      <div class="question">
+        <span class="points">4. Actor-Critic, GAE, And PPO, 7 pts</span>
+        <p>Select all statements that are true.</p>
+        <ol class="choice-list">
+          <li>The actor is the policy; the critic estimates values or advantages.</li>
+          <li>GAE combines multiple n-step advantage estimates to trade off bias and variance.</li>
+          <li>In PPO, the ratio compares new-policy probability to old-policy probability for the sampled action.</li>
+          <li>PPO clipping means the actual neural-network weights cannot move by more than <span class="math">ε</span>.</li>
+          <li>PPO is usually treated as on-policy or near-on-policy, not replay-buffer off-policy Q-learning.</li>
+        </ol>
+      </div>
+
+      <div class="question">
+        <span class="points">5. Q-Learning And DQN, 7 pts</span>
+        <p>For each statement, mark true or false.</p>
+        <ul class="tf-list">
+          <li>___ <span class="math">Q<sup>π</sup>(s,a)</span> evaluates taking action <span class="math">a</span>, then following policy <span class="math">π</span>.</li>
+          <li>___ <span class="math">Q*</span> uses the best possible future behavior, which is why the Bellman optimality equation has a max over next actions.</li>
+          <li>___ A replay buffer stores transitions and lets DQN train on reused experience.</li>
+          <li>___ A target network makes the bootstrapped labels change more slowly.</li>
+          <li>___ Double DQN uses one network to select the next action and the other to evaluate that selected action.</li>
+        </ul>
+      </div>
+
+      <div class="question">
+        <span class="points">6. Offline RL, IQL, And RLHF, 9 pts</span>
+        <p>Select all statements that are true.</p>
+        <ol class="choice-list">
+          <li>Offline RL trains from a fixed dataset and cannot simply try new actions in the environment to see what happens.</li>
+          <li>Out-of-distribution actions can receive overestimated Q-values because the dataset may contain no corrective evidence for them.</li>
+          <li>AWR performs weighted behavior cloning, copying dataset actions more strongly when their advantage is high.</li>
+          <li>IQL avoids an explicit <span class="math">max<sub>a</sub>Q(s,a)</span> over unseen actions by using a learned <span class="math">V(s)</span> in the target.</li>
+          <li>In RLHF, the reward model is usually the final deployed model.</li>
+          <li>A KL penalty in RLHF discourages the updated policy from drifting too far from a reference model.</li>
+          <li>DPO directly updates the policy from preferred-versus-rejected response pairs, using a reference model instead of an explicit reward-model-plus-RL loop.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Part II: Computations</h2>
+
+      <div class="question">
+        <span class="points">7. Discounted Returns, 6 pts</span>
+        <p>A trajectory has rewards:</p>
+        <div class="eq">r<sub>0</sub> = 0, &nbsp; r<sub>1</sub> = 2, &nbsp; r<sub>2</sub> = -1, &nbsp; r<sub>3</sub> = 4</div>
+        <p>Using <span class="math">γ = 0.5</span>, compute <span class="math">G<sub>0</sub></span> and <span class="math">G<sub>1</sub></span>.</p>
+      </div>
+
+      <div class="question">
+        <span class="points">8. REINFORCE Update Sign, 7 pts</span>
+        <p>A one-state policy chooses action <span class="math">A</span> with probability <span class="math">p</span> and action <span class="math">B</span> with probability <span class="math">1-p</span>. Let <span class="math">p = 0.40</span> and learning rate <span class="math">η = 0.01</span>.</p>
+        <p>For this toy problem, pretend we update <span class="math">p</span> directly:</p>
+        <div class="eq">p<sub>new</sub> = p + η · G · g</div>
+        <p>where <span class="math">g = d/dp log P(sampled action)</span>.</p>
+        <ol>
+          <li>If the sampled action is <span class="math">A</span> and return is <span class="math">G=5</span>, compute <span class="math">g</span> and <span class="math">p<sub>new</sub></span>.</li>
+          <li>If the sampled action is <span class="math">B</span> and return is <span class="math">G=5</span>, compute <span class="math">g</span> and <span class="math">p<sub>new</sub></span>.</li>
+        </ol>
+      </div>
+
+      <div class="question">
+        <span class="points">9. Actor-Critic Advantage, 6 pts</span>
+        <p>For one transition, suppose:</p>
+        <div class="eq">r<sub>t</sub> = 3, &nbsp; γ = 0.9, &nbsp; V̂(s<sub>t</sub>) = 7, &nbsp; V̂(s<sub>t+1</sub>) = 8</div>
+        <p>Compute the 1-step advantage estimate:</p>
+        <div class="eq">Â(s<sub>t</sub>,a<sub>t</sub>) ≈ r<sub>t</sub> + γV̂(s<sub>t+1</sub>) - V̂(s<sub>t</sub>)</div>
+        <p>Should the actor increase or decrease the probability of <span class="math">a<sub>t</sub></span>?</p>
+      </div>
+
+      <div class="question">
+        <span class="points">10. PPO Clipped Objective, 8 pts</span>
+        <p>For three samples, compute the unclipped ratio objective <span class="math">rA</span> and say whether PPO clipping would cap the improvement term. Use <span class="math">ε=0.2</span>.</p>
+        <table>
+          <thead><tr><th>Sample</th><th>ratio r</th><th>advantage A</th><th>rA</th><th>clipped term</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1.30</td><td>+4</td><td></td><td></td></tr>
+            <tr><td>2</td><td>0.70</td><td>+4</td><td></td><td></td></tr>
+            <tr><td>3</td><td>0.70</td><td>-4</td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <p>Use the PPO surrogate term <span class="math">min(rA, clip(r, 1-ε, 1+ε)A)</span>.</p>
+      </div>
+
+      <div class="question">
+        <span class="points">11. Q-Learning And Double DQN Targets, 8 pts</span>
+        <p>A transition in a replay buffer has <span class="math">r = 1</span>, <span class="math">γ = 0.9</span>, and the target network predicts next-state Q-values:</p>
+        <table>
+          <thead><tr><th>Action</th><th>Q̂<sub>target</sub>(s',a)</th></tr></thead>
+          <tbody>
+            <tr><td>left</td><td>4</td></tr>
+            <tr><td>right</td><td>7</td></tr>
+            <tr><td>stop</td><td>5</td></tr>
+          </tbody>
+        </table>
+        <p>The online network predicts next-state Q-values:</p>
+        <table>
+          <thead><tr><th>Action</th><th>Q̂<sub>online</sub>(s',a)</th></tr></thead>
+          <tbody>
+            <tr><td>left</td><td>8</td></tr>
+            <tr><td>right</td><td>6</td></tr>
+            <tr><td>stop</td><td>5</td></tr>
+          </tbody>
+        </table>
+        <ol>
+          <li>Compute the ordinary DQN target using the max over target-network values.</li>
+          <li>Compute the Double DQN target: select the best action using the online network, then evaluate it with the target network.</li>
+          <li>If the current prediction for the sampled transition is <span class="math">Q̂(s,a)=9</span>, compute the squared loss using the Double DQN target.</li>
+        </ol>
+      </div>
+
+      <div class="question">
+        <span class="points">12. n-Step Target, 6 pts</span>
+        <p>A replay trajectory contains rewards <span class="math">r<sub>t</sub>=1</span>, <span class="math">r<sub>t+1</sub>=0</span>, <span class="math">r<sub>t+2</sub>=2</span>. Let <span class="math">γ=0.5</span>, <span class="math">n=3</span>, and <span class="math">max<sub>a</sub> Q̂(s<sub>t+3</sub>,a)=6</span>.</p>
+        <p>Compute the 3-step Q target:</p>
+        <div class="eq">y<sub>t</sub><sup>(3)</sup> = r<sub>t</sub> + γr<sub>t+1</sub> + γ<sup>2</sup>r<sub>t+2</sub> + γ<sup>3</sup> max<sub>a</sub>Q̂(s<sub>t+3</sub>,a)</div>
+      </div>
+
+      <div class="question">
+        <span class="points">13. IQL Expectile And Policy Extraction, 9 pts</span>
+        <p>In one state, the offline dataset contains three actions with estimated Q-values:</p>
+        <table>
+          <thead><tr><th>Dataset action</th><th>Q̂(s,a)</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>2</td></tr>
+            <tr><td>B</td><td>5</td></tr>
+            <tr><td>C</td><td>6</td></tr>
+          </tbody>
+        </table>
+        <ol>
+          <li>What is the plain average of these Q-values?</li>
+          <li>If IQL learns <span class="math">V̂(s)=5.5</span>, compute <span class="math">Q̂(s,a)-V̂(s)</span> for A, B, and C.</li>
+          <li>Which action would weighted behavior cloning copy most strongly?</li>
+          <li>Why is this safer offline than maximizing <span class="math">Q(s,a)</span> over every possible action?</li>
+        </ol>
+      </div>
+
+      <div class="question">
+        <span class="points">14. RLHF Preference Model, 6 pts</span>
+        <p>A reward model gives the preferred response score <span class="math">r<sub>θ</sub>(τ<sub>w</sub>)=3</span> and the rejected response score <span class="math">r<sub>θ</sub>(τ<sub>l</sub>)=1</span>.</p>
+        <ol>
+          <li>Compute the score difference used in the Bradley-Terry model.</li>
+          <li>Is <span class="math">sigmoid</span> of this difference greater than, equal to, or less than <span class="math">0.5</span>?</li>
+          <li>If the KL penalty is large during RLHF, what behavior is being discouraged?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Answer Key</h2>
+      <div class="note">
+        <strong>Use this after attempting the exam.</strong> The explanations are intentionally short, matching what you should be able to produce under time pressure.
+      </div>
+
+      <details class="answer"><summary>1. MDPs, Returns, And Reward Shaping</summary>
+        <p>Correct: A, B, and D. Arbitrary dense rewards and changing <span class="math">γ</span> can change optimal policies.</p>
+      </details>
+
+      <details class="answer"><summary>2. Imitation Learning</summary>
+        <p>True, False, True, True, True, True. The key traps are compounding errors for behavior cloning and action averaging for multimodal continuous actions.</p>
+      </details>
+
+      <details class="answer"><summary>3. Policy Gradients</summary>
+        <p>Correct: A, B, D, and E. A baseline must not depend on the sampled action if it is being subtracted inside the score-function term.</p>
+      </details>
+
+      <details class="answer"><summary>4. Actor-Critic, GAE, And PPO</summary>
+        <p>Correct: A, B, C, and E. PPO clipping limits the surrogate objective incentive, not the literal parameter movement.</p>
+      </details>
+
+      <details class="answer"><summary>5. Q-Learning And DQN</summary>
+        <p>All five statements are true.</p>
+      </details>
+
+      <details class="answer"><summary>6. Offline RL, IQL, And RLHF</summary>
+        <p>Correct: A, B, C, D, F, and G. E is false: the reward model is usually a training-time scoring model, while the updated language model is deployed.</p>
+      </details>
+
+      <details class="answer"><summary>7. Discounted Returns</summary>
+        <p><span class="math">G<sub>0</sub> = 0 + 0.5·2 + 0.5<sup>2</sup>(-1) + 0.5<sup>3</sup>·4 = 0 + 1 - 0.25 + 0.5 = 1.25</span>.</p>
+        <p><span class="math">G<sub>1</sub> = 2 + 0.5(-1) + 0.5<sup>2</sup>·4 = 2 - 0.5 + 1 = 2.5</span>.</p>
+      </details>
+
+      <details class="answer"><summary>8. REINFORCE Update Sign</summary>
+        <p>If action A: <span class="math">g = d/dp log p = 1/p = 2.5</span>. Update: <span class="math">p_new = 0.40 + 0.01·5·2.5 = 0.525</span>.</p>
+        <p>If action B: <span class="math">g = d/dp log(1-p) = -1/(1-p) = -1/0.6 = -1.667</span>. Update: <span class="math">p_new = 0.40 + 0.01·5·(-1.667) ≈ 0.317</span>. Good B rollout lowers probability of A, making B more likely.</p>
+      </details>
+
+      <details class="answer"><summary>9. Actor-Critic Advantage</summary>
+        <p><span class="math">Â = 3 + 0.9·8 - 7 = 3.2</span>. Positive advantage, so increase probability of the sampled action.</p>
+      </details>
+
+      <details class="answer"><summary>10. PPO Clipped Objective</summary>
+        <p>Sample 1: <span class="math">rA=1.3·4=5.2</span>, clipped ratio is <span class="math">1.2</span>, clipped term <span class="math">4.8</span>, surrogate uses <span class="math">4.8</span>.</p>
+        <p>Sample 2: <span class="math">rA=0.7·4=2.8</span>, clipped term <span class="math">0.8·4=3.2</span>, surrogate uses <span class="math">2.8</span>. No improvement cap is active because the ratio moved in a bad direction for positive advantage.</p>
+        <p>Sample 3: <span class="math">rA=0.7·(-4)=-2.8</span>, clipped term <span class="math">0.8·(-4)=-3.2</span>, surrogate uses <span class="math">-3.2</span>. For negative advantage, decreasing probability too much is capped.</p>
+      </details>
+
+      <details class="answer"><summary>11. Q-Learning And Double DQN Targets</summary>
+        <p>Ordinary DQN: target-network max is <span class="math">7</span>, so <span class="math">y=1+0.9·7=7.3</span>.</p>
+        <p>Double DQN: online network selects left because <span class="math">8</span> is largest. Target network evaluates left as <span class="math">4</span>. So <span class="math">y=1+0.9·4=4.6</span>.</p>
+        <p>Loss using Double DQN target: <span class="math">(9-4.6)<sup>2</sup>=19.36</span>.</p>
+      </details>
+
+      <details class="answer"><summary>12. n-Step Target</summary>
+        <p><span class="math">y = 1 + 0.5·0 + 0.5<sup>2</sup>·2 + 0.5<sup>3</sup>·6 = 1 + 0 + 0.5 + 0.75 = 2.25</span>.</p>
+      </details>
+
+      <details class="answer"><summary>13. IQL Expectile And Policy Extraction</summary>
+        <p>Average: <span class="math">(2+5+6)/3 = 13/3 ≈ 4.33</span>.</p>
+        <p>Advantages with <span class="math">V̂(s)=5.5</span>: A is <span class="math">2-5.5=-3.5</span>, B is <span class="math">5-5.5=-0.5</span>, C is <span class="math">6-5.5=0.5</span>.</p>
+        <p>Weighted behavior cloning copies C most strongly. This is safer offline because it only weights dataset actions instead of maximizing over arbitrary unseen actions whose Q-values may be wrong.</p>
+      </details>
+
+      <details class="answer"><summary>14. RLHF Preference Model</summary>
+        <p>Score difference: <span class="math">3-1=2</span>. <span class="math">sigmoid(2)</span> is greater than <span class="math">0.5</span>, so the reward model assigns greater-than-even probability to the preferred response.</p>
+        <p>A large KL penalty discourages the updated policy from drifting too far away from the frozen reference model.</p>
+      </details>
+    </section>
+  </main>
+</body>
+</html>
