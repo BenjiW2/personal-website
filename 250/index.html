@@ -102,6 +102,9 @@
     color: var(--gold);
     font-weight: 800;
   }
+  .sync { font-weight: 800; letter-spacing: .5px; white-space: nowrap; }
+  .sync.on { color: #4ade80; }
+  .sync.off { color: var(--red-bright); }
 
   /* ---- mission: 250 ---- */
   .mission {
@@ -427,7 +430,7 @@
   <header>
     <div class="flags">🎆 🇺🇸 🎆</div>
     <h1>Star-Spangled Sips</h1>
-    <p class="tagline">4th of July Drink Tracker · <span class="total" id="totalLine">0 drinks for America</span> 🦅</p>
+    <p class="tagline">4th of July Drink Tracker · <span class="total" id="totalLine">0 drinks for America</span> 🦅 · <span id="dbStatus" class="sync">⏳ CONNECTING…</span></p>
   </header>
 
   <section class="panel mission" id="mission">
@@ -472,10 +475,16 @@
 <div class="stripes bottom"></div>
 
 <script>
-  const STORAGE_KEY = 'july4-drink-tracker';
   const GOAL = 250;
   // fixed at page load: the upcoming midnight
   const MIDNIGHT = (() => { const d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime(); })();
+
+  // ---- shared database (textdb.online) ----
+  // Form-encoded writes are CORS "simple requests", so no preflight is needed.
+  const CACHE_KEY = 'july4-drink-tracker-v2';
+  const DB_KEY = 'bw250-84e94c23e6ad0131';
+  const DB_GET = 'https://textdb.online/' + DB_KEY;
+  const DB_SET = 'https://textdb.online/update';
   const DRINKS = [
     { type: 'Beer',     emoji: '🍺', verb: 'cracked a cold' },
     { type: 'Seltzer',  emoji: '🥫', verb: 'popped a' },
@@ -484,21 +493,85 @@
   ];
   const RANK_ICONS = ['🥇', '🥈', '🥉'];
 
-  let state = load();
+  let state = loadCache();
 
-  function load() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed.players) && Array.isArray(parsed.drinks)) return parsed;
-      }
-    } catch (e) { /* corrupted storage — start fresh */ }
-    return { players: [], drinks: [] };
+  function normalize(s) {
+    if (!s || !Array.isArray(s.players) || !Array.isArray(s.drinks)) {
+      return { players: [], drinks: [], removed: [] };
+    }
+    if (!Array.isArray(s.removed)) s.removed = [];
+    return s;
+  }
+
+  function loadCache() {
+    try { return normalize(JSON.parse(localStorage.getItem(CACHE_KEY))); }
+    catch (e) { return normalize(null); }
   }
 
   function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(CACHE_KEY, JSON.stringify(state));
+  }
+
+  // Union of two states. Undone drinks live on as ids in `removed` so a merge
+  // can't resurrect them; duplicate names from concurrent adds collapse to one
+  // player, with the loser's drinks remapped to the survivor.
+  function merge(a, b) {
+    const removed = [...new Set([...a.removed, ...b.removed])].slice(-400);
+    const players = [], byName = {}, remap = {};
+    for (const p of [...a.players, ...b.players]) {
+      const k = p.name.trim().toLowerCase();
+      if (byName[k]) remap[p.id] = byName[k].id;
+      else { byName[k] = p; players.push(p); }
+    }
+    const rm = new Set(removed), seen = new Set(), drinks = [];
+    for (const d of [...a.drinks, ...b.drinks]) {
+      if (seen.has(d.id) || rm.has(d.id)) continue;
+      seen.add(d.id);
+      drinks.push({ ...d, playerId: remap[d.playerId] || d.playerId });
+    }
+    drinks.sort((x, y) => x.ts - y.ts);
+    return { players, drinks, removed };
+  }
+
+  let syncing = false, pushQueued = false;
+
+  async function sync(push) {
+    if (syncing) { if (push) pushQueued = true; return; }
+    syncing = true;
+    try {
+      const res = await fetch(DB_GET, { cache: 'no-store' });
+      if (!res.ok) throw new Error('read failed');
+      const text = (await res.text()).trim();
+      const remote = normalize(text ? JSON.parse(text) : null);
+      const before = state.drinks.length;
+      const snapshot = JSON.stringify(state);
+      const merged = merge(remote, state);
+      if (JSON.stringify(merged) !== snapshot) {
+        state = merged;
+        save();
+        render();
+        if (before < GOAL && state.drinks.length >= GOAL) launchConfetti(180);
+      }
+      if (push || pushQueued) {
+        pushQueued = false;
+        const w = await fetch(DB_SET, {
+          method: 'POST',
+          body: new URLSearchParams({ key: DB_KEY, value: JSON.stringify(state) }),
+        });
+        if (!w.ok) throw new Error('write failed');
+      }
+      setStatus(true);
+    } catch (e) {
+      setStatus(false);
+    } finally {
+      syncing = false;
+    }
+  }
+
+  function setStatus(ok) {
+    const el = document.getElementById('dbStatus');
+    el.className = 'sync ' + (ok ? 'on' : 'off');
+    el.textContent = ok ? '🟢 DATABASE WORKING' : '🔴 DATABASE OFFLINE — RETRYING';
   }
 
   function esc(s) {
@@ -527,6 +600,7 @@
     state.players.push({ id: crypto.randomUUID(), name });
     save();
     render();
+    sync(true);
   }
 
   function logDrink(playerId, drinkIdx) {
@@ -540,12 +614,15 @@
     save();
     render();
     launchConfetti(before < GOAL && state.drinks.length >= GOAL ? 180 : 32);
+    sync(true);
   }
 
   function undoDrink(drinkId) {
     state.drinks = state.drinks.filter(d => d.id !== drinkId);
+    state.removed.push(drinkId);
     save();
     render();
+    sync(true);
   }
 
   // ---- render ----
@@ -694,9 +771,12 @@
   // keep "Xm ago" labels fresh
   setInterval(renderFeed, 30000);
   setInterval(tickClock, 1000);
+  setInterval(() => sync(false), 4000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) sync(false); });
 
   render();
   tickClock();
+  sync(false);
 </script>
 </body>
 </html>
