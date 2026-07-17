@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Robot Actuator Motor Calculator</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Actuator sizing tool</p>
+        <h1>Motor, gearbox, and robot joint calculator</h1>
+      </div>
+      <div class="status-pill" id="confidenceBadge">Estimate model</div>
+    </header>
+
+    <main class="layout">
+      <section class="panel controls" aria-label="Calculator controls">
+        <div class="panel-header">
+          <h2>Motor Geometry</h2>
+          <button class="ghost-button" id="preset10012" type="button">Load 10012 target</button>
+        </div>
+
+        <div class="control-grid">
+          <label>
+            <span>Stator OD</span>
+            <input id="statorOd" type="number" min="20" max="200" step="1" value="100">
+            <small>mm, tooth outer diameter</small>
+          </label>
+          <label>
+            <span>Stator bore ID</span>
+            <input id="statorId" type="number" min="5" max="180" step="1" value="78">
+            <small>mm, central opening</small>
+          </label>
+          <label>
+            <span>Stack height</span>
+            <input id="stackHeight" type="number" min="2" max="80" step="0.5" value="12">
+            <small>mm, active lamination length</small>
+          </label>
+          <label>
+            <span>Slots / teeth</span>
+            <input id="slots" type="number" min="3" max="144" step="3" value="36">
+            <small>stator slots</small>
+          </label>
+          <label>
+            <span>Rotor poles</span>
+            <input id="poles" type="number" min="2" max="100" step="2" value="42">
+            <small>magnets, not pole pairs</small>
+          </label>
+          <label>
+            <span>Rated bus voltage</span>
+            <input id="voltage" type="number" min="6" max="120" step="1" value="48">
+            <small>V DC</small>
+          </label>
+        </div>
+
+        <div class="panel-header subhead">
+          <h2>Winding</h2>
+        </div>
+        <div class="control-grid">
+          <label>
+            <span>Turns per tooth</span>
+            <input id="turns" type="number" min="1" max="80" step="1" value="18">
+            <small>series turns on each tooth</small>
+          </label>
+          <label>
+            <span>Parallel paths</span>
+            <input id="parallelPaths" type="number" min="1" max="12" step="1" value="1">
+            <small>parallel groups per phase</small>
+          </label>
+          <label>
+            <span>Wire diameter</span>
+            <input id="wireDiameter" type="number" min="0.05" max="3" step="0.01" value="0.65">
+            <small>mm, round copper</small>
+          </label>
+          <label>
+            <span>Strands in parallel</span>
+            <input id="strands" type="number" min="1" max="40" step="1" value="2">
+            <small>per turn</small>
+          </label>
+          <label>
+            <span>Winding factor</span>
+            <input id="windingFactor" type="number" min="0.5" max="1" step="0.01" value="0.93">
+            <small>0.90-0.95 typical target</small>
+          </label>
+          <label>
+            <span>End-turn factor</span>
+            <input id="endTurnFactor" type="number" min="0.5" max="4" step="0.1" value="1.6">
+            <small>higher means more copper length</small>
+          </label>
+        </div>
+
+        <div class="panel-header subhead">
+          <h2>Magnetic + Thermal Assumptions</h2>
+        </div>
+        <div class="control-grid">
+          <label>
+            <span>Airgap flux density</span>
+            <input id="gapFlux" type="number" min="0.1" max="1.2" step="0.01" value="0.65">
+            <small>T, effective average</small>
+          </label>
+          <label>
+            <span>Magnet arc fraction</span>
+            <input id="magnetArc" type="number" min="0.4" max="0.95" step="0.01" value="0.72">
+            <small>pole coverage</small>
+          </label>
+          <label>
+            <span>Thermal loss limit</span>
+            <input id="thermalWatts" type="number" min="1" max="500" step="1" value="40">
+            <small>W copper heat allowed</small>
+          </label>
+          <label>
+            <span>Peak phase current</span>
+            <input id="peakCurrent" type="number" min="1" max="200" step="1" value="30">
+            <small>A, controller limited</small>
+          </label>
+          <label>
+            <span>Rated speed target</span>
+            <input id="ratedSpeed" type="number" min="100" max="8000" step="50" value="1000">
+            <small>rpm mechanical</small>
+          </label>
+          <label>
+            <span>Max winding temp</span>
+            <input id="windingTemp" type="number" min="40" max="220" step="5" value="120">
+            <small>C, for resistance correction</small>
+          </label>
+        </div>
+
+        <div class="panel-header subhead">
+          <h2>Gearbox</h2>
+        </div>
+        <div class="segmented" role="tablist" aria-label="Gear mode">
+          <button class="seg active" data-mode="planetary" type="button">Planetary</button>
+          <button class="seg" data-mode="custom" type="button">Custom ratio</button>
+        </div>
+        <div class="control-grid" id="planetaryInputs">
+          <label>
+            <span>Sun teeth</span>
+            <input id="sunTeeth" type="number" min="6" max="200" step="1" value="34">
+            <small>fixed ring ratio = 1 + ring/sun</small>
+          </label>
+          <label>
+            <span>Ring teeth</span>
+            <input id="ringTeeth" type="number" min="12" max="300" step="1" value="68">
+            <small>internal ring</small>
+          </label>
+          <label>
+            <span>Planet count</span>
+            <input id="planetCount" type="number" min="1" max="8" step="1" value="3">
+            <small>packaging only</small>
+          </label>
+        </div>
+        <div class="control-grid hidden" id="customInputs">
+          <label>
+            <span>Total reduction</span>
+            <input id="customRatio" type="number" min="1" max="100" step="0.1" value="10">
+            <small>motor revs per output rev</small>
+          </label>
+        </div>
+        <div class="control-grid">
+          <label>
+            <span>Gear efficiency</span>
+            <input id="gearEfficiency" type="number" min="0.2" max="0.98" step="0.01" value="0.85">
+            <small>fraction</small>
+          </label>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Calculator outputs">
+        <div class="visual-row">
+          <article class="panel visual-panel">
+            <div class="panel-header">
+              <h2>Motor Section</h2>
+              <span id="slotPoleLabel" class="mini-pill"></span>
+            </div>
+            <svg id="motorSvg" viewBox="0 0 420 420" role="img" aria-label="Motor cross-section diagram"></svg>
+          </article>
+
+          <article class="panel visual-panel">
+            <div class="panel-header">
+              <h2>Reduction</h2>
+              <span id="ratioLabel" class="mini-pill"></span>
+            </div>
+            <svg id="gearSvg" viewBox="0 0 420 420" role="img" aria-label="Gear reduction diagram"></svg>
+          </article>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Estimated Motor Specs</h2>
+            <span class="muted">not FEA; use for trade studies</span>
+          </div>
+          <div class="metrics" id="motorMetrics"></div>
+          <div class="warning" id="warningBox"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Output After Gearbox</h2>
+            <span id="outputClass" class="mini-pill"></span>
+          </div>
+          <div class="metrics" id="outputMetrics"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Robot Joint Requirements</h2>
+            <select id="robotClass" aria-label="Robot class">
+              <option value="simple">Simple small humanoid</option>
+              <option value="g1">G1-ish humanoid</option>
+              <option value="arm">Arm / upper body</option>
+            </select>
+          </div>
+          <div class="joint-table" id="jointTable"></div>
+        </article>
+
+        <article class="panel notes">
+          <h2>Model Notes</h2>
+          <p>
+            This calculator uses a first-order radial-flux PMSM estimate. It computes pole flux from airgap area,
+            links it through the series turns per phase, derives Kt, then uses the SI Kt/Kv relationship. Resistance
+            is estimated from mean turn length and copper area. Continuous torque is set by the copper-loss thermal
+            budget you enter.
+          </p>
+          <p>
+            It does not model slot saturation, tooth geometry, leakage, magnet thickness, skew, detailed end turns,
+            demagnetization, eddy loss, iron loss, or controller voltage limits with high fidelity. Treat anything
+            within about +/-30 percent as directionally useful, not final design data.
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
