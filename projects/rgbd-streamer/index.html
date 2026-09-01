@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iOS RGBD streamer — Benji Warburton</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <meta
+    name="description"
+    content="An iOS app that streams LiDAR and camera data to a computer as synchronized virtual webcams."
+  />
+  <meta name="theme-color" content="#f8f3e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2a2724" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../../styles/main.css?v=20260901l" />
+</head>
+<body>
+  <div class="livery" aria-hidden="true"></div>
+  <main class="page">
+    <button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+        <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <nav>
+      <a class="backlink" href="../../">&larr; Benji Warburton</a>
+    </nav>
+
+    <header class="project-head">
+      <h1>iOS RGBD streamer</h1>
+      <p class="tagline">2026 — iOS</p>
+    </header>
+
+    <div class="prose">
+      <p>
+        An iOS app that streams LiDAR depth and camera frames from an iPhone to
+        a computer, where they show up as synchronized virtual webcams.
+      </p>
+    </div>
+
+    <section class="section">
+      <h2 class="label">Details</h2>
+      <p class="aside">More coming soon.</p>
+    </section>
+
+    <footer class="footer">
+      <p>Benji Warburton</p>
+      <a href="mailto:benjiw@stanford.edu">benjiw@stanford.edu</a>
+    </footer>
+  </main>
+
+  <script>
+    document.querySelector(".theme-toggle").addEventListener("click", function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      var stripe = document.querySelector(".livery");
+      if (stripe) {
+        stripe.style.animation = "none";
+        void stripe.offsetHeight;
+        stripe.style.animation = "";
+      }
+    });
+  </script>
+</body>
+</html>

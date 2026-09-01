@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Electric truck restoration — Benji Warburton</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <meta
+    name="description"
+    content="Restoring a 1990s Taylor-Dunn electric truck: a trade involving a $30 motorbike, a free lot of car batteries, one broken limit switch, and a 3am first drive."
+  />
+  <meta name="theme-color" content="#f8f3e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2a2724" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../../styles/main.css?v=20260901l" />
+</head>
+<body>
+  <div class="livery" aria-hidden="true"></div>
+  <main class="page">
+    <button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+        <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <nav>
+      <a class="backlink" href="../../">&larr; Benji Warburton</a>
+    </nav>
+
+    <header class="project-head">
+      <h1>Electric truck restoration</h1>
+      <p class="tagline">Ongoing — with <a href="https://www.randomodbuild.com/pages/about/" target="_blank" rel="noopener">Brooks Modesitt</a></p>
+    </header>
+
+    <div class="prose">
+      <p>
+        There&rsquo;s a story at Stanford, often told by the people on the
+        solar car team: in the nineties, a student named JB Straubel bought a
+        wrecked Porsche 944, threw out the blown engine, and filled it with
+        batteries. It set a world record for EV drag racing, and he went on to
+        co-found Tesla. I read about it growing up in Ashlee Vance&rsquo;s Elon
+        Musk book, and i&rsquo;ve wanted to do something similar  ever since.
+      </p>
+      <p>
+        So when a 1990s Taylor-Dunn electric truck turned up on Facebook
+        Marketplace, my friend Brooks and I didn&rsquo;t really have a
+        choice in the matter.
+      </p>
+    </div>
+
+    <figure class="figure figure--tall">
+      <img src="./media/listing.jpg" alt="Facebook Marketplace listing for a Taylor Dunn Electric Truck, $1,500, sold. Description reads: Will trade for motorcycle, dirtbike, truck. It can run but isn't." loading="lazy" />
+      <figcaption>&ldquo;It can run but isn&rsquo;t&rdquo; is the greatest sentence ever listed on Marketplace.</figcaption>
+    </figure>
+
+    <section class="section">
+      <h2 class="label">The trade</h2>
+      <div class="prose">
+        <p>
+          Brooks owns a motorbike that cost him about $30. I forget how this happened, but I think it was because he paid the outstanding property tax on an abandoned
+          lot that happened to have a motorbike sitting on it. This is legal apparently. We traded the bike plus $300 for the truck.
+        </p>
+        <p>
+          The facebook marketplace listing was completely honest: "it can run, but isn&rsquo;t."
+          For the first stretch of its life with us, the truck was Brooks powered.
+        </p>
+      </div>
+      <figure class="figure figure--tall">
+        <img src="./media/push.gif" alt="One person steering the Taylor-Dunn while another pushes it down the road" loading="lazy" />
+        <figcaption>Peak output: roughly one Brooks-power.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2 class="label">Batteries</h2>
+      <div class="prose">
+        <p>
+          The first problem was the batteries. They were leaking acid and lead everywhere, and half of them read 0V. We
+          found a job lot of car batteries in South San Francisco for $100 —
+          then told the seller what they were for, and he gave them to us for
+          free! shoutout. 
+        </p>
+      </div>
+      <figure class="figure">
+        <img src="./media/batteries.jpg" alt="A bench covered in a dozen assorted car batteries" loading="lazy" />
+        <figcaption>The haul.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>
+          For wiring guidance we tracked down the original Taylor-Dunn manual
+          online — a scan of a scan of a photocopy — and OCRed it back into
+          something searchable/that we could put into codex. 
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="label">The mammoth session</h2>
+      <div class="prose">
+        <p>
+          We got the batteries back to campus at noon. The moment they went in,
+          the 12V systems woke up — horn, lights, indicators, all of it,
+          blinking like nothing had ever been wrong. Very encouraging. Less
+          encouraging: every time we wired up the traction pack, it threw
+          up huge sparks. we would really dread having to disconnect and reconnect the batteries because the chances of being electrocuted felt high.
+        </p>
+      </div>
+      <figure class="figure">
+        <img src="./media/courtyard.jpg" alt="Overhead view of a courtyard with the truck's hood open and three people working on it, parts laid out on the ground" loading="lazy" />
+        <figcaption>The operating theater.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>
+          We disconnected and reconnected every bit of wiring, and still the truck wouldn&rsquo;t move. After a lot of staring at
+          the OCRed manual, and the motor controller (the relays were huge) we traced it to the accelerator pedal, which turned
+          out to be broken in a permanent state of stuck-down — the truck
+          thought it was floored at all times, and a safety interlock
+          (reasonably) refused to cooperate. So we took the pedal apart and
+          found the culprit: a dead limit switch.
+        </p>
+        <p>
+          Here&rsquo;s the beautiful part. It was the exact limit switch
+          stocked in the ME210 mechatronics workshop — a class I&rsquo;d taken
+          the previous quarter. At this point, it was 1am. The workshop is open around the
+          clock to enrolled students, and surprisingly, open at 1am to students who were
+          enrolled one quarter ago and are willing to walk with purpose. We
+          &ldquo;borrowed&rdquo; one. The quotes are doing some work in that
+          sentence, but I did take the class, and the truck needed it more
+          than the shelf did.
+        </p>
+      </div>
+      <figure class="figure figure--tall">
+        <img src="./media/pedal.jpg" alt="A workbench at night with a multimeter, screwdriver, and the disassembled accelerator pedal mid-repair" loading="lazy" />
+        <figcaption>1am limit-switch surgery. The patient survived.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>
+          Desolder the dead switch, solder in the new one, reassemble the
+          pedal, hold breath, wire the pack — and the truck came to life.
+        </p>
+      </div>
+      <figure class="figure figure--tall">
+        <img src="./media/alive.jpg" alt="The truck at night with its taillights glowing red" loading="lazy" />
+        <figcaption>Taillights: on. Feeling: indescribable.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2 class="label">3am</h2>
+      <div class="prose">
+        <p>
+          Noon to 3am, one continuous session. Would not change a thing.
+        </p>
+      </div>
+      <figure class="figure figure--tall">
+        <img src="./media/night.gif" alt="Blurry nighttime footage from the moving truck, streetlights streaking past" loading="lazy" />
+        <figcaption>Victory lap. Camera work reflects the emotional state of the operator.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="./media/cab.jpg" alt="Two people in the truck's cab at night, one driving, one taking the photo" loading="lazy" />
+        <figcaption>3am. Thijs takes the truck for a spin.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2 class="label">Next</h2>
+      <div class="prose">
+        <p>
+          issues with stanford's policy on vehicles + modern batteries, brushless motor, and drive by wire.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Benji Warburton</p>
+      <a href="mailto:benjiw@stanford.edu">benjiw@stanford.edu</a>
+    </footer>
+  </main>
+
+  <script>
+    document.querySelector(".theme-toggle").addEventListener("click", function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      var stripe = document.querySelector(".livery");
+      if (stripe) {
+        stripe.style.animation = "none";
+        void stripe.offsetHeight;
+        stripe.style.animation = "";
+      }
+    });
+  </script>
+</body>
+</html>

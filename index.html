@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Benji Warburton</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <meta
+    name="description"
+    content="Benji Warburton is an EECS student at Stanford working on robotics, systems, and machine learning."
+  />
+  <meta name="theme-color" content="#f8f3e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2a2724" media="(prefers-color-scheme: dark)" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://benjiwarburton.com/" />
+  <meta property="og:title" content="Benji Warburton" />
+  <meta
+    property="og:description"
+    content="EECS @ Stanford"
+  />
+  <meta property="og:image" content="https://benjiwarburton.com/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Benji Warburton personal website preview" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Benji Warburton" />
+  <meta
+    name="twitter:description"
+    content="EECS at Stanford. Robotics, systems, and machine learning."
+  />
+  <meta name="twitter:image" content="https://benjiwarburton.com/assets/og-image.png" />
+  <link rel="icon" type="image/svg+xml" href="./assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles/main.css?v=20260901l" />
+</head>
+<body>
+  <div class="livery" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <main class="page" id="main">
+    <button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+        <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <header class="intro">
+      <img class="portrait" src="./assets/avatar.png" alt="Portrait of Benji Warburton" />
+      <h1>Benji Warburton<span>.</span></h1>
+      <p class="tagline">EECS at Stanford — robotics, systems, machine learning</p>
+      <p class="bio">
+        Currently working on: actuators, GNSS, robot dogs, strange vehicles.
+      </p>
+      <p class="intro-links">
+        <a href="./assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="mailto:benjiw@stanford.edu">benjiw@stanford.edu</a>
+        <a href="https://github.com/BenjiW2" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/benjiwarburton/" target="_blank" rel="noopener">LinkedIn</a>
+        <span class="place">Palo Alto, California</span>
+      </p>
+    </header>
+
+    <section class="section">
+      <h2 class="label">Experience</h2>
+      <ol class="rows">
+        <li class="row">
+          <span class="row-logo mark-apple" aria-hidden="true"></span>
+          <div class="row-main">
+            <h3>Hardware Technology Intern, Apple</h3>
+            <p>Built a GNSS simulation platform for verifying signal-processing components.</p>
+          </div>
+          <span class="row-meta">Summer 2026</span>
+        </li>
+        <li class="row">
+          <img class="row-logo mark-yc" src="./assets/logos/yc-mark.png" alt="" />
+          <div class="row-main">
+            <h3>Summer Fellow, Y Combinator</h3>
+            <p>Designed robot-joint actuators with frameless motors and 3D-printed gearboxes, at roughly 6× lower cost.</p>
+          </div>
+          <span class="row-meta">Summer 2026</span>
+        </li>
+        <li class="row">
+          <img class="row-logo mark-armlab" src="./assets/logos/armlab-mark.png" alt="" />
+          <div class="row-main">
+            <h3>Research Assistant, Stanford ARMLab</h3>
+            <p>Working on TidyBot, an embodied-AI system that scans rooms and restores displaced objects to their original poses.</p>
+          </div>
+          <span class="row-meta">Current</span>
+        </li>
+        <li class="row">
+          <img class="row-logo mark-stanford" src="./assets/logos/stanford-tree.svg" alt="" />
+          <div class="row-main">
+            <h3>Teaching Assistant, CS 123</h3>
+            <p>Only undergraduate on the teaching team; built labs with collaborators from Google DeepMind and mentor six robotics teams.</p>
+          </div>
+          <span class="row-meta">Current</span>
+        </li>
+        <li class="row">
+          <img class="row-logo mark-rise-light" src="./assets/logos/rise-mark.png" alt="" />
+          <img class="row-logo mark-rise-dark" src="./assets/logos/rise-mark-dark.png" alt="" />
+          <div class="row-main">
+            <h3>Rise Fellow, Schmidt Futures</h3>
+            <p>Global Winner, 1 of 100 — designed a sub-$45 robotics education kit.</p>
+          </div>
+          <span class="row-meta">Fellowship</span>
+        </li>
+        <li class="row">
+          <img class="row-logo mark-yasa" src="./assets/logos/yasa-mark.png" alt="" />
+          <div class="row-main">
+            <h3>Data Science Intern, YASA</h3>
+            <p>Analyzed electric-motor dyno tests to shorten end-of-line test cycles.</p>
+          </div>
+          <span class="row-meta">Summer 2023</span>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="label">Projects</h2>
+      <ol class="rows">
+        <li class="row">
+          <div class="row-main">
+            <h3><a class="row-link" href="./projects/electric-truck/">Electric truck restoration <span class="row-note">full blog here</span></a></h3>
+            <p>
+              Restoring a 1990s Taylor-Dunn electric truck with modern controls,
+              drivetrain, and sensing.
+            </p>
+          </div>
+          <span class="row-meta">Ongoing</span>
+        </li>
+        <li class="row">
+          <div class="row-main">
+            <h3><a class="row-link" href="./projects/text-to-torque/">From Text to Torque</a></h3>
+            <p>
+              Natural-language commands to diffusion-generated motions to PPO
+              control policies, on a simulated Unitree G1 humanoid.
+            </p>
+          </div>
+          <span class="row-meta">2026</span>
+        </li>
+        <li class="row">
+          <div class="row-main">
+            <h3><a class="row-link" href="./projects/tool-sequences/">Compositional tool-sequence generation</a></h3>
+            <p>
+              Fine-tuned Qwen3 small language models for structured multi-step
+              tool calling — over 3× better exact match on an
+              instruction-to-program benchmark.
+            </p>
+          </div>
+          <span class="row-meta">2026</span>
+        </li>
+        <li class="row">
+          <div class="row-main">
+            <h3><a class="row-link" href="./projects/rgbd-streamer/">iOS RGBD streamer</a></h3>
+            <p>
+              An app that streams LiDAR and camera data to a computer as
+              synchronized virtual webcams.
+            </p>
+          </div>
+          <span class="row-meta">2026</span>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="label">Miscellaneous</h2>
+      <ol class="rows">
+        <li class="row">
+          <div class="row-main">
+            <h3><a class="row-link" href="./classes/">Class notes</a></h3>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer class="footer">
+      <p>Benji Warburton</p>
+      <a href="mailto:benjiw@stanford.edu">benjiw@stanford.edu</a>
+    </footer>
+  </main>
+
+  <script>
+    document.querySelector(".theme-toggle").addEventListener("click", function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      var stripe = document.querySelector(".livery");
+      if (stripe) {
+        stripe.style.animation = "none";
+        void stripe.offsetHeight;
+        stripe.style.animation = "";
+      }
+    });
+  </script>
+</body>
+</html>
