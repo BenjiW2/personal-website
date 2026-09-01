@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>From Text to Torque — Benji Warburton</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <meta
+    name="description"
+    content="From Text to Torque: an end-to-end pipeline from natural-language commands to diffusion-generated motions to PPO control policies on a simulated Unitree G1 humanoid."
+  />
+  <meta name="theme-color" content="#f8f3e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2a2724" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../../styles/main.css?v=20260901g" />
+</head>
+<body>
+  <div class="livery" aria-hidden="true"></div>
+  <main class="page">
+    <button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+        <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <nav>
+      <a class="backlink" href="../../">&larr; Benji Warburton</a>
+    </nav>
+
+    <header class="project-head">
+      <h1>From Text to Torque</h1>
+      <p class="tagline">2026 — CS 224R · diffusion, PPO, MuJoCo Warp, Unitree G1</p>
+    </header>
+
+    <div class="prose">
+      <p>
+        In March 2026, NVIDIA released
+        <a href="https://research.nvidia.com/labs/sil/projects/kimodo" target="_blank" rel="noopener">Kimodo</a>,
+        a motion-diffusion model that turns a plain-English sentence into a
+        full-body motion sequence. I saw the demo on Twitter and couldn&rsquo;t
+        let go of the obvious next question: if a model can imagine a motion
+        from a sentence, can a robot learn to actually perform it?
+      </p>
+      <p>
+        Reference motions for humanoid policies usually come from people.
+        At Stanford&rsquo;s
+        <a href="https://tml.stanford.edu/" target="_blank" rel="noopener">Movement Lab</a>
+        (Prof. Karen Liu), systems like TWIST retarget the movements of an
+        operator wearing a motion-capture suit onto the robot — remarkable
+        work, but every new behavior needs a human to suit up and perform it.
+        Generating the reference from language takes the suit out of the loop:
+        describe the motion, and the pipeline does the rest.
+      </p>
+      <p>
+        From Text to Torque is that pipeline, end to end. A natural-language
+        command goes to Kimodo, which generates a kinematic reference motion;
+        a PPO policy is then trained in MuJoCo Warp — across 1,024 parallel
+        environments — to track that reference on a simulated Unitree G1
+        humanoid, turning imagined motion into torques.
+      </p>
+    </div>
+
+    <section class="section">
+      <h2 class="label">Results</h2>
+      <div class="prose">
+        <p>
+          The interesting problem was early termination. Strict termination
+          thresholds kill exploration before the policy can learn — default
+          training survived an average of 13.5 steps on a squat task. Adaptive
+          termination calibration, which tightens the thresholds as tracking
+          improves, recovered full 250-step squat tracking.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Benji Warburton</p>
+      <a href="mailto:warburtonbenji@gmail.com">warburtonbenji@gmail.com</a>
+    </footer>
+  </main>
+
+  <script>
+    document.querySelector(".theme-toggle").addEventListener("click", function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      var stripe = document.querySelector(".livery");
+      if (stripe) {
+        stripe.style.animation = "none";
+        void stripe.offsetHeight;
+        stripe.style.animation = "";
+      }
+    });
+  </script>
+</body>
+</html>
