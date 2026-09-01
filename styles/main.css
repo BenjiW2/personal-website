@@ -371,6 +371,10 @@ img.mark-yc {
   text-transform: uppercase;
 }
 
+.row-meta a {
+  position: relative;
+}
+
 .aside {
   margin-top: 28px;
   color: var(--muted);
