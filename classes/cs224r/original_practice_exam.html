@@ -4,27 +4,42 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive" />
-  <title>CS224R Predicted Practice Midterm</title>
+  <title>CS 224R practice exam — Benji Warburton</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
   <style>
     :root {
-      --bg: #f7f6f1;
-      --paper: #fffdf7;
-      --ink: #24211d;
-      --muted: #625d55;
-      --line: #ded8ca;
-      --soft: #eee8da;
-      --accent: #0f6b63;
-      --accent-2: #9b4c1f;
-      --ok: #1f7a46;
-      --bad: #9a2f2f;
-      --code: #f0efe9;
+      color-scheme: light dark;
+      --bg: light-dark(#f8f3e7, #2a2724);
+      --paper: light-dark(#fdf9ee, #343029);
+      --ink: light-dark(#221e19, #eae6dc);
+      --muted: light-dark(#70695c, #9a948a);
+      --line: light-dark(#e2dbc9, #46403a);
+      --soft: light-dark(#efe8d6, #3b362f);
+      --accent: light-dark(#22346a, #6fa8d2);
+      --accent-2: #c22b2e;
+      --accent-3: light-dark(#4b5f9e, #8fbede);
+      --ok: light-dark(#1f7a46, #58b57e);
+      --warn: light-dark(#a05a00, #d2a24a);
+      --bad: light-dark(#9a2f2f, #e08a7a);
+      --code: light-dark(#f2ecdd, #3d3831);
+      --shadow: light-dark(0 10px 28px rgba(36, 33, 29, 0.08), none);
     }
+    :root[data-theme="light"] { color-scheme: light; }
+    :root[data-theme="dark"] { color-scheme: dark; }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       color: var(--ink);
       background: var(--bg);
-      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font: 16px/1.62 "Newsreader", Georgia, "Times New Roman", serif;
     }
     main {
       max-width: 980px;
@@ -66,7 +81,7 @@
     .meta div {
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fbfaf5;
+      background: var(--code);
     }
     .muted { color: var(--muted); }
     .question {
@@ -93,7 +108,7 @@
       padding: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fbfaf5;
+      background: var(--code);
       overflow-x: auto;
       font-family: Georgia, "Times New Roman", serif;
       font-size: 1.05rem;
@@ -146,8 +161,53 @@
       header, section, .question, .note { break-inside: avoid; }
     }
   </style>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+  <meta name="theme-color" content="#f8f3e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2a2724" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet" />
+  <style>
+    .livery {
+      position: fixed; top: 0; bottom: 0; left: 0; z-index: 60; width: 15px;
+      background: linear-gradient(to right, #6fa8d2 0 5px, #22346a 5px 10px, #c22b2e 10px 15px);
+      transform-origin: top;
+      animation: livery-draw 1100ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+      pointer-events: none;
+    }
+    @keyframes livery-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    .theme-toggle {
+      position: fixed; top: 16px; right: 16px; z-index: 70;
+      display: grid; place-items: center; width: 36px; height: 36px; padding: 0;
+      border: 1px solid light-dark(rgba(34, 30, 25, 0.25), rgba(234, 230, 220, 0.25));
+      border-radius: 50%;
+      background: light-dark(#f8f3e7, #2a2724);
+      color: light-dark(#70695c, #9a948a);
+      cursor: pointer;
+    }
+    .theme-toggle:hover { color: light-dark(#c22b2e, #6fa8d2); border-color: currentColor; }
+    .theme-toggle svg { width: 15px; height: 15px; transition: transform 500ms cubic-bezier(0.3, 0.7, 0.4, 1); }
+    :root[data-theme="dark"] .theme-toggle svg { transform: rotate(180deg); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle svg { transform: rotate(180deg); }
+    }
+    .backlink-bar { margin: 0 0 20px; font: 500 0.82rem Inter, -apple-system, sans-serif; }
+    .backlink-bar a { color: light-dark(#70695c, #9a948a) !important; text-decoration: none; }
+    .backlink-bar a:hover { color: light-dark(#c22b2e, #6fa8d2) !important; }
+    @media (max-width: 900px) { .livery { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .livery { animation: none; } .theme-toggle svg { transition: none; } }
+    @media print { .livery, .theme-toggle, .backlink-bar { display: none; } }
+  </style>
 </head>
 <body>
+<div class="livery" aria-hidden="true"></div>
+<button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+    <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+  </svg>
+</button>
+<div class="backlink-bar" style="padding: 16px 24px 0;"><a href="./">&larr; CS 224R notes</a></div>
   <main>
     <a class="top-link" href="index.html">Back to study guide</a>
     <header>
@@ -421,5 +481,22 @@
       </details>
     </section>
   </main>
+<script>
+  document.querySelector(".theme-toggle").addEventListener("click", function () {
+    var root = document.documentElement;
+    var dark = root.dataset.theme
+      ? root.dataset.theme === "dark"
+      : matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = dark ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    var stripe = document.querySelector(".livery");
+    if (stripe) {
+      stripe.style.animation = "none";
+      void stripe.offsetHeight;
+      stripe.style.animation = "";
+    }
+  });
+</script>
 </body>
 </html>
