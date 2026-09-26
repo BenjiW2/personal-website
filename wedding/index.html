@@ -164,14 +164,13 @@
 
   /* ---- role cards ---- */
   .role { margin-bottom: 18px; scroll-margin-top: 16px; }
-  .role-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+  .role-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
   .role-emoji {
     font-size: 26px; width: 52px; height: 52px; flex-shrink: 0;
     display: grid; place-items: center; background: var(--paper-2); border-radius: 14px;
   }
   .role-title { flex: 1; min-width: 0; }
-  .blurb { color: var(--muted); font-size: 14px; margin-top: 2px; }
-  .role-meta { font-size: 13px; font-weight: 600; color: var(--muted); white-space: nowrap; padding-top: 4px; }
+  .role-meta { font-size: 13px; font-weight: 600; color: var(--muted); white-space: nowrap; }
 
   .role-body { display: grid; grid-template-columns: 1fr 1.25fr; gap: 26px; align-items: start; }
   @media (max-width: 760px) { .role-body { grid-template-columns: 1fr; gap: 20px; } }
@@ -314,21 +313,21 @@
   ];
 
   const ROLES = [
-    { id: 'couple',       emoji: '💍', name: 'Groom × Bride',       blurb: 'The happy couple. Rank your favourite pairings; any two people.', pair: true },
-    { id: 'officiant',    emoji: '📜', name: 'Officiant',           blurb: 'Legally binding in no jurisdiction.' },
-    { id: 'bestman',      emoji: '🤵', name: 'Best Man',            blurb: 'Holds the rings. Loses the rings.' },
-    { id: 'moh',          emoji: '👰', name: 'Maid of Honour',      blurb: 'Runs the show. Cries first.' },
-    { id: 'flowergirl',   emoji: '🌸', name: 'Flower Girl',         blurb: 'Petals, chaos, and the best walk of the day.' },
-    { id: 'ringbearer',   emoji: '💎', name: 'Ring Bearer',         blurb: 'One job. Do not drop it.' },
-    { id: 'fob',          emoji: '🥹', name: 'Father of the Bride', blurb: 'Walks the aisle. Gives the tearful toast.' },
-    { id: 'mog',          emoji: '💐', name: 'Mother of the Groom', blurb: 'Has strong opinions about the seating chart.' },
-    { id: 'dj',           emoji: '🎧', name: 'DJ',                  blurb: 'Owns the aux. Controls the vibe.' },
-    { id: 'photographer', emoji: '📸', name: 'Photographer',        blurb: 'Say cheese. Say Vegemite.' },
-    { id: 'bartender',    emoji: '🍸', name: 'Bartender',           blurb: 'Pours heavy. Judges silently.' },
-    { id: 'drunkuncle',   emoji: '🥂', name: 'Drunk Uncle',         blurb: 'Unsolicited speech at 11pm.' },
-    { id: 'stripper',     emoji: '💃', name: 'Stripper',            blurb: 'Jumps out of the cake.' },
-    { id: 'crasher',      emoji: '🕶️', name: 'Wedding Crasher',     blurb: 'Nobody invited them. Everybody loves them.' },
-    { id: 'ex',           emoji: '💔', name: 'The Ex Who Objects',  blurb: 'Stands up at “speak now or forever hold your peace”.' },
+    { id: 'couple',       emoji: '💍', name: 'Groom × Bride', pair: true },
+    { id: 'officiant',    emoji: '📜', name: 'Officiant' },
+    { id: 'bestman',      emoji: '🤵', name: 'Best Man' },
+    { id: 'moh',          emoji: '👰', name: 'Maid of Honour' },
+    { id: 'flowergirl',   emoji: '🌸', name: 'Flower Girl' },
+    { id: 'ringbearer',   emoji: '💎', name: 'Ring Bearer' },
+    { id: 'fob',          emoji: '🥹', name: 'Father of the Bride' },
+    { id: 'mog',          emoji: '💐', name: 'Mother of the Groom' },
+    { id: 'dj',           emoji: '🎧', name: 'DJ' },
+    { id: 'photographer', emoji: '📸', name: 'Photographer' },
+    { id: 'bartender',    emoji: '🍸', name: 'Bartender' },
+    { id: 'drunkuncle',   emoji: '🥂', name: 'Drunk Uncle' },
+    { id: 'stripper',     emoji: '💃', name: 'Stripper' },
+    { id: 'crasher',      emoji: '🕶️', name: 'Wedding Crasher' },
+    { id: 'ex',           emoji: '💔', name: 'The Ex Who Objects' },
   ];
   const ROLE_BY_ID = Object.fromEntries(ROLES.map(r => [r.id, r]));
 
@@ -689,7 +688,7 @@
     return `
       <header class="role-head">
         <div class="role-emoji" aria-hidden="true">${role.emoji}</div>
-        <div class="role-title"><h2>${esc(role.name)}</h2><p class="blurb">${esc(role.blurb)}</p></div>
+        <div class="role-title"><h2>${esc(role.name)}</h2></div>
         <div class="role-meta">${t.total} ${plural(t.total, 'ballot')}</div>
       </header>
       <div class="role-body">
