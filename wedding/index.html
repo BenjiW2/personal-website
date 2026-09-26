@@ -67,7 +67,6 @@
     line-height: 1; margin: 10px 0 12px; letter-spacing: -.5px;
   }
   .ornament { color: var(--gold); letter-spacing: 10px; font-size: 13px; margin-bottom: 12px; }
-  .lede { color: var(--ink-2); font-size: 16px; max-width: 560px; margin: 0 auto; }
   .statusbar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
 
   .pill {
@@ -261,7 +260,6 @@
     <p class="eyebrow">Stanford in Australia · 2026</p>
     <h1>The Cohort Wedding</h1>
     <div class="ornament">✦ ✦ ✦</div>
-    <p class="lede">You are cordially invited to vote. Ranked choice, live results, and absolutely no legal standing.</p>
     <div class="statusbar">
       <span id="dbStatus" class="pill pill-status">● Connecting…</span>
       <span id="votedPill" class="pill">…</span>
@@ -293,8 +291,7 @@
   <div id="roles"></div>
 
   <footer>
-    Counted by instant-runoff · results refresh every few seconds · <a href="https://benjiwarburton.com">benjiwarburton.com</a><br>
-    Forgot your PIN? Bribe Benji.
+    Counted by instant-runoff · results refresh every few seconds · <a href="https://benjiwarburton.com">benjiwarburton.com</a>
   </footer>
 </div>
 
@@ -329,6 +326,7 @@
     { id: 'photographer', emoji: '📸', name: 'Photographer',        blurb: 'Say cheese. Say Vegemite.' },
     { id: 'bartender',    emoji: '🍸', name: 'Bartender',           blurb: 'Pours heavy. Judges silently.' },
     { id: 'drunkuncle',   emoji: '🥂', name: 'Drunk Uncle',         blurb: 'Unsolicited speech at 11pm.' },
+    { id: 'stripper',     emoji: '💃', name: 'Stripper',            blurb: 'Jumps out of the cake.' },
     { id: 'crasher',      emoji: '🕶️', name: 'Wedding Crasher',     blurb: 'Nobody invited them. Everybody loves them.' },
     { id: 'ex',           emoji: '💔', name: 'The Ex Who Objects',  blurb: 'Stands up at “speak now or forever hold your peace”.' },
   ];
@@ -861,7 +859,7 @@
     const hash = await hashPin(key, pin);
     const acct = state.accounts[key];
     btn.disabled = false;
-    if (acct && acct.pin !== hash) return showMsg(`That isn't the PIN for ${nameOf(key)}. Forgot it? Bribe Benji.`, true);
+    if (acct && acct.pin !== hash) return showMsg(`That isn't the PIN for ${nameOf(key)}. Forgot it? Ask Benji to reset it.`, true);
     if (!acct) state.accounts[key] = { pin: hash, ts: Date.now() };
     session = { key, pin: hash };
     saveSession();
