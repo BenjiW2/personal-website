@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cohort Wedding — Stanford in Australia</title>
+<meta name="description" content="Ranked-choice voting for the Stanford in Australia cohort wedding. Claim your name, rank the roles, watch the results live.">
+<meta property="og:title" content="The Cohort Wedding">
+<meta property="og:description" content="Claim your name. Rank the roles. Results update live.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fbf7f0;
+    --paper-2: #f4ede2;
+    --paper-3: #ebe1d1;
+    --card: #fffdf9;
+    --ink: #2b2420;
+    --ink-2: #4e433d;
+    --muted: #857a70;
+    --line: #e6dccf;
+    --line-strong: #d3c6b3;
+    --rose: #c4636a;
+    --rose-deep: #a24950;
+    --rose-soft: #e8b7ba;
+    --rose-wash: rgba(196, 99, 106, .10);
+    --blue: #4a7fd0;
+    --sage: #6f8f74;
+    --gold: #b8923f;
+    --gold-wash: rgba(184, 146, 63, .13);
+    --ok: #3f8a5a;
+    --bad: #b23a3a;
+    --radius: 16px;
+    --shadow: 0 10px 40px rgba(60, 40, 20, .07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse 70% 40% at 50% -5%, rgba(196, 99, 106, .13), transparent 70%),
+      radial-gradient(ellipse 50% 30% at 100% 100%, rgba(111, 143, 116, .10), transparent 70%);
+    background-attachment: fixed;
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .page { max-width: 1120px; margin: 0 auto; padding: 36px 20px 80px; }
+
+  /* ---- header ---- */
+  .hero { text-align: center; padding: 20px 0 26px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--rose-deep);
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600; font-style: italic;
+    font-size: clamp(40px, 9vw, 86px);
+    line-height: 1; margin: 10px 0 12px; letter-spacing: -.5px;
+  }
+  .ornament { color: var(--gold); letter-spacing: 10px; font-size: 13px; margin-bottom: 12px; }
+  .lede { color: var(--ink-2); font-size: 16px; max-width: 560px; margin: 0 auto; }
+  .statusbar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    background: #fff; border: 1px solid var(--line);
+    font-size: 13px; font-weight: 600; color: var(--ink-2);
+  }
+  .pill-status { color: var(--muted); }
+  .pill-status.live { color: var(--ok); border-color: rgba(63, 138, 90, .35); }
+  .pill-status.saving { color: var(--gold); border-color: rgba(184, 146, 63, .4); }
+  .pill-status.offline { color: var(--bad); border-color: rgba(178, 58, 58, .35); }
+  .pill b { color: var(--ink); }
+
+  .link {
+    font: inherit; font-weight: 600; font-size: 13px;
+    background: none; border: none; color: var(--rose-deep);
+    cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 0;
+  }
+  .link:hover { color: var(--rose); }
+
+  /* ---- cards ---- */
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px;
+  }
+  .card h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600; font-size: 28px; line-height: 1.1;
+  }
+  .help { color: var(--ink-2); font-size: 14px; margin-top: 6px; }
+
+  /* ---- claim ---- */
+  .claim { max-width: 640px; margin: 0 auto 26px; }
+  .claim-form { display: grid; grid-template-columns: 1fr 110px auto; gap: 10px; margin-top: 16px; }
+  @media (max-width: 560px) {
+    .claim-form { grid-template-columns: 1fr 1fr; }
+    .claim-form select { grid-column: 1 / -1; }
+  }
+  select, input {
+    font: inherit; font-size: 15px; color: var(--ink);
+    background: #fff; border: 1px solid var(--line-strong); border-radius: 10px;
+    padding: 10px 12px; min-height: 44px; width: 100%;
+  }
+  select { appearance: none; -webkit-appearance: none; padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23857a70' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+  }
+  select:focus, input:focus { outline: 2px solid var(--rose-soft); outline-offset: 1px; border-color: var(--rose); }
+  input[inputmode=numeric] { text-align: center; letter-spacing: 4px; font-weight: 600; }
+
+  .btn {
+    font: inherit; font-weight: 600; font-size: 14px;
+    border: 1px solid var(--line-strong); background: #fff; color: var(--ink);
+    padding: 10px 16px; min-height: 44px; border-radius: 10px; cursor: pointer;
+    transition: background .15s, transform .08s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .btn-primary { background: var(--rose); border-color: var(--rose); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--rose-deep); }
+  .btn-small { padding: 8px 12px; min-height: 40px; font-size: 13px; }
+
+  .form-msg { font-size: 13px; color: var(--ink-2); margin-top: 10px; min-height: 18px; }
+  .form-msg.err { color: var(--bad); font-weight: 600; }
+
+  .explainer { max-width: 640px; margin: 0 auto 30px; padding: 0; background: none; border: none; box-shadow: none; }
+  .explainer details { color: var(--ink-2); font-size: 14px; }
+  .explainer summary { cursor: pointer; font-weight: 600; color: var(--rose-deep); text-align: center; list-style: none; }
+  .explainer summary::-webkit-details-marker { display: none; }
+  .explainer p { margin-top: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+
+  /* ---- overview tiles ---- */
+  .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 30px;
+    text-align: center; margin: 6px 0 16px;
+  }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 40px; }
+  .tile {
+    display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 12px; text-decoration: none; color: inherit;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .tile-emoji { font-size: 22px; line-height: 1; }
+  .tile-role { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .tile-leader {
+    font-weight: 600; font-size: 14px; line-height: 1.3; margin-top: 3px; min-height: 36px; flex: 1;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .tile.quiet .tile-leader { color: var(--muted); font-weight: 500; }
+  .tile-bar { height: 6px; border-radius: 0 4px 4px 0; background: var(--paper-3); margin-top: 8px; overflow: hidden; }
+  .tile-bar span { display: block; height: 100%; background: var(--rose); border-radius: 0 4px 4px 0; transition: width .5s ease; }
+  .tile-meta { font-size: 12px; color: var(--muted); margin-top: 6px; font-weight: 500; }
+
+  /* ---- role cards ---- */
+  .role { margin-bottom: 18px; scroll-margin-top: 16px; }
+  .role-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+  .role-emoji {
+    font-size: 26px; width: 52px; height: 52px; flex-shrink: 0;
+    display: grid; place-items: center; background: var(--paper-2); border-radius: 14px;
+  }
+  .role-title { flex: 1; min-width: 0; }
+  .blurb { color: var(--muted); font-size: 14px; margin-top: 2px; }
+  .role-meta { font-size: 13px; font-weight: 600; color: var(--muted); white-space: nowrap; padding-top: 4px; }
+
+  .role-body { display: grid; grid-template-columns: 1fr 1.25fr; gap: 26px; align-items: start; }
+  @media (max-width: 760px) { .role-body { grid-template-columns: 1fr; gap: 20px; } }
+
+  .role h3 {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--ink-2); margin-bottom: 10px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  }
+  .hint { font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--muted); font-size: 12px; }
+
+  /* ballot */
+  .locked, .empty { color: var(--muted); font-size: 14px; background: var(--paper-2); border-radius: 10px; padding: 14px; }
+  .rank-list { list-style: none; margin-bottom: 10px; }
+  .rank-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 8px 8px 10px; border-radius: 10px; background: var(--paper-2); margin-bottom: 6px;
+  }
+  .rank-item .pos {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    background: var(--rose); color: #fff; font-size: 12px; font-weight: 700;
+    display: grid; place-items: center;
+  }
+  .rank-item .nm { flex: 1; min-width: 0; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ctrls { display: flex; gap: 4px; flex-shrink: 0; }
+  .ctrls button {
+    width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line);
+    background: #fff; color: var(--ink-2); font-size: 15px; cursor: pointer; line-height: 1;
+  }
+  .ctrls button:hover:not(:disabled) { border-color: var(--rose); color: var(--rose-deep); }
+  .ctrls button:disabled { opacity: .3; cursor: default; }
+  .ctrls button.rm:hover { color: var(--bad); border-color: var(--bad); }
+  .rank-empty { color: var(--muted); font-size: 14px; padding: 10px 2px; }
+  .pair-picker { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; }
+  .pair-picker .x { color: var(--muted); font-weight: 600; }
+  .pair-picker .btn { grid-column: 1 / -1; }
+  .pair-msg { font-size: 13px; color: var(--bad); font-weight: 600; min-height: 18px; margin-top: 6px; }
+
+  /* standings */
+  .verdict { font-size: 14px; color: var(--ink-2); margin-bottom: 10px; line-height: 1.45; }
+  .verdict b { color: var(--ink); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .sw.first { background: var(--rose); }
+  .sw.xfer { background: var(--blue); }
+
+  .st-row { padding: 7px 10px 9px; border-radius: 10px; }
+  .st-row.lead { background: var(--gold-wash); }
+  .st-top { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto auto; gap: 8px; align-items: baseline; }
+  .st-pos { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .st-name { font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .st-name em { font-style: normal; color: var(--rose-deep); font-size: 12px; }
+  .st-note { font-size: 11px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+  .st-val { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .st-val small { font-weight: 500; color: var(--muted); font-size: 12px; margin-left: 5px; }
+
+  .bar {
+    display: flex; gap: 2px; height: 10px; margin-top: 6px;
+    background: var(--paper-3); border-radius: 0 4px 4px 0; overflow: hidden;
+  }
+  .seg { display: block; height: 100%; transition: width .5s ease; }
+  .seg.first { background: var(--rose); }
+  .seg.xfer { background: var(--blue); }
+  .seg:last-child { border-radius: 0 4px 4px 0; }
+
+  .more { display: block; margin: 8px 10px 0; }
+
+  .rounds { margin-top: 14px; font-size: 13px; }
+  .rounds summary { cursor: pointer; color: var(--rose-deep); font-weight: 600; }
+  .tbl-wrap { overflow-x: auto; margin-top: 8px; }
+  .rounds table { border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; min-width: 100%; }
+  .rounds th, .rounds td { padding: 5px 8px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .rounds th[scope=row], .rounds thead th:first-child { text-align: left; font-weight: 600; }
+  .rounds thead th { color: var(--muted); font-weight: 600; }
+  .rounds td.elim { color: var(--bad); font-weight: 600; }
+  .rounds td.out { color: var(--line-strong); }
+  .rounds tfoot th, .rounds tfoot td { color: var(--muted); border-bottom: none; }
+
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; line-height: 1.8; }
+  footer a { color: var(--rose-deep); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <p class="eyebrow">Stanford in Australia · 2026</p>
+    <h1>The Cohort Wedding</h1>
+    <div class="ornament">✦ ✦ ✦</div>
+    <p class="lede">You are cordially invited to vote. Ranked choice, live results, and absolutely no legal standing.</p>
+    <div class="statusbar">
+      <span id="dbStatus" class="pill pill-status">● Connecting…</span>
+      <span id="votedPill" class="pill">…</span>
+      <span id="mePill" class="pill" hidden></span>
+    </div>
+  </header>
+
+  <section class="card claim" id="claim">
+    <h2>Claim your name</h2>
+    <p class="help">Find yourself on the guest list and set a 4-digit PIN so nobody votes as you. Already claimed it? Enter your PIN to sign back in.</p>
+    <form id="claimForm" class="claim-form" autocomplete="off">
+      <select id="claimName" required aria-label="Your name"><option value="">Who are you?</option></select>
+      <input id="claimPin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="PIN" aria-label="4-digit PIN" required>
+      <button type="submit" class="btn btn-primary" id="claimBtn">Claim</button>
+    </form>
+    <p class="form-msg" id="claimMsg"></p>
+  </section>
+
+  <section class="card explainer">
+    <details>
+      <summary>How does ranked choice work?</summary>
+      <p>For each role, rank as many people as you like, favourite first. Everyone's first choice is counted. If nobody has more than half, the last-place candidate is knocked out and each of their ballots moves to its next choice. Repeat until someone has a majority. Your vote is never wasted: if your first pick is out, your second one counts. Everything saves automatically and every device sees the same results within a few seconds.</p>
+    </details>
+  </section>
+
+  <h2 class="section-title">At a glance</h2>
+  <div class="tiles" id="tiles"></div>
+
+  <div id="roles"></div>
+
+  <footer>
+    Counted by instant-runoff · results refresh every few seconds · <a href="https://benjiwarburton.com">benjiwarburton.com</a><br>
+    Forgot your PIN? Bribe Benji.
+  </footer>
+</div>
+
+<script>
+  // ==== PURE-BEGIN (no DOM below this line until PURE-END; node-testable) ====
+
+  // Guest list. Display names only; the key used for votes is derived from the
+  // name, so renaming someone here drops the votes cast for the old spelling.
+  const COHORT = [
+    'Abby Nakamoto', 'Alejandro Pulido', 'Audrey Knowles', 'Audrey Yan', 'Austin Shaw',
+    'Benjamin Vu', 'Benji Warburton', 'Blair Schooling', 'Brianna Snyder', 'Cole Spencer',
+    'Carmen Izuzkiza', 'Chloe Hei', 'Theo Frano', 'Connor Hoffman', 'Conrad Berke',
+    'Cooper Tenney', 'Daisy Li', 'Edith Chamberlain', 'Edward Katz', 'Eli Meyers',
+    'Eva Vina Alonso', 'Gianna Yan', 'Huy Anh Le', 'Jacob Kubin', 'Jai Agrawal',
+    'Jerry Yuan', 'Jonathan Tubb', 'Joshua Hangartner', 'Kyle Miller', 'Kylie Price',
+    'Leki Albright', 'Lila Temple', 'Lillen Montague-Alamin', 'Maanit Goel', 'Madeline Hodge',
+    'Margil Sanchez Carmona', 'Marianne Chong', 'Liv Nevin', 'Oscar Montgomery', 'Reid Hammer',
+    'Jack Flynn', 'Sanaya Robinson-Shah', 'Shawn Gregory', 'Sonnet Van Doren', 'Sophia Bonanno',
+    'Therese Kim', 'Thomas McComb', 'Vivien He',
+  ];
+
+  const ROLES = [
+    { id: 'couple',       emoji: '💍', name: 'Groom × Bride',       blurb: 'The happy couple. Rank your favourite pairings; any two people.', pair: true },
+    { id: 'officiant',    emoji: '📜', name: 'Officiant',           blurb: 'Legally binding in no jurisdiction.' },
+    { id: 'bestman',      emoji: '🤵', name: 'Best Man',            blurb: 'Holds the rings. Loses the rings.' },
+    { id: 'moh',          emoji: '👰', name: 'Maid of Honour',      blurb: 'Runs the show. Cries first.' },
+    { id: 'flowergirl',   emoji: '🌸', name: 'Flower Girl',         blurb: 'Petals, chaos, and the best walk of the day.' },
+    { id: 'ringbearer',   emoji: '💎', name: 'Ring Bearer',         blurb: 'One job. Do not drop it.' },
+    { id: 'fob',          emoji: '🥹', name: 'Father of the Bride', blurb: 'Walks the aisle. Gives the tearful toast.' },
+    { id: 'mog',          emoji: '💐', name: 'Mother of the Groom', blurb: 'Has strong opinions about the seating chart.' },
+    { id: 'dj',           emoji: '🎧', name: 'DJ',                  blurb: 'Owns the aux. Controls the vibe.' },
+    { id: 'photographer', emoji: '📸', name: 'Photographer',        blurb: 'Say cheese. Say Vegemite.' },
+    { id: 'bartender',    emoji: '🍸', name: 'Bartender',           blurb: 'Pours heavy. Judges silently.' },
+    { id: 'drunkuncle',   emoji: '🥂', name: 'Drunk Uncle',         blurb: 'Unsolicited speech at 11pm.' },
+    { id: 'crasher',      emoji: '🕶️', name: 'Wedding Crasher',     blurb: 'Nobody invited them. Everybody loves them.' },
+    { id: 'ex',           emoji: '💔', name: 'The Ex Who Objects',  blurb: 'Stands up at “speak now or forever hold your peace”.' },
+  ];
+  const ROLE_BY_ID = Object.fromEntries(ROLES.map(r => [r.id, r]));
+
+  function slug(s) {
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+  const PEOPLE = COHORT.map(n => ({ key: slug(n), name: n })).sort((a, b) => a.name.localeCompare(b.name));
+  const BY_KEY = Object.fromEntries(PEOPLE.map(p => [p.key, p]));
+
+  function nameOf(k) { return BY_KEY[k] ? BY_KEY[k].name : '???'; }
+  function pairKey(a, b) { return a < b ? a + '+' + b : b + '+' + a; }
+  function validCandidate(role, k) {
+    if (role.pair) {
+      const p = k.split('+');
+      return p.length === 2 && p[0] < p[1] && !!BY_KEY[p[0]] && !!BY_KEY[p[1]];
+    }
+    return !!BY_KEY[k];
+  }
+  function labelOf(role, k) {
+    if (role.pair) { const [a, b] = k.split('+'); return nameOf(a) + ' × ' + nameOf(b); }
+    return nameOf(k);
+  }
+  // Drop unknown / duplicate candidates from a ranking.
+  function cleanRanking(role, arr) {
+    const out = [], seen = new Set();
+    for (const k of arr || []) {
+      if (typeof k !== 'string' || seen.has(k) || !validCandidate(role, k)) continue;
+      seen.add(k); out.push(k);
+    }
+    return out;
+  }
+  function plural(n, one, many) { return n === 1 ? one : (many || one + 's'); }
+
+  // Canonical JSON (sorted keys) so "did anything change?" is order-independent.
+  function canon(v) {
+    if (Array.isArray(v)) return '[' + v.map(canon).join(',') + ']';
+    if (v && typeof v === 'object') return '{' + Object.keys(v).sort().map(k => JSON.stringify(k) + ':' + canon(v[k])).join(',') + '}';
+    return JSON.stringify(v);
+  }
+
+  // Shared state shape:
+  //   accounts: { personKey: { pin: <hash>, ts } }           first claim wins
+  //   ballots:  { personKey: { roleId: { r: [...], ts } } }   latest edit wins
+  function normalize(s) {
+    const out = { v: 1, accounts: {}, ballots: {} };
+    if (!s || typeof s !== 'object') return out;
+    if (s.accounts && typeof s.accounts === 'object') {
+      for (const [k, v] of Object.entries(s.accounts)) {
+        if (v && typeof v.pin === 'string' && typeof v.ts === 'number') out.accounts[k] = { pin: v.pin, ts: v.ts };
+      }
+    }
+    if (s.ballots && typeof s.ballots === 'object') {
+      for (const [u, roles] of Object.entries(s.ballots)) {
+        if (!roles || typeof roles !== 'object') continue;
+        const d = {};
+        for (const [rid, e] of Object.entries(roles)) {
+          if (e && Array.isArray(e.r) && typeof e.ts === 'number') d[rid] = { r: e.r.filter(x => typeof x === 'string'), ts: e.ts };
+        }
+        if (Object.keys(d).length) out.ballots[u] = d;
+      }
+    }
+    return out;
+  }
+
+  function merge(a, b) {
+    const accounts = { ...a.accounts };
+    for (const [k, v] of Object.entries(b.accounts)) {
+      const cur = accounts[k];
+      if (!cur || v.ts < cur.ts || (v.ts === cur.ts && v.pin < cur.pin)) accounts[k] = v;
+    }
+    const ballots = {};
+    for (const src of [a.ballots, b.ballots]) {
+      for (const [u, roles] of Object.entries(src)) {
+        const dst = ballots[u] || (ballots[u] = {});
+        for (const [rid, e] of Object.entries(roles)) {
+          const cur = dst[rid];
+          if (!cur || e.ts > cur.ts || (e.ts === cur.ts && canon(e) > canon(cur))) dst[rid] = e;
+        }
+      }
+    }
+    return { v: 1, accounts, ballots };
+  }
+
+  // Instant-runoff. `ballots` is an array of rankings (arrays of candidate keys).
+  // Returns finishing order plus round-by-round tallies.
+  function runIRV(ballots) {
+    const first = {}, cands = new Set();
+    for (const b of ballots) {
+      b.forEach(c => cands.add(c));
+      if (b[0]) first[b[0]] = (first[b[0]] || 0) + 1;
+    }
+    const active = new Set(cands);
+    const rounds = [], elimOrder = [];
+    let winner = null, majority = false;
+    const byStrength = (x, y) => (first[y] || 0) - (first[x] || 0) || x.localeCompare(y);
+
+    while (active.size) {
+      const tally = {};
+      for (const c of active) tally[c] = 0;
+      let live = 0;
+      for (const b of ballots) {
+        const c = b.find(x => active.has(x));
+        if (c !== undefined) { tally[c]++; live++; }
+      }
+      const round = { tally, live, eliminated: null };
+      rounds.push(round);
+
+      const ranked = [...active].sort((x, y) => tally[y] - tally[x] || byStrength(x, y));
+      const top = ranked[0];
+      if (active.size === 1 || tally[top] * 2 > live) { winner = top; majority = tally[top] * 2 > live; break; }
+
+      const low = tally[ranked[ranked.length - 1]];
+      const tied = ranked.filter(c => tally[c] === low);
+      if (tied.length === active.size) { winner = top; break; } // everyone level: no majority possible
+
+      // Eliminate one: weakest in earlier rounds, then fewest first choices, then name.
+      const loser = tied.sort((x, y) => {
+        for (let i = rounds.length - 2; i >= 0; i--) {
+          const d = (rounds[i].tally[x] ?? -1) - (rounds[i].tally[y] ?? -1);
+          if (d) return d;
+        }
+        return -byStrength(x, y);
+      })[0];
+      round.eliminated = loser;
+      elimOrder.push(loser);
+      active.delete(loser);
+    }
+
+    const last = rounds[rounds.length - 1] || { tally: {}, live: 0 };
+    const survivors = [...active].sort((x, y) => (last.tally[y] || 0) - (last.tally[x] || 0) || byStrength(x, y));
+    const order = [...survivors, ...elimOrder.slice().reverse()];
+    const results = order.map(c => {
+      const ri = rounds.findIndex(r => r.eliminated === c);
+      const r = ri >= 0 ? rounds[ri] : last;
+      return { key: c, votes: r.tally[c] || 0, first: first[c] || 0, outRound: ri >= 0 ? ri + 1 : null };
+    });
+    return { winner, majority, rounds, results, total: ballots.length, finalLive: last.live };
+  }
+  // ==== PURE-END ====
+
+  // ---- shared database (textdb.online), same approach as /250 ----
+  const DB_KEY = 'bw-wedding-f55d63f1c4a1f34c';
+  const DB_GET = 'https://textdb.online/' + DB_KEY;
+  const DB_SET = 'https://textdb.online/update';
+  const CACHE_KEY = 'wedding-state-v1';
+  const SESSION_KEY = 'wedding-session-v1';
+  const SALT = 'stanford-au-wedding-2026';
+
+  const $ = s => document.querySelector(s);
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  }
+
+  let state = loadCache();
+  let session = loadSession();
+  const expanded = new Set();   // roles showing the full standings list
+  const openRounds = new Set(); // roles with the round-by-round table open
+
+  function loadCache() {
+    try { return normalize(JSON.parse(localStorage.getItem(CACHE_KEY))); } catch (e) { return normalize(null); }
+  }
+  function save() { localStorage.setItem(CACHE_KEY, JSON.stringify(state)); }
+  function loadSession() {
+    try {
+      const s = JSON.parse(localStorage.getItem(SESSION_KEY));
+      return s && typeof s.key === 'string' && typeof s.pin === 'string' ? s : null;
+    } catch (e) { return null; }
+  }
+  function saveSession() {
+    if (session) localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    else localStorage.removeItem(SESSION_KEY);
+  }
+
+  async function hashPin(key, pin) {
+    const msg = SALT + '|' + key + '|' + pin;
+    if (crypto.subtle) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    let h = 5381;
+    for (const ch of msg) h = ((h * 33) ^ ch.charCodeAt(0)) >>> 0;
+    return 'x' + h.toString(16);
+  }
+
+  // ---- sync: read → merge → write back if we know something the server doesn't ----
+  let inflight = null, pending = false, dirty = false;
+
+  function sync() {
+    if (inflight) { pending = true; return inflight; }
+    inflight = doSync().finally(() => {
+      inflight = null;
+      if (pending) { pending = false; sync(); }
+    });
+    return inflight;
+  }
+
+  async function doSync() {
+    if (dirty) setStatus('saving');
+    try {
+      const res = await fetch(DB_GET, { cache: 'no-store' });
+      if (!res.ok) throw new Error('read failed');
+      const text = (await res.text()).trim();
+      const remote = normalize(text ? JSON.parse(text) : null);
+      const merged = merge(remote, state);
+      const mergedC = canon(merged);
+      if (mergedC !== canon(state)) { state = merged; save(); render(); }
+      if (mergedC !== canon(remote)) {
+        const w = await fetch(DB_SET, {
+          method: 'POST',
+          body: new URLSearchParams({ key: DB_KEY, value: JSON.stringify(state) }),
+        });
+        if (!w.ok) throw new Error('write failed');
+      }
+      dirty = false;
+      setStatus('live');
+    } catch (e) {
+      setStatus('offline');
+    }
+  }
+
+  function setStatus(s) {
+    const el = $('#dbStatus');
+    el.className = 'pill pill-status ' + s;
+    el.textContent = s === 'live' ? '● Live' : s === 'saving' ? '● Saving…' : '● Offline — retrying';
+  }
+
+  function changed() { save(); dirty = true; render(); sync(); }
+
+  // ---- ballots ----
+  function myRanking(role) {
+    if (!session) return [];
+    const b = state.ballots[session.key];
+    return cleanRanking(role, b && b[role.id] && b[role.id].r);
+  }
+  function setRanking(role, r) {
+    const me = session.key;
+    if (!state.accounts[me]) state.accounts[me] = { pin: session.pin, ts: Date.now() };
+    (state.ballots[me] || (state.ballots[me] = {}))[role.id] = { r, ts: Date.now() };
+    changed();
+  }
+
+  function tallyAll() {
+    const T = { voters: new Set() };
+    for (const role of ROLES) {
+      const ballots = [];
+      for (const [u, roles] of Object.entries(state.ballots)) {
+        if (!BY_KEY[u]) continue;
+        const e = roles[role.id];
+        if (!e) continue;
+        const r = cleanRanking(role, e.r);
+        if (r.length) { ballots.push(r); T.voters.add(u); }
+      }
+      T[role.id] = { total: ballots.length, irv: ballots.length ? runIRV(ballots) : null };
+    }
+    return T;
+  }
+
+  // ---- render ----
+  let renderPending = false;
+
+  function render() {
+    // Don't yank the DOM out from under an open dropdown; finish when it blurs.
+    const ae = document.activeElement;
+    if (ae && ae.tagName === 'SELECT' && ae.closest('#roles, #claim')) { renderPending = true; return; }
+    renderPending = false;
+    checkSession();
+    const T = tallyAll();
+    renderStatus(T);
+    renderClaim();
+    renderOverview(T);
+    renderRoles(T);
+  }
+  document.addEventListener('focusout', () => { if (renderPending) setTimeout(render, 60); });
+
+  function checkSession() {
+    if (!session) return;
+    if (!BY_KEY[session.key]) { session = null; saveSession(); return; }
+    const acct = state.accounts[session.key];
+    if (acct && acct.pin !== session.pin) {
+      const who = nameOf(session.key);
+      session = null; saveSession();
+      showMsg(`Someone else claimed ${who} first. Pick again, or enter their PIN if that's really you.`, true);
+    }
+  }
+
+  function renderStatus(T) {
+    const n = T.voters.size;
+    $('#votedPill').innerHTML = `<b>${n}</b> of ${PEOPLE.length} have voted`;
+  }
+
+  function renderClaim() {
+    const card = $('#claim'), me = $('#mePill');
+    if (session) {
+      card.hidden = true; me.hidden = false;
+      me.innerHTML = `Voting as <b>${esc(nameOf(session.key))}</b> · <button type="button" class="link" data-act="signout">switch</button>`;
+      return;
+    }
+    card.hidden = false; me.hidden = true;
+    const sel = $('#claimName');
+    const sig = Object.keys(state.accounts).sort().join(',');
+    if (sel.dataset.sig !== sig) {
+      const v = sel.value;
+      sel.innerHTML = '<option value="">Who are you?</option>' + PEOPLE.map(p =>
+        `<option value="${p.key}">${esc(p.name)}${state.accounts[p.key] ? ' · claimed' : ''}</option>`).join('');
+      sel.value = v;
+      sel.dataset.sig = sig;
+    }
+    updatePinHint();
+  }
+
+  function updatePinHint() {
+    const key = $('#claimName').value;
+    const claimed = !!(key && state.accounts[key]);
+    $('#claimPin').placeholder = claimed ? 'your PIN' : 'new PIN';
+    $('#claimBtn').textContent = claimed ? 'Sign in' : 'Claim';
+  }
+
+  function showMsg(text, err) {
+    const el = $('#claimMsg');
+    el.textContent = text;
+    el.className = 'form-msg' + (err ? ' err' : '');
+  }
+
+  function renderOverview(T) {
+    $('#tiles').innerHTML = ROLES.map(role => {
+      const t = T[role.id];
+      const lead = t.total ? t.irv.results[0] : null;
+      const pct = lead ? Math.round(lead.votes / t.total * 100) : 0;
+      return `<a class="tile${lead ? '' : ' quiet'}" href="#role-${role.id}">
+        <div class="tile-emoji" aria-hidden="true">${role.emoji}</div>
+        <div class="tile-role">${esc(role.name)}</div>
+        <div class="tile-leader">${lead ? esc(labelOf(role, lead.key)) : 'No votes yet'}</div>
+        <div class="tile-bar"><span style="width:${pct}%"></span></div>
+        <div class="tile-meta">${lead ? pct + '% · ' : ''}${t.total} ${plural(t.total, 'ballot')}</div>
+      </a>`;
+    }).join('');
+  }
+
+  function renderRoles(T) {
+    const host = $('#roles');
+    for (const role of ROLES) {
+      let card = document.getElementById('role-' + role.id);
+      if (!card) {
+        card = document.createElement('article');
+        card.className = 'card role';
+        card.id = 'role-' + role.id;
+        host.appendChild(card);
+      }
+      card.innerHTML = roleHTML(role, T[role.id]);
+    }
+    host.querySelectorAll('details.rounds').forEach(d => d.addEventListener('toggle', () => {
+      if (d.open) openRounds.add(d.dataset.role); else openRounds.delete(d.dataset.role);
+    }));
+  }
+
+  function roleHTML(role, t) {
+    return `
+      <header class="role-head">
+        <div class="role-emoji" aria-hidden="true">${role.emoji}</div>
+        <div class="role-title"><h2>${esc(role.name)}</h2><p class="blurb">${esc(role.blurb)}</p></div>
+        <div class="role-meta">${t.total} ${plural(t.total, 'ballot')}</div>
+      </header>
+      <div class="role-body">
+        <section class="ballot">${ballotHTML(role)}</section>
+        <section class="standings">${standingsHTML(role, t)}</section>
+      </div>`;
+  }
+
+  function ballotHTML(role) {
+    if (!session) {
+      return `<h3>Your ranking</h3><p class="locked">Claim your name at the top of the page to rank ${role.pair ? 'couples' : 'people'} for this role.</p>`;
+    }
+    const r = myRanking(role);
+    const items = r.length ? r.map((k, i) => `
+      <li class="rank-item">
+        <span class="pos">${i + 1}</span>
+        <span class="nm">${esc(labelOf(role, k))}</span>
+        <span class="ctrls">
+          <button type="button" data-act="up" data-role="${role.id}" data-idx="${i}" aria-label="Move up" ${i === 0 ? 'disabled' : ''}>↑</button>
+          <button type="button" data-act="down" data-role="${role.id}" data-idx="${i}" aria-label="Move down" ${i === r.length - 1 ? 'disabled' : ''}>↓</button>
+          <button type="button" class="rm" data-act="rm" data-role="${role.id}" data-idx="${i}" aria-label="Remove">✕</button>
+        </span>
+      </li>`).join('')
+      : `<li class="rank-empty">Nobody ranked yet. Add your first choice below.</li>`;
+
+    const options = (exclude) => PEOPLE.filter(p => !exclude.has(p.key))
+      .map(p => `<option value="${p.key}">${esc(p.name)}</option>`).join('');
+
+    const picker = role.pair
+      ? `<div class="pair-picker">
+           <select class="pair-a" aria-label="First person"><option value="">Pick one…</option>${options(new Set())}</select>
+           <span class="x">×</span>
+           <select class="pair-b" aria-label="Second person"><option value="">…and one</option>${options(new Set())}</select>
+           <button type="button" class="btn btn-small" data-act="addpair" data-role="${role.id}">＋ Add this couple</button>
+         </div>
+         <p class="pair-msg"></p>`
+      : `<select class="picker" data-role="${role.id}" aria-label="Add a choice">
+           <option value="">＋ Add a choice…</option>${options(new Set(r))}
+         </select>`;
+
+    return `<h3>Your ranking <span class="hint">auto-saves · rank as many as you like</span></h3>
+      <ol class="rank-list">${items}</ol>${picker}`;
+  }
+
+  function standingsHTML(role, t) {
+    if (!t.total) {
+      return `<h3>Live standings <span class="hint">instant-runoff</span></h3>
+        <p class="empty">No votes yet. Be the first; it's ranked choice, so there's no wasted vote.</p>`;
+    }
+    const irv = t.irv, all = irv.results;
+    const showAll = expanded.has(role.id);
+    const rows = showAll ? all : all.slice(0, 8);
+    const me = session && session.key;
+
+    const rowsHTML = rows.map((c, i) => {
+      const pct = Math.round(c.votes / t.total * 100);
+      const xfer = c.votes - c.first;
+      const label = labelOf(role, c.key);
+      const isMe = me && (role.pair ? c.key.split('+').includes(me) : c.key === me);
+      const lead = i === 0;
+      const note = c.outRound ? `out in R${c.outRound}` : lead ? (irv.majority ? 'majority' : 'leading') : '';
+      const tip = `${label} · ${c.votes} ${plural(c.votes, 'vote')} (${pct}% of ${t.total} ballots) · ${c.first} first-choice + ${xfer} transferred`;
+      return `<div class="st-row${lead ? ' lead' : ''}" title="${esc(tip)}">
+          <div class="st-top">
+            <span class="st-pos">${i + 1}</span>
+            <span class="st-name">${lead ? '👑 ' : ''}${esc(label)}${isMe ? ' <em>(you)</em>' : ''}</span>
+            <span class="st-note">${note}</span>
+            <span class="st-val">${c.votes}<small>${pct}%</small></span>
+          </div>
+          <div class="bar">${c.first ? `<span class="seg first" style="width:${c.first / t.total * 100}%"></span>` : ''}${xfer ? `<span class="seg xfer" style="width:${xfer / t.total * 100}%"></span>` : ''}</div>
+        </div>`;
+    }).join('');
+
+    let more = '';
+    if (all.length > rows.length) more = `<button type="button" class="link more" data-act="more" data-role="${role.id}">Show all ${all.length}</button>`;
+    else if (showAll && all.length > 8) more = `<button type="button" class="link more" data-act="less" data-role="${role.id}">Show fewer</button>`;
+
+    return `<h3>Live standings <span class="hint">instant-runoff</span></h3>
+      <p class="verdict">${verdictHTML(role, irv)}</p>
+      <div class="legend"><span><i class="sw first"></i>first choices</span><span><i class="sw xfer"></i>transferred from eliminated picks</span></div>
+      <div class="st-rows">${rowsHTML}</div>${more}
+      ${roundsHTML(role, irv)}`;
+  }
+
+  function verdictHTML(role, irv) {
+    const w = irv.results[0];
+    const name = `<b>${esc(labelOf(role, w.key))}</b>`;
+    const n = irv.rounds.length, last = irv.rounds[n - 1];
+    if (irv.results.length === 1) return `${name} is unopposed with ${w.votes} ${plural(w.votes, 'vote')}.`;
+    if (!irv.majority) return `Dead heat at the top. ${name} holds first on tiebreak with ${w.votes} of ${last.live} active ballots after ${n} ${plural(n, 'round')}.`;
+    if (n === 1) return `${name} leads with a first-choice majority: ${w.votes} of ${last.live} ballots.`;
+    return `${name} leads after ${n} rounds with ${w.votes} of ${last.live} active ballots, once ${n - 1} ${plural(n - 1, 'pick was', 'picks were')} eliminated.`;
+  }
+
+  function roundsHTML(role, irv) {
+    if (irv.rounds.length < 2) return '';
+    const open = openRounds.has(role.id);
+    const head = irv.rounds.map((_, i) => `<th>R${i + 1}</th>`).join('');
+    const body = irv.results.map(c => `<tr><th scope="row">${esc(labelOf(role, c.key))}</th>${irv.rounds.map(r => {
+      const v = r.tally[c.key];
+      if (v === undefined) return '<td class="out">–</td>';
+      return `<td${r.eliminated === c.key ? ' class="elim"' : ''}>${v}</td>`;
+    }).join('')}</tr>`).join('');
+    const foot = `<tr><th scope="row">Active ballots</th>${irv.rounds.map(r => `<td>${r.live}</td>`).join('')}</tr>`;
+    return `<details class="rounds" data-role="${role.id}"${open ? ' open' : ''}>
+      <summary>Round by round</summary>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Candidate</th>${head}</tr></thead>
+        <tbody>${body}</tbody>
+        <tfoot>${foot}</tfoot>
+      </table></div>
+    </details>`;
+  }
+
+  // ---- interactions ----
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    const act = btn.dataset.act, rid = btn.dataset.role, role = ROLE_BY_ID[rid];
+    if (act === 'signout') { session = null; saveSession(); showMsg(''); render(); return; }
+    if (act === 'more') { expanded.add(rid); render(); return; }
+    if (act === 'less') { expanded.delete(rid); render(); return; }
+    if (!session || !role) return;
+
+    const r = myRanking(role).slice();
+    const i = Number(btn.dataset.idx);
+    if (act === 'up' && i > 0) { [r[i - 1], r[i]] = [r[i], r[i - 1]]; setRanking(role, r); }
+    else if (act === 'down' && i < r.length - 1) { [r[i + 1], r[i]] = [r[i], r[i + 1]]; setRanking(role, r); }
+    else if (act === 'rm' && i >= 0 && i < r.length) { r.splice(i, 1); setRanking(role, r); }
+    else if (act === 'addpair') {
+      const card = btn.closest('.role');
+      const a = card.querySelector('.pair-a').value, b = card.querySelector('.pair-b').value;
+      const msg = card.querySelector('.pair-msg');
+      if (!a || !b) { msg.textContent = 'Pick two people first.'; return; }
+      if (a === b) { msg.textContent = 'Two different people, please. Even here.'; return; }
+      const k = pairKey(a, b);
+      if (r.includes(k)) { msg.textContent = 'That couple is already on your list.'; return; }
+      r.push(k);
+      setRanking(role, r);
+    }
+  });
+
+  document.addEventListener('change', e => {
+    const sel = e.target;
+    if (sel.matches('.picker')) {
+      if (!session) return;
+      const role = ROLE_BY_ID[sel.dataset.role], k = sel.value;
+      if (!k) return;
+      sel.blur();
+      const r = myRanking(role).slice();
+      if (!r.includes(k)) { r.push(k); setRanking(role, r); } else render();
+    } else if (sel.id === 'claimName') {
+      updatePinHint();
+      showMsg('');
+    }
+  });
+
+  $('#claimForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const key = $('#claimName').value, pin = $('#claimPin').value.trim();
+    if (!key) return showMsg('Pick your name from the list first.', true);
+    if (!/^\d{4}$/.test(pin)) return showMsg('Your PIN needs to be exactly 4 digits.', true);
+    const btn = $('#claimBtn');
+    btn.disabled = true;
+    showMsg('Checking the guest list…');
+    await sync(); // has someone claimed this name since the page loaded?
+    const hash = await hashPin(key, pin);
+    const acct = state.accounts[key];
+    btn.disabled = false;
+    if (acct && acct.pin !== hash) return showMsg(`That isn't the PIN for ${nameOf(key)}. Forgot it? Bribe Benji.`, true);
+    if (!acct) state.accounts[key] = { pin: hash, ts: Date.now() };
+    session = { key, pin: hash };
+    saveSession();
+    $('#claimPin').value = '';
+    showMsg('');
+    if (!acct) changed(); else render();
+  });
+
+  // ---- go ----
+  setInterval(sync, 3000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) sync(); });
+  render();
+  sync();
+</script>
+</body>
+</html>
