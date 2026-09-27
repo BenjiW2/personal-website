@@ -463,6 +463,231 @@ img.mark-yc {
   margin-top: 16px;
 }
 
+/* ---------- study guides ---------- */
+
+.guide-toc {
+  margin-top: 36px;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.guide-toc summary {
+  padding: 12px 0;
+  color: var(--blue-text);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+}
+
+.guide-toc nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 20px;
+  padding: 0 0 18px;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+}
+
+.guide-toc a {
+  overflow-wrap: anywhere;
+}
+
+.guide-section {
+  scroll-margin-top: 24px;
+}
+
+.guide-title {
+  margin-top: 12px;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.guide-section p,
+.guide-section ol,
+.guide-section ul {
+  margin-top: 14px;
+}
+
+.guide-section ol,
+.guide-section ul {
+  padding-left: 24px;
+}
+
+.guide-section li + li {
+  margin-top: 8px;
+}
+
+.guide-section .lede {
+  margin-top: 20px;
+  font-size: 1.12rem;
+}
+
+.guide-section h3:not(.guide-title) {
+  margin-top: 28px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.guide-section h4 {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.guide-section .grid2,
+.guide-section .grid3 {
+  display: grid;
+  gap: 0;
+  margin-top: 24px;
+}
+
+.guide-section .concept,
+.guide-section .answer-pattern,
+.guide-section .event {
+  padding: 16px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.guide-section .concept h3,
+.guide-section .answer-pattern h3 {
+  margin-top: 0;
+}
+
+.guide-section .concept p,
+.guide-section .answer-pattern p,
+.guide-section .event p {
+  margin-top: 6px;
+}
+
+.guide-section .strip,
+.guide-section .bridge,
+.guide-section .callout {
+  margin-top: 28px;
+  padding: 16px 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.guide-section .strip h3,
+.guide-section .bridge h3 {
+  margin-top: 0;
+}
+
+.guide-section .timeline {
+  margin-top: 22px;
+}
+
+.guide-section .event strong {
+  color: var(--blue-text);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+}
+
+.guide-section .source,
+.guide-section .legend,
+.guide-section .small {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-style: italic;
+}
+
+.guide-section .check {
+  margin-top: 22px;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.guide-section .check summary {
+  padding: 12px 0;
+  color: var(--blue-text);
+  cursor: pointer;
+}
+
+.guide-section .check .answer {
+  padding-bottom: 16px;
+}
+
+.guide-section .quiz {
+  margin-top: 32px;
+}
+
+.guide-section .quiz .options {
+  display: grid;
+  margin-top: 12px;
+}
+
+.guide-section .quiz label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--hairline);
+  cursor: pointer;
+}
+
+.guide-section .quiz input {
+  accent-color: var(--blue-text);
+}
+
+.guide-section .quiz button,
+.guide-section .tools button {
+  margin-top: 12px;
+  padding: 7px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+}
+
+.guide-section .quiz button:hover,
+.guide-section .tools button:hover {
+  border-color: var(--hover);
+  color: var(--hover);
+}
+
+.guide-section .feedback[data-result="correct"] {
+  color: var(--blue-text);
+}
+
+.guide-section .feedback[data-result="incorrect"] {
+  color: var(--accent);
+}
+
+.guide-section .tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.guide-section .source-list {
+  columns: 1;
+}
+
+@media (max-width: 520px) {
+  .guide-toc nav {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .guide-toc,
+  .theme-toggle,
+  .guide-section .tools,
+  .guide-section .quiz button {
+    display: none;
+  }
+
+  .guide-section {
+    margin-top: 28px;
+  }
+}
+
 /* ---------- 404 ---------- */
 
 .simple-state .label {
