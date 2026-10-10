@@ -1,6 +1,6 @@
 const form = document.getElementById('quiz-form');
 const score = document.getElementById('quiz-score');
-const dataReady = fetch('quiz-data.json').then(response => {
+const dataReady = fetch('quiz-data.json?v=20261011b').then(response => {
   if (!response.ok) throw new Error('Quiz answers unavailable');
   return response.json();
 });
