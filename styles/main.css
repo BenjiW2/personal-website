@@ -7,6 +7,8 @@
   --accent: #c22b2e;
   --azure: #6fa8d2;
   --navy: #22346a;
+  --cone-orange: #e77624;
+  --cone-white: #ffffff;
   --blue-text: light-dark(#22346a, #6fa8d2);
   --hover: light-dark(#c22b2e, #6fa8d2);
   --blue-line: light-dark(rgba(34, 52, 106, 0.38), rgba(111, 168, 210, 0.45));
@@ -704,6 +706,114 @@ img.mark-yc {
   .guide-section {
     margin-top: 28px;
   }
+}
+
+/* ---------- unfinished write-ups ---------- */
+
+.construction-notice {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  margin: 0 0 28px;
+  border-block: 1px solid var(--hairline);
+}
+
+.construction-notice > div {
+  min-width: 0;
+}
+
+.construction-notice p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.construction-notice .construction-title {
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-size: 1.12rem;
+  font-weight: 500;
+}
+
+.construction-cone {
+  position: relative;
+  display: block;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 42px;
+  transform-origin: 50% 100%;
+  animation: cone-settle 3.6s ease-in-out infinite;
+}
+
+.construction-cone::before {
+  content: "";
+  position: absolute;
+  inset: 0 5px 6px;
+  background: linear-gradient(
+    to bottom,
+    var(--cone-orange) 0 34%,
+    var(--cone-white) 34% 48%,
+    var(--cone-orange) 48% 65%,
+    var(--cone-white) 65% 79%,
+    var(--cone-orange) 79% 100%
+  );
+  clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+  border-radius: 2px;
+}
+
+.construction-cone::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 6px;
+  background: var(--cone-orange);
+  border-radius: 2px;
+}
+
+@keyframes cone-settle {
+  0%, 72%, 100% { transform: rotate(0); }
+  78% { transform: rotate(-8deg); }
+  84% { transform: rotate(6deg); }
+  90% { transform: rotate(-3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .construction-cone { animation: none; }
+}
+
+/* ---------- revision emphasis ---------- */
+
+.exam-focus {
+  margin: 18px 0 24px;
+  padding: 12px 0 12px 16px;
+  border-left: 3px solid var(--blue-text);
+}
+
+.exam-focus p {
+  margin: 0;
+}
+
+.exam-focus .exam-focus-label {
+  margin-bottom: 8px;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--blue-text);
+}
+
+.guide-section h3.revision-priority {
+  text-decoration: underline;
+  text-decoration-color: var(--blue-line);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+.revision-map p {
+  margin: 14px 0;
 }
 
 /* ---------- 404 ---------- */
