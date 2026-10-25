@@ -539,6 +539,15 @@ img.mark-yc {
   font-weight: 500;
 }
 
+.guide-section pre {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 24px 0;
+  padding: 12px 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
 .guide-section .grid2,
 .guide-section .grid3 {
   display: grid;
