@@ -25,7 +25,7 @@
     href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="../../styles/main.css?v=20261025b" />
+  <link rel="stylesheet" href="../../styles/main.css?v=20261025e" />
 </head>
 <body>
   <div class="livery" aria-hidden="true"></div>
@@ -41,542 +41,439 @@
       <a class="backlink" href="../../">&larr; Benji Warburton</a>
     </nav>
 
-<header class="project-head"><h1>The Old Bear</h1><p class="tagline">ME210 / Team 14 / Winter 2026</p></header><details class="guide-toc" open><summary>Project report</summary><nav aria-label="Project sections"><a href="#hero">Overview</a><a href="#summary">Project Summary</a><a href="#team">The Team</a><a href="#design">Hardware Design</a><a href="#calculations">Calculations</a><a href="#strategy">Scoring Strategy</a><a href="#software">Tournament Code</a><a href="#code">Source Code</a><a href="#outcomes">Outcomes</a><a href="#lessons">Lessons Learned</a></nav></details>
-        <section id="hero" class="section guide-section">
-          <div>
-            <p class="label">Final Project Review</p>
-            <h3 class="guide-title">Overview</h3>
-            <p>Team 14 · ME 210 · Winter 2026</p>
-            <p>
+<header class="project-head"><h1>The Old Bear</h1><p class="tagline">ME210 / Team 14 / Winter 2026</p></header><section id="hero" class="project-intro guide-section"><div class="prose">
+<div>
+
+
+
+<p>
               The Old Bear uses a four-wheel mecanum drivetrain, a rack-and-pinion pusher, and a turntable that
               stores three pucks and drops them in front of the pusher. The system was built around controlled and
               predictable puck delivery rather than a shooting-based approach.
             </p>
-          </div>
-
-          <figure class="figure">
-            <img src="media/robot.jpg" alt="The Old Bear robot photographed on the competition surface." loading="lazy">
-            <figcaption>
+</div>
+<figure class="figure">
+<img src="media/robot.jpg" alt="The Old Bear robot photographed on the competition surface." loading="lazy">
+<figcaption>
               The Old Bear in tournament-ready configuration, showing the mecanum platform and front-mounted
               delivery hardware.
             </figcaption>
-          </figure>
+</figure>
+<div class="project-facts">
 
-          <div aria-label="Project summary cards">
-            <article>
-              <span>Project</span>
-              <h3>The Old Bear</h3>
-              <p>Team 14's final project robot for ME 210.</p>
-            </article>
-            <article>
-              <span>Drivetrain</span>
-              <h3>Four Mecanum Wheels</h3>
-              <p>Once aligned in the correct direction, the robot can move freely without rotational movements.</p>
-            </article>
-            <article>
-              <span>Pusher</span>
-              <h3>Rack and Pinion</h3>
-              <p>The pusher takes advantage of the 7-inch extension rule and pushes the puck out in a controlled way.</p>
-            </article>
-            <article>
-              <span>Storage</span>
-              <h3>Three-Puck Turntable</h3>
-              <p>The turntable stores three pucks and drops each puck into position in front of the pusher.</p>
-            </article>
-          </div>
-        </section>
+<article class="project-fact">
+<p class="label">Drivetrain</p>
+<h3>Four Mecanum Wheels</h3>
+<p>Once aligned in the correct direction, the robot can move freely without rotational movements.</p>
+</article>
+<article class="project-fact">
+<p class="label">Pusher</p>
+<h3>Rack and Pinion</h3>
+<p>The pusher takes advantage of the 7-inch extension rule and pushes the puck out in a controlled way.</p>
+</article>
+<article class="project-fact">
+<p class="label">Storage</p>
+<h3>Three-Puck Turntable</h3>
+<p>The turntable stores three pucks and drops each puck into position in front of the pusher.</p>
+</article>
+</div>
+</div></section><details class="guide-toc"><summary>Project report</summary><nav aria-label="Project sections"><a href="#hero">Overview</a><a href="#summary">Project Summary</a><a href="#team">The Team</a><a href="#design">Hardware Design</a><a href="#calculations">Calculations</a><a href="#strategy">Scoring Strategy</a><a href="#software">Tournament Code</a><a href="#code">Source Code</a><a href="#outcomes">Outcomes</a><a href="#lessons">Lessons Learned</a></nav></details>
 
-        <section id="summary" class="section guide-section">
-          <div>
-            <p class="label">Section 1</p>
-            <h3 class="guide-title">Project Summary</h3>
-          </div>
-          <div>
-            <p>
+<section id="summary" class="section guide-section"><h2 class="label">Section 1</h2><h3 class="guide-title">Project Summary</h3><div class="prose">
+<div>
+
+
+</div>
+<div>
+<p>
               For the drivetrain of our robot, we chose the simplest approach by using four Mecanum wheels. With
               this type of wheel, once the robot is aligned in the correct direction (facing the center of the
               playground), it can move freely without needing to perform any rotational movements.
             </p>
-            <p>
+<p>
               For puck delivery, we moved away from shooting and slide mechanisms because they showed instability.
               Instead, we designed a turntable-fed pusher system so that puck release would be more controlled and
               predictable.
             </p>
-            <p>
+<p>
               In tournament code, the robot squares to the wall with ultrasonics, acquires the center line, follows
               that line to the hog line, actuates the scoring mechanism, and then returns to the square to reload
               before later attempts.
             </p>
-          </div>
-          <div>
-            <span>Autonomous Sequence</span>
-            <p><code>squareToWall()</code> → <code>alignToLine()</code> → <code>score()</code> → <code>returnToSquare()</code></p>
-          </div>
-        </section>
+</div>
+<div class="callout">
+<p class="label">Autonomous Sequence</p>
+<p><code>squareToWall()</code> → <code>alignToLine()</code> → <code>score()</code> → <code>returnToSquare()</code></p>
+</div>
+</div></section>
+<section id="team" class="section guide-section"><h2 class="label">Section 2</h2><h3 class="guide-title">The Team</h3><div class="prose">
+<div>
 
-        <section id="team" class="section guide-section">
-          <div>
-            <p class="label">Section 2</p>
-            <h3 class="guide-title">The Team</h3>
-          </div>
-          <div>
-            <article>
-              <span>Team Member</span>
-              <h3>Sal</h3>
-              <p>MS ME</p>
-            </article>
-            <article>
-              <span>Team Member</span>
-              <h3>Benji</h3>
-              <p>BS EE/CS</p>
-            </article>
-            <article>
-              <span>Team Member</span>
-              <h3>Jacob</h3>
-              <p>MS ME</p>
-            </article>
-            <article>
-              <span>Team Member</span>
-              <h3>Brandon</h3>
-              <p>BS ME</p>
-            </article>
-          </div>
-        </section>
 
-        <section id="design" class="section guide-section">
-          <div>
-            <p class="label">Section 3</p>
-            <h3 class="guide-title">Hardware Design</h3>
-          </div>
+</div>
+<div class="people-grid">
+<article class="person">
 
-          <figure class="figure">
-            <img src="media/cad.jpg" alt="CAD assembly render of The Old Bear robot." loading="lazy">
-            <figcaption>
+<h3>Sal</h3>
+<p>MS ME</p>
+</article>
+<article class="person">
+
+<h3>Benji</h3>
+<p>BS EE/CS</p>
+</article>
+<article class="person">
+
+<h3>Jacob</h3>
+<p>MS ME</p>
+</article>
+<article class="person">
+
+<h3>Brandon</h3>
+<p>BS ME</p>
+</article>
+</div>
+</div></section>
+<section id="design" class="section guide-section"><h2 class="label">Section 3</h2><h3 class="guide-title">Hardware Design</h3><div class="prose">
+<div>
+
+
+</div>
+<figure class="figure">
+<img src="media/cad.jpg" alt="CAD assembly render of The Old Bear robot." loading="lazy">
+<figcaption>
               CAD assembly of the robot showing the drivetrain and delivery system layout.
             </figcaption>
-          </figure>
-
-          <div>
-            <h3>Drivetrain</h3>
-            <div>
-              <p>
+</figure>
+<div>
+<h3>Drivetrain</h3>
+<div>
+<p>
                 For the drivetrain of our robot, we chose the simplest approach by using four Mecanum wheels. With
                 this type of wheel, once the robot is aligned in the correct direction (facing the center of the
                 playground), it can move freely without needing to perform any rotational movements.
               </p>
-            </div>
-          </div>
-
-          <div>
-            <div>
-              <h3>Pusher Mechanism</h3>
-              <div>
-                <p>
+</div>
+</div>
+<div>
+<div>
+<h3>Pusher Mechanism</h3>
+<div>
+<p>
                   At first, we considered using a shooting or slide mechanism, but both mechanisms showed some
                   instability. Because of this, we decided to choose a design that would be more controlled and
                   predictable. Therefore, we decided to design a pusher to push the puck out, taking advantage of
                   the rule that allows up to 7 inches of extension.
                 </p>
-                <p>
+<p>
                   Initially, we planned to use a lead screw to convert rotational motion into linear motion.
                   However, we later switched to a rack and pinion mechanism because this design is simpler while
                   also allowing the pusher to move faster.
                 </p>
-                <p>
+<p>
                   After deciding to use rack and pinion, we directly attached the pusher head to the rack. We also
                   purchased a Linear Rail Guide with a Carriage Block to connect our base with the rack. This helps
                   reduce friction, enable smoother movement, and constrain the pusher to move only in one
                   direction.
                 </p>
-              </div>
-            </div>
-            <figure class="figure">
-              <img src="media/pusher.jpg" alt="Rack and pinion pusher mechanism used on The Old Bear." loading="lazy">
-              <figcaption>
+</div>
+</div>
+<figure class="figure">
+<img src="media/pusher.jpg" alt="Rack and pinion pusher mechanism used on The Old Bear." loading="lazy">
+<figcaption>
                 Rack-and-pinion pusher assembly used to extend and retract during scoring.
               </figcaption>
-            </figure>
-          </div>
-
-          <div>
-            <div>
-              <h3>Turntable</h3>
-              <div>
-                <p>
+</figure>
+</div>
+<div>
+<div>
+<h3>Turntable</h3>
+<div>
+<p>
                   After designing the pusher mechanism, we needed another mechanism to store three pucks and allow
                   them to drop in front of the pusher. We determined that the simplest solution would be to use a
                   turntable.
                 </p>
-                <p>
+<p>
                   With this design, we only need a motor with sufficient torque to rotate the turntable while
                   holding three pucks, and a hole cut into the turntable so that each puck can drop into position.
                   The calculation for the required motor torque is provided at the end of this section for
                   reference.
                 </p>
-              </div>
-            </div>
-            <figure class="figure">
-              <img src="media/turntable.jpg" alt="Turntable and dropper mechanism used on The Old Bear." loading="lazy">
-              <figcaption>
+</div>
+</div>
+<figure class="figure">
+<img src="media/turntable.jpg" alt="Turntable and dropper mechanism used on The Old Bear." loading="lazy">
+<figcaption>
                 Turntable mechanism used to hold three pucks and drop each puck in front of the pusher.
               </figcaption>
-            </figure>
-          </div>
-
-          <div>
-            <h3>Motor Driver and Sensors</h3>
-            <div>
-              <article>
-                <h4>TB6612FNG Motor Driver</h4>
-                <p>
+</figure>
+</div>
+<div>
+<h3>Motor Driver and Sensors</h3>
+<div class="spec-grid">
+<article class="specification">
+<h4>TB6612FNG Motor Driver</h4>
+<p>
                   Allows a low-power control signal to safely control the higher voltage and current required to
                   run a motor, often enabling speed and direction control.
                 </p>
-              </article>
-
-              <article>
-                <h4>IR Line Sensor</h4>
-                <p>
+</article>
+<article class="specification">
+<h4>IR Line Sensor</h4>
+<p>
                   This sensor was used to detect the hog line and for line tracing to correct for using mecanum
                   drive without encoders, allowing the robot to drive in a straight line without veering off
                   course.
                 </p>
-              </article>
-
-              <article>
-                <h4>Ultrasonic Sensor</h4>
-                <p>
+</article>
+<article class="specification">
+<h4>Ultrasonic Sensor</h4>
+<p>
                   This sensor was used to detect distances between the robot and the walls that encase the arena.
                   These measurements were then used to correct the robot's orientation and later confirm its
                   position relative to the walls.
                 </p>
-              </article>
-
-              <article>
-                <h4>Brushed DC Motors</h4>
-                <p>Pros</p>
-                <ul>
-                  <li>Inexpensive</li>
-                  <li>Simple control</li>
-                  <li>Easy to repair</li>
-                </ul>
-                <p>Cons</p>
-                <ul>
-                  <li>No encoders</li>
-                  <li>No position feedback</li>
-                  <li>Mechanical stops must be used for the rack and/or voltage must remain consistent for a time-based control approach</li>
-                </ul>
-              </article>
-            </div>
-          </div>
-
-          <div>
-            <h3>Motor Selection</h3>
-            <div>
-              <article>
-                <h4>Pinion Motor</h4>
-                <p>12V 60 RPM Gear Motor - High Torque 6.5 kg·cm</p>
-                <p>Reasons for selection</p>
-                <ul>
-                  <li>
+</article>
+<article class="specification">
+<h4>Brushed DC Motors</h4>
+<p>Pros</p>
+<ul>
+<li>Inexpensive</li>
+<li>Simple control</li>
+<li>Easy to repair</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>No encoders</li>
+<li>No position feedback</li>
+<li>Mechanical stops must be used for the rack and/or voltage must remain consistent for a time-based control approach</li>
+</ul>
+</article>
+</div>
+</div>
+<div>
+<h3>Motor Selection</h3>
+<div class="spec-list">
+<article class="specification">
+<h4>Pinion Motor</h4>
+<div class="math-block" aria-label="Selected motor rating"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext><mo>,</mo><mn>60</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>6.5</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div>
+<p>Reasons for selection</p>
+<ul>
+<li>
                     The motor needed to move the rack and carry a load of one puck (more if additional pucks were
                     on the ground). A significant amount of torque was required (see mechanical specifications for
                     calculations).
                   </li>
-                  <li>
+<li>
                     The rack needed to traverse its full length in a reasonable amount of time. The motor needed
                     to be fast enough to complete the motion efficiently, but not so fast that the motion became
                     unstable (see mechanical specifications for calculations).
                   </li>
-                </ul>
-              </article>
-
-              <article>
-                <h4>Turntable Motor</h4>
-                <p>12V 10 RPM Gear Motor - High Torque 15 kg·cm</p>
-                <p>Reasons for selection</p>
-                <ul>
-                  <li>
+</ul>
+</article>
+<article class="specification">
+<h4>Turntable Motor</h4>
+<div class="math-block" aria-label="Selected motor rating"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext><mo>,</mo><mn>10</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>15</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div>
+<p>Reasons for selection</p>
+<ul>
+<li>
                     The motor needed to support and rotate the weight of up to three pucks. High torque was
                     required to ensure the motor would not stall (see mechanical specifications for calculations).
                   </li>
-                  <li>
+<li>
                     Turntable speed was not a major concern because the puck only needed to travel a very small
                     distance to the shooter. A low-RPM motor was selected to ensure steady and controlled motion.
                   </li>
-                </ul>
-              </article>
-
-              <article>
-                <h4>Drivetrain Motors</h4>
-                <p>12V 150 RPM Gear Motor - High Torque 5 kg·cm</p>
-                <p>Reasons for selection</p>
-                <ul>
-                  <li>
+</ul>
+</article>
+<article class="specification">
+<h4>Drivetrain Motors</h4>
+<div class="math-block" aria-label="Selected motor rating"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext><mo>,</mo><mn>150</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>5</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div>
+<p>Reasons for selection</p>
+<ul>
+<li>
                     The four motors needed to support and distribute the weight of the entire robot and its
                     mechanisms. High-torque motors were required to prevent stalling or mechanical failure (see
                     mechanical specifications for calculations).
                   </li>
-                  <li>
+<li>
                     Speed was not the primary concern for the robot. In fact, the goal was for the robot to
                     operate slowly and steadily, using the full time available to minimize imprecision. Therefore,
                     a motor with a moderate RPM was selected.
                   </li>
-                </ul>
-              </article>
-            </div>
-          </div>
-        </section>
+</ul>
+</article>
+</div>
+</div>
+</div></section>
+<section id="calculations" class="section guide-section"><h2 class="label">Section 4</h2><h3 class="guide-title">Engineering Calculations</h3><div class="prose">
+<div>
 
-        <section id="calculations" class="section guide-section">
-          <div>
-            <p class="label">Section 4</p>
-            <h3 class="guide-title">Engineering Calculations</h3>
-          </div>
 
-          <div>
-            <h3>Motor Specing of Rack and Pinion Puck Pusher</h3>
-            <div>
-              <article>
-                <h4>Given / Assumptions</h4>
-                <ul>
-                  <li>Puck weight: <strong>W ≈ 0.5 lbf</strong></li>
-                  <li>Puck material: <strong>metal</strong></li>
-                  <li>Surface material: <strong>painted wood</strong></li>
-                  <li>Required linear travel: <strong>x = 7 in</strong></li>
-                  <li>Mechanism: <strong>rack and pinion driving a scoop</strong></li>
-                </ul>
-              </article>
+</div>
+<div>
+<h3>Sizing the rack-and-pinion pusher</h3><p class="aside">Torque ratings use force units: kgf·cm means kilogram-force centimetres, and ozf·in means ounce-force inches. The four-wheel mass below is the combined wheel mass.</p>
+<div class="calculation-stack"><article class="calculation-step"><h4>Given / Assumptions</h4><ul>
+<li>Puck weight: <strong>W ≈ 0.5 lbf</strong></li>
+<li>Puck material: <strong>metal</strong></li>
+<li>Surface material: <strong>painted wood</strong></li>
+<li>Required linear travel: <strong>x = 7 in</strong></li>
+<li>Mechanism: <strong>rack and pinion driving a scoop</strong></li>
+</ul></article><article class="calculation-step"><h4>1. Normal Force on Puck</h4><div class="math-block" aria-label="Normal force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>N</mi><mo>=</mo><mi>W</mi><mo>=</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mrow></math></div></article><article class="calculation-step"><h4>2. Friction Force Required to Move the Puck</h4><div class="math-block" aria-label="Static friction coefficient"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>μ</mi><mtext>s</mtext></msub><mo>≈</mo><mn>0.25</mn><mtext>–</mtext><mn>0.45</mn></mrow></math></div><div class="math-block" aria-label="Kinetic friction coefficient"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>μ</mi><mtext>k</mtext></msub><mo>≈</mo><mn>0.2</mn><mtext>–</mtext><mn>0.35</mn></mrow></math></div><div class="math-block" aria-label="Static friction force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>F</mi><mtext>s,max</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><msub><mi>μ</mi><mtext>s</mtext></msub><mi>N</mi></mtd></mtr><mtr><mtd><msub><mi>F</mi><mtext>s,max</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mo>(</mo><mn>0.25</mn><mtext>–</mtext><mn>0.45</mn><mo>)</mo><mo>×</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr><mtr><mtd><msub><mi>F</mi><mtext>s,max</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mn>0.125</mn><mtext>–</mtext><mn>0.225</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Kinetic friction force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>F</mi><mtext>k</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><msub><mi>μ</mi><mtext>k</mtext></msub><mi>N</mi></mtd></mtr><mtr><mtd><msub><mi>F</mi><mtext>k</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mo>(</mo><mn>0.2</mn><mtext>–</mtext><mn>0.35</mn><mo>)</mo><mo>×</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr><mtr><mtd><msub><mi>F</mi><mtext>k</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mn>0.1</mn><mtext>–</mtext><mn>0.175</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr></mtable></math></div></article><article class="calculation-step"><h4>3. Design Force</h4><div class="math-block" aria-label="Design force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>F</mi><mtext>design</mtext></msub><mo>=</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mrow></math></div></article><article class="calculation-step"><h4>4. Required Motor Torque</h4><div class="math-block" aria-label="Pinion torque"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>T</mi><mo>=</mo><msub><mi>F</mi><mtext>push</mtext></msub><mo>·</mo><msub><mi>r</mi><mtext>p</mtext></msub></mrow></math></div><div class="math-block" aria-label="Pinion radius range"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>r</mi><mtext>p</mtext></msub><mo>=</mo><mn>0.5</mn><mtext>–</mtext><mn>1</mn><mspace width="0.25em"></mspace><mtext>in</mtext></mrow></math></div><div class="math-block" aria-label="Torque calculation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><mi>T</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>in</mtext><mo>×</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr><mtr><mtd><mi>T</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.25</mn><mspace width="0.25em"></mspace><mtext>lbf·in</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Torque unit conversion"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>1</mn><mspace width="0.25em"></mspace><mtext>lbf·in</mtext><mo>=</mo><mn>16</mn><mspace width="0.25em"></mspace><mtext>ozf·in</mtext></mrow></math></div><div class="math-block" aria-label="Converted torque"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>T</mi><mo>=</mo><mn>0.25</mn><mo>×</mo><mn>16</mn><mo>=</mo><mn>4</mn><mspace width="0.25em"></mspace><mtext>ozf·in</mtext></mrow></math></div></article><article class="calculation-step"><h4>5. Practical Torque Requirement</h4><div class="math-block" aria-label="Practical torque target"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>T</mi><mtext>target</mtext></msub><mo>=</mo><mn>15</mn><mtext>–</mtext><mn>30</mn><mspace width="0.25em"></mspace><mtext>ozf·in</mtext></mrow></math></div><div class="math-block" aria-label="Practical torque target in kilogram-force centimetres"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>T</mi><mtext>target</mtext></msub><mo>≈</mo><mn>1.1</mn><mtext>–</mtext><mn>2.2</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div></article><article class="calculation-step"><h4>6. Pinion Rotation Needed for 7 in Travel</h4><div class="math-block" aria-label="Number of pinion revolutions"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>n</mi><mo>=</mo><mfrac><mrow><mi>x</mi></mrow><mrow><mn>2</mn><mi>π</mi><msub><mi>r</mi><mtext>p</mtext></msub></mrow></mfrac></mrow></math></div><div class="math-block" aria-label="Revolutions with half-inch pinion radius"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>r</mi><mtext>p</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>in</mtext></mtd></mtr><mtr><mtd><mi>n</mi></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mrow><mn>7</mn></mrow><mrow><mn>2</mn><mi>π</mi><mo>(</mo><mn>0.5</mn><mo>)</mo></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>7</mn></mrow><mrow><mi>π</mi></mrow></mfrac><mo>≈</mo><mn>2.23</mn><mspace width="0.25em"></mspace><mtext>rev</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Travel per pinion revolution"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>C</mi><mo>≈</mo><mn>3.14</mn><mspace width="0.25em"></mspace><mtext>in/rev</mtext></mrow></math></div><div class="math-block" aria-label="Linear speed at 60 rpm"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>At</mtext><mspace width="0.3em"></mspace><mn>60</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>:</mo><mi>v</mi><mo>≈</mo><mn>3.14</mn><mspace width="0.25em"></mspace><mtext>in/s</mtext></mrow></math></div><div class="math-block" aria-label="Travel time"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>t</mi><mo>≈</mo><mfrac><mrow><mn>7</mn><mspace width="0.25em"></mspace><mtext>in</mtext></mrow><mrow><mn>3.14</mn><mspace width="0.25em"></mspace><mtext>in/s</mtext></mrow></mfrac><mo>≈</mo><mn>2.2</mn><mspace width="0.25em"></mspace><mtext>s</mtext></mrow></math></div></article><article class="calculation-step"><h4>Selected Motor Target</h4><ul>
+<li>6 - 12 V voltage motor</li>
+<li>50 - 60 RPM</li>
+<li>Torque ≥ 2 kgf·cm</li>
+</ul></article></div>
+</div>
+<div>
+<h3>Drive Train Motor Spec.</h3>
+<div class="calculation-stack"><article class="calculation-step"><h4>Inputs</h4><ul>
+<li>r<sub>wheel</sub> = <strong>48.5 mm</strong> (d = 97 mm) → mecanum</li>
+<li>V<sub>battery</sub> = <strong>14.4 V nominal</strong> → <strong>12 V realistically</strong></li>
+<li>M<sub>robot</sub> ≈ <strong>5 kg</strong> at max</li>
+</ul></article><article class="calculation-step"><h4>Mass Notes</h4><ul>
+<li>Battery: 0.38 kg - 0.45 kg</li>
+<li>Motor: ≈ 0.235 kg</li>
+<li>Wheels total: 1 lb = 0.45 kg</li>
+<li>Wheel diameter: 97 mm / 3.8 in</li>
+<li>Electronics include sensors, Arduino Uno x2, 2 motor drivers, wires / breadboard, and mounts</li>
+<li>Delivery includes 2 motors and 30 prints</li>
+</ul></article><article class="calculation-step"><h4>Mass Substitution</h4><div class="math-block" aria-label="Robot mass components"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>M</mi><mtext>robot</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><msub><mi>m</mi><mtext>battery</mtext></msub><mo>+</mo><mn>4</mn><msub><mi>m</mi><mtext>motor</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi>M</mi><mtext>wheels</mtext></msub><mo>+</mo><mn>3</mn><msub><mi>m</mi><mtext>puck</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi>m</mi><mtext>chassis</mtext></msub><mo>+</mo><msub><mi>m</mi><mtext>electronics</mtext></msub><mo>+</mo><msub><mi>m</mi><mtext>delivery</mtext></msub></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Substituted mass components"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>M</mi><mtext>robot</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><mo>(</mo><mn>0.45</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>)</mo><mo>+</mo><mn>4</mn><mo>(</mo><mn>0.235</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>)</mo></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><mn>0.45</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>+</mo><mn>3</mn><mo>(</mo><mn>0.227</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>)</mo></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi>m</mi><mtext>chassis</mtext></msub><mo>+</mo><msub><mi>m</mi><mtext>electronics</mtext></msub><mo>+</mo><msub><mi>m</mi><mtext>delivery</mtext></msub></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Known and remaining mass"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>M</mi><mtext>robot</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2.971</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>+</mo><msub><mi>m</mi><mtext>delivery</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi>m</mi><mtext>chassis</mtext></msub><mo>+</mo><msub><mi>m</mi><mtext>electronics</mtext></msub></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Design mass estimate"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>M</mi><mtext>robot</mtext></msub><mo>≈</mo><mn>5</mn><mspace width="0.25em"></mspace><mtext>kg</mtext></mrow></math></div></article><article class="calculation-step"><h4>Motor Selection Check</h4><div class="math-block" aria-label="Desired drive motor specification"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Speed:</mtext><mspace width="0.3em"></mspace><mn>150</mn><mtext>–</mtext><mn>300</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext></mrow></math><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Combined torque:</mtext><mspace width="0.3em"></mspace><mo>≈</mo><mn>5</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div><div class="math-block" aria-label="Drive motor used in calculation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>130</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>1.2</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext><mo>,</mo><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext></mrow></math></div><div class="math-block" aria-label="Individual and combined drive torque"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><mi>τ</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>1.2</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext><mo>≈</mo><mn>0.118</mn><mspace width="0.25em"></mspace><mtext>N·m</mtext></mtd></mtr><mtr><mtd><msub><mi>τ</mi><mtext>total</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>4</mn><mi>τ</mi><mo>=</mo><mn>4.8</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Ideal force per wheel"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi>F</mi><mtext>wheel</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mrow><mi>τ</mi></mrow><mrow><msub><mi>r</mi><mtext>wheel</mtext></msub></mrow></mfrac></mtd></mtr><mtr><mtd><msub><mi>F</mi><mtext>wheel</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mrow><mn>0.118</mn><mspace width="0.25em"></mspace><mtext>N·m</mtext></mrow><mrow><mn>0.0485</mn><mspace width="0.25em"></mspace><mtext>m</mtext></mrow></mfrac><mo>≈</mo><mn>2.4</mn><mspace width="0.25em"></mspace><mtext>N</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Ideal force across four wheels"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>F</mi><mtext>total</mtext></msub><mo>≈</mo><mn>9.7</mn><mspace width="0.25em"></mspace><mtext>N</mtext></mrow></math></div><div class="math-block" aria-label="Ideal acceleration estimate"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>a</mi><mo>≈</mo><mfrac><mrow><mi>F</mi></mrow><mrow><mi>m</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>9.7</mn><mspace width="0.25em"></mspace><mtext>N</mtext></mrow><mrow><mn>5</mn><mspace width="0.25em"></mspace><mtext>kg</mtext></mrow></mfrac><mo>=</mo><mn>1.94</mn><mspace width="0.25em"></mspace><mtext>m/s²</mtext></mrow></math></div></article></div>
+</div>
+</div></section>
+<section id="strategy" class="section guide-section"><h2 class="label">Section 5</h2><h3 class="guide-title">Overall Scoring Strategy</h3><div class="prose">
+<div>
 
-              <article>
-                <h4>1. Normal Force on Puck</h4>
-                <p>N = W = 0.5 lbf</p>
-                <h4>2. Friction Force Required to Move the Puck</h4>
-                <p>μ<sub>s</sub> ≈ 0.25 - 0.45</p>
-                <p>μ<sub>k</sub> ≈ 0.20 - 0.35</p>
-                <p>F<sub>s,max</sub> = μ<sub>s</sub>N ≈ (0.25 - 0.45)(0.5) ≈ 0.125 - 0.225 lbf</p>
-                <p>F<sub>k,max</sub> = μ<sub>k</sub>N ≈ (0.20 - 0.35)(0.5) ≈ 0.10 - 0.175 lbf</p>
-              </article>
 
-              <article>
-                <h4>3. Design Force</h4>
-                <p>F<sub>design</sub> = 0.5 lbf</p>
-                <h4>4. Required Motor Torque</h4>
-                <p>T = F<sub>push</sub> · r<sub>p</sub></p>
-                <p>r<sub>p</sub> = 0.5 in to 1 in</p>
-                <p>T = 0.5 in · 0.5 lbf = 0.25 lbf·in</p>
-                <p>1 lbf·in = 16 oz·in</p>
-                <p>T = 0.25 × 16 = 4 oz·in</p>
-              </article>
-
-              <article>
-                <h4>5. Practical Torque Requirement</h4>
-                <p>T<sub>target</sub> = 15 - 30 oz·in</p>
-                <p>T<sub>target</sub> ≈ 1.1 - 2.2 kg·cm</p>
-                <h4>6. Pinion Rotation Needed for 7 in Travel</h4>
-                <p>rev = x / (2πr<sub>p</sub>)</p>
-                <p>If r<sub>p</sub> = 0.5 in, rev = 7 / (2π(0.5)) = 7/π ≈ 2.23 rev</p>
-                <p>Circumference ≈ 3.14 in/rev</p>
-                <p>At 60 RPM, v ≈ 3.14 in/s</p>
-                <p>t ≈ 7 / 3.14 ≈ 2.2 s</p>
-              </article>
-
-              <article>
-                <h4>Selected Motor Target</h4>
-                <ul>
-                  <li>6 - 12 V voltage motor</li>
-                  <li>50 - 60 RPM</li>
-                  <li>Torque ≥ 2 kg·cm</li>
-                </ul>
-              </article>
-            </div>
-          </div>
-
-          <div>
-            <h3>Drive Train Motor Spec.</h3>
-            <div>
-              <article>
-                <h4>Inputs</h4>
-                <ul>
-                  <li>r<sub>wheel</sub> = <strong>48.5 mm</strong> (d = 97 mm) → mecanum</li>
-                  <li>V<sub>battery</sub> = <strong>14.4 V nominal</strong> → <strong>12 V realistically</strong></li>
-                  <li>M<sub>robot</sub> ≈ <strong>5 kg</strong> at max</li>
-                </ul>
-              </article>
-
-              <article>
-                <h4>Mass Notes</h4>
-                <ul>
-                  <li>Battery: 0.38 kg - 0.45 kg</li>
-                  <li>Motor: ≈ 0.235 kg</li>
-                  <li>Wheels total: 1 lb = 0.45 kg</li>
-                  <li>Wheel diameter: 97 mm / 3.8 in</li>
-                  <li>Electronics include sensors, Arduino Uno x2, 2 motor drivers, wires / breadboard, and mounts</li>
-                  <li>Delivery includes 2 motors and 30 prints</li>
-                </ul>
-              </article>
-
-              <article>
-                <h4>Mass Substitution</h4>
-                <p>M<sub>robot</sub> = 2m<sub>battery</sub> + 4m<sub>motor</sub> + 4m<sub>wheels</sub> + 3m<sub>puck</sub> + m<sub>chassis</sub> + m<sub>electronics</sub> + m<sub>delivery</sub></p>
-                <p>= 2(0.45 kg) + 4(0.235 kg) + 0.45 kg + 3(0.227 kg) + m<sub>chassis</sub> + m<sub>electronics</sub> + m<sub>delivery</sub></p>
-                <p>= 2.971 kg + m<sub>delivery</sub> + m<sub>chassis</sub> + m<sub>electronics</sub></p>
-                <p>Design estimate: M<sub>robot</sub> ≈ 5 kg</p>
-              </article>
-
-              <article>
-                <h4>Motor Selection Check</h4>
-                <p>Want 150 - 300 RPM with ≈ 5 kg·cm torque total among wheels</p>
-                <p>Given 130 RPM, 1.2 kg·cm rated torque, 12 V motor</p>
-                <p>τ = 1.2 kg·cm ⇒ 0.118 N·m ⇒ 4.8 kg·cm as a system</p>
-                <p>F<sub>wheel</sub> = τ / r<sub>wheel</sub> = 0.118 N·m / 0.0485 m ≈ 2.4 N per wheel</p>
-                <p>All 4 wheels: 9.7 N</p>
-                <p>a ≈ F / m ≈ 9.7 N / 5 kg = 1.94 m/s² ⇒ ok</p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="strategy" class="section guide-section">
-          <div>
-            <p class="label">Section 5</p>
-            <h3 class="guide-title">Overall Scoring Strategy</h3>
-          </div>
-          <div>
-            <p>
+</div>
+<div>
+<p>
               The scoring loop is implemented as a sequential set of alignment, line acquisition, scoring, and
               reset behaviors.
             </p>
-          </div>
-          <ol>
-            <li>
-              <h3>Determine Rotation</h3>
-              <p>Use ultrasonics to figure out rotation of bot, and rotate accordingly.</p>
-            </li>
-            <li>
-              <h3>Return to the Home Corner</h3>
-              <p>Once facing forward, strafe left and move back to home to corner of arena.</p>
-            </li>
-            <li>
-              <h3>Acquire the Centre Line</h3>
-              <p>Strafe right until the centre line.</p>
-            </li>
-            <li>
-              <h3>Advance to the Hog Lines</h3>
-              <p>Follow centre line to hog lines.</p>
-            </li>
-            <li>
-              <h3>Deploy the Scoring Mechanism</h3>
-              <p>Drop puck, extend pusher, retract pusher (repeat 3x).</p>
-            </li>
-            <li>
-              <h3>Reverse the Path</h3>
-              <p>Follow centre line to back.</p>
-            </li>
-            <li>
-              <h3>Re-seat in the Corner</h3>
-              <p>Strafe left till back in corner.</p>
-            </li>
-            <li>
-              <h3>Reset and Repeat</h3>
-              <p>Wait 5 seconds, get reloaded, strafe to centre line, repeat.</p>
-            </li>
-          </ol>
-        </section>
+</div>
+<ol class="workflow">
+<li>
+<h3>Determine Rotation</h3>
+<p>Use ultrasonics to figure out rotation of bot, and rotate accordingly.</p>
+</li>
+<li>
+<h3>Return to the Home Corner</h3>
+<p>Once facing forward, strafe left and move back to home to corner of arena.</p>
+</li>
+<li>
+<h3>Acquire the Centre Line</h3>
+<p>Strafe right until the centre line.</p>
+</li>
+<li>
+<h3>Advance to the Hog Lines</h3>
+<p>Follow centre line to hog lines.</p>
+</li>
+<li>
+<h3>Deploy the Scoring Mechanism</h3>
+<p>Drop puck, extend pusher, retract pusher (repeat 3x).</p>
+</li>
+<li>
+<h3>Reverse the Path</h3>
+<p>Follow centre line to back.</p>
+</li>
+<li>
+<h3>Re-seat in the Corner</h3>
+<p>Strafe left till back in corner.</p>
+</li>
+<li>
+<h3>Reset and Repeat</h3>
+<p>Wait 5 seconds, get reloaded, strafe to centre line, repeat.</p>
+</li>
+</ol>
+</div></section>
+<section id="software" class="section guide-section"><h2 class="label">Section 6</h2><h3 class="guide-title">Tournament Code Implementation</h3><div class="prose">
+<div>
 
-        <section id="software" class="section guide-section">
-          <div>
-            <p class="label">Section 6</p>
-            <h3 class="guide-title">Tournament Code Implementation</h3>
-          </div>
 
-          <div>
-            <h3>Controller Structure</h3>
-            <div>
-              <p>
+</div>
+<div>
+<h3>Controller Structure</h3>
+<div>
+<p>
                 The tournament robot ran from a single Arduino Mega master script. The code defines four drivetrain
                 PWM channels, dedicated turntable and pusher outputs, three IR sensors, and three ultrasonic
                 sensors. <code>setup()</code> initializes all drivetrain and actuator outputs, configures the ultrasonic pins,
                 stops the system, and exposes a serial command interface for manual testing.
               </p>
-              <p>
+<p>
                 Although manual commands remained available through serial input, the tournament behavior was driven
                 directly from <code>loop()</code>. The autonomous path called <code>squareToWall()</code>, <code>alignToLine()</code>, <code>score()</code>,
                 and <code>returnToSquare()</code>, then repeated with timed lateral offsets for later scoring attempts.
               </p>
-            </div>
-          </div>
-
-          <div>
-            <h3>Key Thresholds and Speeds</h3>
-            <ul>
-              <li><code>IR_THRESH</code> is set to <code>200</code> for tape detection.</li>
-              <li><code>squareToWall()</code> uses a <code>45 cm</code> ultrasonic threshold and temporarily reduces turn speed to <code>130 PWM</code> for precision rotation.</li>
-              <li><code>alignToLine()</code> begins with a slow right strafe at roughly <code>76 PWM</code>, then follows the line at <code>120 PWM</code>.</li>
-              <li>Line-follow corrections use differential wheel commands of <code>30</code> and <code>100 PWM</code> to steer back onto the line.</li>
-              <li><code>returnToSquare()</code> reverses at <code>90 PWM</code> and finishes with a <code>120 PWM</code> left strafe into the corner.</li>
-            </ul>
-          </div>
-
-          <div>
-            <div>
-              <h3>Orientation and Line Logic</h3>
-              <div>
-                <p>
-                  <code>squareToWall()</code> implements the core ultrasonic orientation routine. It reads the left, right,
+</div>
+</div>
+<div>
+<h3>Key Thresholds and Speeds</h3>
+<ul>
+<li><code>IR_THRESH</code> is set to <code>200</code> for tape detection.</li>
+<li><code>squareToWall()</code> uses a <code>45 cm</code> ultrasonic threshold and temporarily reduces turn speed to <code>130 PWM</code> for precision rotation.</li>
+<li><code>alignToLine()</code> begins with a slow right strafe at roughly <code>76 PWM</code>, then follows the line at <code>120 PWM</code>.</li>
+<li>Line-follow corrections use differential wheel commands of <code>30</code> and <code>100 PWM</code> to steer back onto the line.</li>
+<li><code>returnToSquare()</code> reverses at <code>90 PWM</code> and finishes with a <code>120 PWM</code> left strafe into the corner.</li>
+</ul>
+</div>
+<div>
+<div>
+<h3>Orientation and Line Logic</h3>
+<div>
+<p>
+<code>squareToWall()</code> implements the core ultrasonic orientation routine. It reads the left, right,
                   and back sensors, classifies the robot's heading from wall visibility, and preserves a <code>turnDir</code>
                   state so the chassis keeps rotating through ultrasonic blind spots instead of stalling on <code>999</code>
                   timeout readings.
                 </p>
-                <p>
+<p>
                   Once forward orientation is locked, the code transitions into a back-left tuck toward the corner.
                   <code>alignToLine()</code> then strafes right until the back-center IR sensor crosses the threshold, after
                   which the front-left and front-right sensors handle differential line following. The hog line stop
                   condition is explicit: both front sensors must simultaneously detect black tape.
                 </p>
-              </div>
-            </div>
-            <aside>
-              <span>Code Reality</span>
-              <p>
+</div>
+</div>
+<aside>
+<p class="label">Code Reality</p>
+<p>
                 The code matches the strategy at a low level: wall-based orientation, center-line acquisition,
                 front-sensor stop detection, and a clean transition back into the square after scoring.
               </p>
-            </aside>
-          </div>
-
-          <div>
-            <h3>Scoring and Multi-Cycle Sequence</h3>
-              <div>
-                <p>
+</aside>
+</div>
+<div>
+<h3>Scoring and Multi-Cycle Sequence</h3>
+<div>
+<p>
                   The actual <code>score()</code> function is more specific than the high-level summary. For each scoring cycle,
                   the turn motor is driven at full PWM for <code>1.5 seconds</code>, the pusher extends at full PWM for <code>3</code>
                   seconds, and the pusher retracts at full PWM for another <code>3 seconds</code>. That inner cycle is repeated
                   three times.
                 </p>
-                <p>
+<p>
                   The top-level tournament loop then executes three attack positions: one centered scoring pass, one
                   pass with a short right strafe of <code>300 ms</code>, and one pass with a short left strafe of <code>300 ms</code>. Each
                   of the later passes is separated by a five-second reload delay and a fresh line-acquisition phase.
                 </p>
-              </div>
-          </div>
-        </section>
+</div>
+</div>
+</div></section>
+<section id="code" class="section guide-section"><h2 class="label">Section 7</h2><h3 class="guide-title">Source Code</h3><div class="prose">
+<div>
 
-        <section id="code" class="section guide-section">
-          <div>
-            <p class="label">Section 7</p>
-            <h3 class="guide-title">Source Code</h3>
-          </div>
 
-          <div>
-            <p>
+</div>
+<div>
+<p>
               The full tournament Arduino script is included below. This is the exact <code>me210_tourneycode.ino</code>
               file used as the software source for this report.
             </p>
-          </div>
-
-          <p><a href="me210_tourneycode.ino" download="me210_tourneycode.ino">Download me210_tourneycode.ino</a></p><details class="check"><summary>View the full Arduino script</summary><pre><code>// --- Mega Master Script (V7: Full Autonomous &amp; Manual Control) ---
+</div>
+<p><a href="me210_tourneycode.ino" download="me210_tourneycode.ino">Download me210_tourneycode.ino</a></p><details class="check"><summary>View the full Arduino script</summary><pre><code>// --- Mega Master Script (V7: Full Autonomous &amp; Manual Control) ---
 
 // --- 1. Constants &amp; Variables ---
 int speedFL = 200; 
@@ -1069,56 +966,54 @@ void moveBackLeft() {
 void stopAll() {
   for (int p = 2; p &lt;= 7; p++) { analogWrite(p, 0); }
 }</code></pre></details>
-        </section>
+</div></section>
+<section id="outcomes" class="section guide-section"><h2 class="label">Section 8</h2><h3 class="guide-title">Outcomes</h3><div class="prose">
+<div>
 
-        <section id="outcomes" class="section guide-section">
-          <div>
-            <p class="label">Section 8</p>
-            <h3 class="guide-title">Outcomes</h3>
-          </div>
-          <ul>
-            <li>Super reliable for first scoring cycle.</li>
-            <li>Pusher worked great.</li>
-            <li>
+
+</div>
+<ul>
+<li>Super reliable for first scoring cycle.</li>
+<li>Pusher worked great.</li>
+<li>
               Line following left a bit to be desired, as the two front IR sensors were on the very edge of each
               side of the robot.
             </li>
-          </ul>
-          <div>
-            <p>
+</ul>
+<div>
+<p>
               The results show a system with one strong core behavior and one clear weakness. The first scoring
               cycle was reliable and the pusher performed well, but line following remained less precise than
               desired. The main issue was sensor placement at the outer edges of the front of the robot, which
               reduced the system's ability to stay centered cleanly.
             </p>
-          </div>
-        </section>
+</div>
+</div></section>
+<section id="lessons" class="section guide-section"><h2 class="label">Section 9</h2><h3 class="guide-title">Lessons Learned</h3><div class="prose">
+<div>
 
-        <section id="lessons" class="section guide-section">
-          <div>
-            <p class="label">Section 9</p>
-            <h3 class="guide-title">Lessons Learned</h3>
-          </div>
-          <div>
-            <span>Key Errors</span>
-            <p>Several late-stage issues came from unnecessary hardware, missing calibration, limited cycle testing, and delayed assembly decisions.</p>
-          </div>
-          <ul>
-            <li>Encoders on the drivetrain motors were not needed; the team eventually went for a sensor-based strategy.</li>
-            <li>Encoders on the turntable <strong>were</strong> needed and had to be calibrated based on battery voltage.</li>
-            <li>Before the tournament, the team never once tested multiple scoring cycles, which left an important system-level failure unexposed until late.</li>
-            <li>Assembly bottlenecks such as 3D printing and quick adjustments needed to be addressed much earlier.</li>
-          </ul>
-          <div>
-            <p>
+
+</div>
+<div class="callout">
+<p class="label">Key Errors</p>
+<p>Several late-stage issues came from unnecessary hardware, missing calibration, limited cycle testing, and delayed assembly decisions.</p>
+</div>
+<ul>
+<li>Encoders on the drivetrain motors were not needed; the team eventually went for a sensor-based strategy.</li>
+<li>Encoders on the turntable <strong>were</strong> needed and had to be calibrated based on battery voltage.</li>
+<li>Before the tournament, the team never once tested multiple scoring cycles, which left an important system-level failure unexposed until late.</li>
+<li>Assembly bottlenecks such as 3D printing and quick adjustments needed to be addressed much earlier.</li>
+</ul>
+<div>
+<p>
               The main lessons are about scope discipline and integration timing. Some instrumentation turned out to
               be unnecessary, other sensing proved more critical than expected, and the lack of repeated full-cycle
               testing hid important issues. On top of that, assembly bottlenecks reduced iteration time when the
               team most needed it.
             </p>
-          </div>
-        </section>
-      <p class="aside"><a href="https://benjiw2.github.io/ME210-Final-Project-website/">Original team website</a> &middot; <a href="https://github.com/BenjiW2/ME210-Final-Project-website">Source repository</a></p>    <footer class="footer">
+</div>
+</div></section>
+<p class="aside"><a href="https://benjiw2.github.io/ME210-Final-Project-website/">Original team website</a> &middot; <a href="https://github.com/BenjiW2/ME210-Final-Project-website">Source repository</a></p>    <footer class="footer">
       <p>Benji Warburton</p>
       <a href="mailto:benjiw@stanford.edu">benjiw@stanford.edu</a>
     </footer>

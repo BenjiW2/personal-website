@@ -548,6 +548,169 @@ img.mark-yc {
   line-height: 1.5;
 }
 
+.math-block {
+  max-width: 100%;
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.math-block math {
+  display: block;
+  width: max-content;
+  margin: 10px 0;
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+.project-intro .label {
+  margin-top: 24px;
+}
+
+.people-grid,
+.project-facts,
+.spec-grid,
+.workflow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.people-grid .person {
+  padding: 20px;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+}
+
+.people-grid .person h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.people-grid .person p {
+  margin-top: 8px;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.project-facts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.project-facts .project-fact,
+.specification,
+.calculation-step,
+.workflow > li {
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+  min-width: 0;
+}
+
+.project-facts .project-fact .label {
+  margin-top: 0;
+}
+
+.project-facts .project-fact h3,
+.specification h4,
+.calculation-step > h4:first-child,
+.guide-section .workflow > li h3 {
+  margin-top: 10px;
+}
+
+.project-facts .project-fact h3 {
+  font-size: 1.1rem;
+}
+
+.project-facts .project-fact p:not(.label) {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.spec-list,
+.calculation-stack {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.calculation-stack {
+  gap: 14px;
+}
+
+.calculation-stack .calculation-step {
+  padding-top: 14px;
+}
+
+.calculation-stack .calculation-step > h4:first-child {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.calculation-step .math-block {
+  margin: 8px 0;
+}
+
+.calculation-step .math-block math {
+  margin: 0;
+  padding: 2px 0;
+  font-size: 1.05rem;
+}
+
+.math-block mtd {
+  padding: 2px 0;
+  text-align: left;
+}
+
+.math-block mtd:first-child {
+  text-align: right;
+}
+
+.math-block mtd:nth-child(2) {
+  padding-inline: 6px;
+  text-align: center;
+}
+
+.guide-section .workflow {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: workflow;
+  gap: 24px;
+}
+
+.workflow > li {
+  counter-increment: workflow;
+}
+
+.workflow > li::before {
+  content: counter(workflow, decimal-leading-zero);
+  font-family: var(--sans);
+  color: var(--blue-text);
+  font-size: 0.78rem;
+}
+
+.guide-section .workflow > li + li {
+  margin-top: 0;
+}
+
+@media (max-width: 600px) {
+  .project-facts,
+  .spec-grid,
+  .workflow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .people-grid {
+    gap: 12px;
+  }
+
+  .people-grid .person {
+    padding: 16px;
+  }
+}
+
 .guide-section .grid2,
 .guide-section .grid3 {
   display: grid;
