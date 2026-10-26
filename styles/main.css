@@ -558,8 +558,21 @@ img.mark-yc {
   display: block;
   width: max-content;
   margin: 10px 0;
-  font-size: 1.05rem;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  line-height: 1.5;
   text-align: left;
+}
+
+.math-block mi {
+  font-family: inherit;
+  font-style: italic;
+}
+
+.math-block mn,
+.math-block mtext {
+  font-family: inherit;
+  font-style: normal;
 }
 
 .project-intro .label {
@@ -656,11 +669,12 @@ img.mark-yc {
 .calculation-step .math-block math {
   margin: 0;
   padding: 2px 0;
-  font-size: 1.05rem;
+  font-size: 1.25rem;
 }
 
 .math-block mtd {
-  padding: 2px 0;
+  padding: 4px 0;
+  math-style: normal;
   text-align: left;
 }
 
