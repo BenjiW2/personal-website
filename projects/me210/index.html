@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Old Bear | ME210 | Benji Warburton</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <meta
+    name="description"
+    content="The Old Bear: Team 14’s ME210 robot, with mecanum drive, a rack-and-pinion pusher, and a three-puck turntable."
+  />
+  <meta name="theme-color" content="#f8f3e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2a2724" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;family=Inter:wght@400;500&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../../styles/main.css?v=20261026a" />
+</head>
+<body>
+  <div class="livery" aria-hidden="true"></div>
+  <main class="page">
+    <button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+        <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <nav>
+      <a class="backlink" href="../../">&larr; Benji Warburton</a>
+    </nav>
+
+<header class="project-head"><h1>The Old Bear</h1><p class="tagline">ME210 / Team 14 / Winter 2026</p></header><section id="hero" class="project-intro guide-section"><div class="prose">
+<div>
+
+
+
+<p>
+              The Old Bear uses a four-wheel mecanum drivetrain, a rack-and-pinion pusher, and a turntable that
+              stores three pucks and drops them in front of the pusher. The system was built around controlled and
+              predictable puck delivery rather than a shooting-based approach.
+            </p>
+</div>
+<figure class="figure">
+<img src="media/robot.jpg" alt="The Old Bear robot photographed on the competition surface." loading="lazy">
+<figcaption>
+              The Old Bear in tournament-ready configuration, showing the mecanum platform and front-mounted
+              delivery hardware.
+            </figcaption>
+</figure>
+<div class="project-facts">
+
+<article class="project-fact">
+<p class="label">Drivetrain</p>
+<h3>Four Mecanum Wheels</h3>
+<p>Once aligned in the correct direction, the robot can move freely without rotational movements.</p>
+</article>
+<article class="project-fact">
+<p class="label">Pusher</p>
+<h3>Rack and Pinion</h3>
+<p>The pusher takes advantage of the 7-inch extension rule and pushes the puck out in a controlled way.</p>
+</article>
+<article class="project-fact">
+<p class="label">Storage</p>
+<h3>Three-Puck Turntable</h3>
+<p>The turntable stores three pucks and drops each puck into position in front of the pusher.</p>
+</article>
+</div>
+</div></section><details class="guide-toc"><summary>Project report</summary><nav aria-label="Project sections"><a href="#hero">Overview</a><a href="#summary">Project Summary</a><a href="#team">The Team</a><a href="#design">Hardware Design</a><a href="#calculations">Calculations</a><a href="#strategy">Scoring Strategy</a><a href="#software">Tournament Code</a><a href="#code">Source Code</a><a href="#outcomes">Outcomes</a><a href="#lessons">Lessons Learned</a></nav></details>
+
+<section id="summary" class="section guide-section"><h2 class="label">Section 1</h2><h3 class="guide-title">Project Summary</h3><div class="prose">
+<div>
+
+
+</div>
+<div>
+<p>
+              For the drivetrain of our robot, we chose the simplest approach by using four Mecanum wheels. With
+              this type of wheel, once the robot is aligned in the correct direction (facing the center of the
+              playground), it can move freely without needing to perform any rotational movements.
+            </p>
+<p>
+              For puck delivery, we moved away from shooting and slide mechanisms because they showed instability.
+              Instead, we designed a turntable-fed pusher system so that puck release would be more controlled and
+              predictable.
+            </p>
+<p>
+              In tournament code, the robot squares to the wall with ultrasonics, acquires the center line, follows
+              that line to the hog line, actuates the scoring mechanism, and then returns to the square to reload
+              before later attempts.
+            </p>
+</div>
+<div class="callout">
+<p class="label">Autonomous Sequence</p>
+<p><code>squareToWall()</code> → <code>alignToLine()</code> → <code>score()</code> → <code>returnToSquare()</code></p>
+</div>
+</div></section>
+<section id="team" class="section guide-section"><h2 class="label">Section 2</h2><h3 class="guide-title">The Team</h3><div class="prose">
+<div>
+
+
+</div>
+<div class="people-grid">
+<article class="person">
+
+<h3>Sal</h3>
+<p>MS ME</p>
+</article>
+<article class="person">
+
+<h3>Benji</h3>
+<p>BS EE/CS</p>
+</article>
+<article class="person">
+
+<h3>Jacob</h3>
+<p>MS ME</p>
+</article>
+<article class="person">
+
+<h3>Brandon</h3>
+<p>BS ME</p>
+</article>
+</div>
+</div></section>
+<section id="design" class="section guide-section"><h2 class="label">Section 3</h2><h3 class="guide-title">Hardware Design</h3><div class="prose">
+<div>
+
+
+</div>
+<figure class="figure">
+<img src="media/cad.jpg" alt="CAD assembly render of The Old Bear robot." loading="lazy">
+<figcaption>
+              CAD assembly of the robot showing the drivetrain and delivery system layout.
+            </figcaption>
+</figure>
+<div>
+<h3>Drivetrain</h3>
+<div>
+<p>
+                For the drivetrain of our robot, we chose the simplest approach by using four Mecanum wheels. With
+                this type of wheel, once the robot is aligned in the correct direction (facing the center of the
+                playground), it can move freely without needing to perform any rotational movements.
+              </p>
+</div>
+</div>
+<div>
+<div>
+<h3>Pusher Mechanism</h3>
+<div>
+<p>
+                  At first, we considered using a shooting or slide mechanism, but both mechanisms showed some
+                  instability. Because of this, we decided to choose a design that would be more controlled and
+                  predictable. Therefore, we decided to design a pusher to push the puck out, taking advantage of
+                  the rule that allows up to 7 inches of extension.
+                </p>
+<p>
+                  Initially, we planned to use a lead screw to convert rotational motion into linear motion.
+                  However, we later switched to a rack and pinion mechanism because this design is simpler while
+                  also allowing the pusher to move faster.
+                </p>
+<p>
+                  After deciding to use rack and pinion, we directly attached the pusher head to the rack. We also
+                  purchased a Linear Rail Guide with a Carriage Block to connect our base with the rack. This helps
+                  reduce friction, enable smoother movement, and constrain the pusher to move only in one
+                  direction.
+                </p>
+</div>
+</div>
+<figure class="figure">
+<img src="media/pusher.jpg" alt="Rack and pinion pusher mechanism used on The Old Bear." loading="lazy">
+<figcaption>
+                Rack-and-pinion pusher assembly used to extend and retract during scoring.
+              </figcaption>
+</figure>
+</div>
+<div>
+<div>
+<h3>Turntable</h3>
+<div>
+<p>
+                  After designing the pusher mechanism, we needed another mechanism to store three pucks and allow
+                  them to drop in front of the pusher. We determined that the simplest solution would be to use a
+                  turntable.
+                </p>
+<p>
+                  With this design, we only need a motor with sufficient torque to rotate the turntable while
+                  holding three pucks, and a hole cut into the turntable so that each puck can drop into position.
+                  The calculation for the required motor torque is provided at the end of this section for
+                  reference.
+                </p>
+</div>
+</div>
+<figure class="figure">
+<img src="media/turntable.jpg" alt="Turntable and dropper mechanism used on The Old Bear." loading="lazy">
+<figcaption>
+                Turntable mechanism used to hold three pucks and drop each puck in front of the pusher.
+              </figcaption>
+</figure>
+</div>
+<div>
+<h3>Motor Driver and Sensors</h3>
+<div class="spec-grid">
+<article class="specification">
+<h4>TB6612FNG Motor Driver</h4>
+<p>
+                  Allows a low-power control signal to safely control the higher voltage and current required to
+                  run a motor, often enabling speed and direction control.
+                </p>
+</article>
+<article class="specification">
+<h4>IR Line Sensor</h4>
+<p>
+                  This sensor was used to detect the hog line and for line tracing to correct for using mecanum
+                  drive without encoders, allowing the robot to drive in a straight line without veering off
+                  course.
+                </p>
+</article>
+<article class="specification">
+<h4>Ultrasonic Sensor</h4>
+<p>
+                  This sensor was used to detect distances between the robot and the walls that encase the arena.
+                  These measurements were then used to correct the robot's orientation and later confirm its
+                  position relative to the walls.
+                </p>
+</article>
+<article class="specification">
+<h4>Brushed DC Motors</h4>
+<p>Pros</p>
+<ul>
+<li>Inexpensive</li>
+<li>Simple control</li>
+<li>Easy to repair</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>No encoders</li>
+<li>No position feedback</li>
+<li>Mechanical stops must be used for the rack and/or voltage must remain consistent for a time-based control approach</li>
+</ul>
+</article>
+</div>
+</div>
+<div>
+<h3>Motor Selection</h3>
+<div class="spec-list">
+<article class="specification">
+<h4>Pinion Motor</h4>
+<div class="math-block" aria-label="Selected motor rating"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext><mo>,</mo><mn>60</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>6.5</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div>
+<p>Reasons for selection</p>
+<ul>
+<li>
+                    The motor needed to move the rack and carry a load of one puck (more if additional pucks were
+                    on the ground). A significant amount of torque was required (see mechanical specifications for
+                    calculations).
+                  </li>
+<li>
+                    The rack needed to traverse its full length in a reasonable amount of time. The motor needed
+                    to be fast enough to complete the motion efficiently, but not so fast that the motion became
+                    unstable (see mechanical specifications for calculations).
+                  </li>
+</ul>
+</article>
+<article class="specification">
+<h4>Turntable Motor</h4>
+<div class="math-block" aria-label="Selected motor rating"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext><mo>,</mo><mn>10</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>15</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div>
+<p>Reasons for selection</p>
+<ul>
+<li>
+                    The motor needed to support and rotate the weight of up to three pucks. High torque was
+                    required to ensure the motor would not stall (see mechanical specifications for calculations).
+                  </li>
+<li>
+                    Turntable speed was not a major concern because the puck only needed to travel a very small
+                    distance to the shooter. A low-RPM motor was selected to ensure steady and controlled motion.
+                  </li>
+</ul>
+</article>
+<article class="specification">
+<h4>Drivetrain Motors</h4>
+<div class="math-block" aria-label="Selected motor rating"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext><mo>,</mo><mn>150</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>5</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div>
+<p>Reasons for selection</p>
+<ul>
+<li>
+                    The four motors needed to support and distribute the weight of the entire robot and its
+                    mechanisms. High-torque motors were required to prevent stalling or mechanical failure (see
+                    mechanical specifications for calculations).
+                  </li>
+<li>
+                    Speed was not the primary concern for the robot. In fact, the goal was for the robot to
+                    operate slowly and steadily, using the full time available to minimize imprecision. Therefore,
+                    a motor with a moderate RPM was selected.
+                  </li>
+</ul>
+</article>
+</div>
+</div>
+</div></section>
+<section id="calculations" class="section guide-section"><h2 class="label">Section 4</h2><h3 class="guide-title">Engineering Calculations</h3><div class="prose">
+<div>
+
+
+</div>
+<div>
+<h3>Sizing the rack-and-pinion pusher</h3><p class="aside">Torque ratings use force units: kgf·cm means kilogram-force centimetres, and ozf·in means ounce-force inches. The four-wheel mass below is the combined wheel mass.</p>
+<div class="calculation-stack"><article class="calculation-step"><h4>Given / Assumptions</h4><ul>
+<li>Puck weight: <strong>W ≈ 0.5 lbf</strong></li>
+<li>Puck material: <strong>metal</strong></li>
+<li>Surface material: <strong>painted wood</strong></li>
+<li>Required linear travel: <strong>x = 7 in</strong></li>
+<li>Mechanism: <strong>rack and pinion driving a scoop</strong></li>
+</ul></article><article class="calculation-step"><h4>1. Normal Force on Puck</h4><div class="math-block" aria-label="Normal force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">N</mi><mo>=</mo><mi mathvariant="normal">W</mi><mo>=</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mrow></math></div></article><article class="calculation-step"><h4>2. Friction Force Required to Move the Puck</h4><div class="math-block" aria-label="Static friction coefficient"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">μ</mi><mtext>s</mtext></msub><mo>≈</mo><mn>0.25</mn><mtext>–</mtext><mn>0.45</mn></mrow></math></div><div class="math-block" aria-label="Kinetic friction coefficient"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">μ</mi><mtext>k</mtext></msub><mo>≈</mo><mn>0.2</mn><mtext>–</mtext><mn>0.35</mn></mrow></math></div><div class="math-block" aria-label="Static friction force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>s,max</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><msub><mi mathvariant="normal">μ</mi><mtext>s</mtext></msub><mi mathvariant="normal">N</mi></mtd></mtr><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>s,max</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mo>(</mo><mn>0.25</mn><mtext>–</mtext><mn>0.45</mn><mo>)</mo><mo>×</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>s,max</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mn>0.125</mn><mtext>–</mtext><mn>0.225</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Kinetic friction force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>k</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><msub><mi mathvariant="normal">μ</mi><mtext>k</mtext></msub><mi mathvariant="normal">N</mi></mtd></mtr><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>k</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mo>(</mo><mn>0.2</mn><mtext>–</mtext><mn>0.35</mn><mo>)</mo><mo>×</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>k</mtext></msub></mtd><mtd><mo>≈</mo></mtd><mtd><mn>0.1</mn><mtext>–</mtext><mn>0.175</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr></mtable></math></div></article><article class="calculation-step"><h4>3. Design Force</h4><div class="math-block" aria-label="Design force"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">F</mi><mtext>design</mtext></msub><mo>=</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mrow></math></div></article><article class="calculation-step"><h4>4. Required Motor Torque</h4><div class="math-block" aria-label="Pinion torque"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><msub><mi mathvariant="normal">F</mi><mtext>push</mtext></msub><mo>·</mo><msub><mi mathvariant="normal">r</mi><mtext>p</mtext></msub></mrow></math></div><div class="math-block" aria-label="Pinion radius range"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">r</mi><mtext>p</mtext></msub><mo>=</mo><mn>0.5</mn><mtext>–</mtext><mn>1</mn><mspace width="0.25em"></mspace><mtext>in</mtext></mrow></math></div><div class="math-block" aria-label="Torque calculation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><mi mathvariant="normal">T</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>in</mtext><mo>×</mo><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>lbf</mtext></mtd></mtr><mtr><mtd><mi mathvariant="normal">T</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.25</mn><mspace width="0.25em"></mspace><mtext>lbf·in</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Torque unit conversion"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>1</mn><mspace width="0.25em"></mspace><mtext>lbf·in</mtext><mo>=</mo><mn>16</mn><mspace width="0.25em"></mspace><mtext>ozf·in</mtext></mrow></math></div><div class="math-block" aria-label="Converted torque"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mn>0.25</mn><mo>×</mo><mn>16</mn><mo>=</mo><mn>4</mn><mspace width="0.25em"></mspace><mtext>ozf·in</mtext></mrow></math></div></article><article class="calculation-step"><h4>5. Practical Torque Requirement</h4><div class="math-block" aria-label="Practical torque target"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">T</mi><mtext>target</mtext></msub><mo>=</mo><mn>15</mn><mtext>–</mtext><mn>30</mn><mspace width="0.25em"></mspace><mtext>ozf·in</mtext></mrow></math></div><div class="math-block" aria-label="Practical torque target in kilogram-force centimetres"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">T</mi><mtext>target</mtext></msub><mo>≈</mo><mn>1.1</mn><mtext>–</mtext><mn>2.2</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div></article><article class="calculation-step"><h4>6. Pinion Rotation Needed for 7 in Travel</h4><div class="math-block" aria-label="Number of pinion revolutions"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">n</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">x</mi></mrow><mrow><mn>2</mn><mi mathvariant="normal">π</mi><msub><mi mathvariant="normal">r</mi><mtext>p</mtext></msub></mrow></mfrac></mrow></math></div><div class="math-block" aria-label="Revolutions with half-inch pinion radius"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">r</mi><mtext>p</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>0.5</mn><mspace width="0.25em"></mspace><mtext>in</mtext></mtd></mtr><mtr><mtd><mi mathvariant="normal">n</mi></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mrow><mn>7</mn></mrow><mrow><mn>2</mn><mi mathvariant="normal">π</mi><mo>(</mo><mn>0.5</mn><mo>)</mo></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>7</mn></mrow><mrow><mi mathvariant="normal">π</mi></mrow></mfrac><mo>≈</mo><mn>2.23</mn><mspace width="0.25em"></mspace><mtext>rev</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Travel per pinion revolution"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">C</mi><mo>≈</mo><mn>3.14</mn><mspace width="0.25em"></mspace><mtext>in/rev</mtext></mrow></math></div><div class="math-block" aria-label="Linear speed at 60 rpm"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>At</mtext><mspace width="0.3em"></mspace><mn>60</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>:</mo><mi mathvariant="normal">v</mi><mo>≈</mo><mn>3.14</mn><mspace width="0.25em"></mspace><mtext>in/s</mtext></mrow></math></div><div class="math-block" aria-label="Travel time"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">t</mi><mo>≈</mo><mfrac><mrow><mn>7</mn><mspace width="0.25em"></mspace><mtext>in</mtext></mrow><mrow><mn>3.14</mn><mspace width="0.25em"></mspace><mtext>in/s</mtext></mrow></mfrac><mo>≈</mo><mn>2.2</mn><mspace width="0.25em"></mspace><mtext>s</mtext></mrow></math></div></article><article class="calculation-step"><h4>Selected Motor Target</h4><ul>
+<li>6 - 12 V voltage motor</li>
+<li>50 - 60 RPM</li>
+<li>Torque ≥ 2 kgf·cm</li>
+</ul></article></div>
+</div>
+<div>
+<h3>Drive Train Motor Spec.</h3>
+<div class="calculation-stack"><article class="calculation-step"><h4>Inputs</h4><ul>
+<li>r<sub>wheel</sub> = <strong>48.5 mm</strong> (d = 97 mm) → mecanum</li>
+<li>V<sub>battery</sub> = <strong>14.4 V nominal</strong> → <strong>12 V realistically</strong></li>
+<li>M<sub>robot</sub> ≈ <strong>5 kg</strong> at max</li>
+</ul></article><article class="calculation-step"><h4>Mass Notes</h4><ul>
+<li>Battery: 0.38 kg - 0.45 kg</li>
+<li>Motor: ≈ 0.235 kg</li>
+<li>Wheels total: 1 lb = 0.45 kg</li>
+<li>Wheel diameter: 97 mm / 3.8 in</li>
+<li>Electronics include sensors, Arduino Uno x2, 2 motor drivers, wires / breadboard, and mounts</li>
+<li>Delivery includes 2 motors and 30 prints</li>
+</ul></article><article class="calculation-step"><h4>Mass Substitution</h4><div class="math-block" aria-label="Robot mass components"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">M</mi><mtext>robot</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><msub><mi mathvariant="normal">m</mi><mtext>battery</mtext></msub><mo>+</mo><mn>4</mn><msub><mi mathvariant="normal">m</mi><mtext>motor</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi mathvariant="normal">M</mi><mtext>wheels</mtext></msub><mo>+</mo><mn>3</mn><msub><mi mathvariant="normal">m</mi><mtext>puck</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>chassis</mtext></msub><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>electronics</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>delivery</mtext></msub></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Substituted mass components"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">M</mi><mtext>robot</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><mo>(</mo><mn>0.45</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>)</mo><mo>+</mo><mn>4</mn><mo>(</mo><mn>0.235</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>)</mo></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><mn>0.45</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>+</mo><mn>3</mn><mo>(</mo><mn>0.227</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>)</mo></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>chassis</mtext></msub><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>electronics</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>delivery</mtext></msub></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Known and remaining mass"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">M</mi><mtext>robot</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2.971</mn><mspace width="0.25em"></mspace><mtext>kg</mtext><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>delivery</mtext></msub></mtd></mtr><mtr><mtd></mtd><mtd></mtd><mtd><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>chassis</mtext></msub><mo>+</mo><msub><mi mathvariant="normal">m</mi><mtext>electronics</mtext></msub></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Design mass estimate"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">M</mi><mtext>robot</mtext></msub><mo>≈</mo><mn>5</mn><mspace width="0.25em"></mspace><mtext>kg</mtext></mrow></math></div></article><article class="calculation-step"><h4>Motor Selection Check</h4><div class="math-block" aria-label="Desired drive motor specification"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Speed:</mtext><mspace width="0.3em"></mspace><mn>150</mn><mtext>–</mtext><mn>300</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext></mrow></math><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Combined torque:</mtext><mspace width="0.3em"></mspace><mo>≈</mo><mn>5</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mrow></math></div><div class="math-block" aria-label="Drive motor used in calculation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mn>130</mn><mspace width="0.25em"></mspace><mtext>rpm</mtext><mo>,</mo><mn>1.2</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext><mo>,</mo><mn>12</mn><mspace width="0.25em"></mspace><mtext>V</mtext></mrow></math></div><div class="math-block" aria-label="Individual and combined drive torque"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><mi mathvariant="normal">τ</mi></mtd><mtd><mo>=</mo></mtd><mtd><mn>1.2</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext><mo>≈</mo><mn>0.118</mn><mspace width="0.25em"></mspace><mtext>N·m</mtext></mtd></mtr><mtr><mtd><msub><mi mathvariant="normal">τ</mi><mtext>total</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>4</mn><mi mathvariant="normal">τ</mi><mo>=</mo><mn>4.8</mn><mspace width="0.25em"></mspace><mtext>kgf·cm</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Ideal force per wheel"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable displaystyle="true" columnalign="right center left" columnspacing="0.3em" rowspacing="0.35em"><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>wheel</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mrow><mi mathvariant="normal">τ</mi></mrow><mrow><msub><mi mathvariant="normal">r</mi><mtext>wheel</mtext></msub></mrow></mfrac></mtd></mtr><mtr><mtd><msub><mi mathvariant="normal">F</mi><mtext>wheel</mtext></msub></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mrow><mn>0.118</mn><mspace width="0.25em"></mspace><mtext>N·m</mtext></mrow><mrow><mn>0.0485</mn><mspace width="0.25em"></mspace><mtext>m</mtext></mrow></mfrac><mo>≈</mo><mn>2.4</mn><mspace width="0.25em"></mspace><mtext>N</mtext></mtd></mtr></mtable></math></div><div class="math-block" aria-label="Ideal force across four wheels"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi mathvariant="normal">F</mi><mtext>total</mtext></msub><mo>≈</mo><mn>9.7</mn><mspace width="0.25em"></mspace><mtext>N</mtext></mrow></math></div><div class="math-block" aria-label="Ideal acceleration estimate"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi mathvariant="normal">a</mi><mo>≈</mo><mfrac><mrow><mi mathvariant="normal">F</mi></mrow><mrow><mi mathvariant="normal">m</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>9.7</mn><mspace width="0.25em"></mspace><mtext>N</mtext></mrow><mrow><mn>5</mn><mspace width="0.25em"></mspace><mtext>kg</mtext></mrow></mfrac><mo>=</mo><mn>1.94</mn><mspace width="0.25em"></mspace><mtext>m/s²</mtext></mrow></math></div></article></div>
+</div>
+</div></section>
+<section id="strategy" class="section guide-section"><h2 class="label">Section 5</h2><h3 class="guide-title">Overall Scoring Strategy</h3><div class="prose">
+<div>
+
+
+</div>
+<div>
+<p>
+              The scoring loop is implemented as a sequential set of alignment, line acquisition, scoring, and
+              reset behaviors.
+            </p>
+</div>
+<ol class="workflow">
+<li>
+<h3>Determine Rotation</h3>
+<p>Use ultrasonics to figure out rotation of bot, and rotate accordingly.</p>
+</li>
+<li>
+<h3>Return to the Home Corner</h3>
+<p>Once facing forward, strafe left and move back to home to corner of arena.</p>
+</li>
+<li>
+<h3>Acquire the Centre Line</h3>
+<p>Strafe right until the centre line.</p>
+</li>
+<li>
+<h3>Advance to the Hog Lines</h3>
+<p>Follow centre line to hog lines.</p>
+</li>
+<li>
+<h3>Deploy the Scoring Mechanism</h3>
+<p>Drop puck, extend pusher, retract pusher (repeat 3x).</p>
+</li>
+<li>
+<h3>Reverse the Path</h3>
+<p>Follow centre line to back.</p>
+</li>
+<li>
+<h3>Re-seat in the Corner</h3>
+<p>Strafe left till back in corner.</p>
+</li>
+<li>
+<h3>Reset and Repeat</h3>
+<p>Wait 5 seconds, get reloaded, strafe to centre line, repeat.</p>
+</li>
+</ol>
+</div></section>
+<section id="software" class="section guide-section"><h2 class="label">Section 6</h2><h3 class="guide-title">Tournament Code Implementation</h3><div class="prose">
+<div>
+
+
+</div>
+<div>
+<h3>Controller Structure</h3>
+<div>
+<p>
+                The tournament robot ran from a single Arduino Mega master script. The code defines four drivetrain
+                PWM channels, dedicated turntable and pusher outputs, three IR sensors, and three ultrasonic
+                sensors. <code>setup()</code> initializes all drivetrain and actuator outputs, configures the ultrasonic pins,
+                stops the system, and exposes a serial command interface for manual testing.
+              </p>
+<p>
+                Although manual commands remained available through serial input, the tournament behavior was driven
+                directly from <code>loop()</code>. The autonomous path called <code>squareToWall()</code>, <code>alignToLine()</code>, <code>score()</code>,
+                and <code>returnToSquare()</code>, then repeated with timed lateral offsets for later scoring attempts.
+              </p>
+</div>
+</div>
+<div>
+<h3>Key Thresholds and Speeds</h3>
+<ul>
+<li><code>IR_THRESH</code> is set to <code>200</code> for tape detection.</li>
+<li><code>squareToWall()</code> uses a <code>45 cm</code> ultrasonic threshold and temporarily reduces turn speed to <code>130 PWM</code> for precision rotation.</li>
+<li><code>alignToLine()</code> begins with a slow right strafe at roughly <code>76 PWM</code>, then follows the line at <code>120 PWM</code>.</li>
+<li>Line-follow corrections use differential wheel commands of <code>30</code> and <code>100 PWM</code> to steer back onto the line.</li>
+<li><code>returnToSquare()</code> reverses at <code>90 PWM</code> and finishes with a <code>120 PWM</code> left strafe into the corner.</li>
+</ul>
+</div>
+<div>
+<div>
+<h3>Orientation and Line Logic</h3>
+<div>
+<p>
+<code>squareToWall()</code> implements the core ultrasonic orientation routine. It reads the left, right,
+                  and back sensors, classifies the robot's heading from wall visibility, and preserves a <code>turnDir</code>
+                  state so the chassis keeps rotating through ultrasonic blind spots instead of stalling on <code>999</code>
+                  timeout readings.
+                </p>
+<p>
+                  Once forward orientation is locked, the code transitions into a back-left tuck toward the corner.
+                  <code>alignToLine()</code> then strafes right until the back-center IR sensor crosses the threshold, after
+                  which the front-left and front-right sensors handle differential line following. The hog line stop
+                  condition is explicit: both front sensors must simultaneously detect black tape.
+                </p>
+</div>
+</div>
+<aside>
+<p class="label">Code Reality</p>
+<p>
+                The code matches the strategy at a low level: wall-based orientation, center-line acquisition,
+                front-sensor stop detection, and a clean transition back into the square after scoring.
+              </p>
+</aside>
+</div>
+<div>
+<h3>Scoring and Multi-Cycle Sequence</h3>
+<div>
+<p>
+                  The actual <code>score()</code> function is more specific than the high-level summary. For each scoring cycle,
+                  the turn motor is driven at full PWM for <code>1.5 seconds</code>, the pusher extends at full PWM for <code>3</code>
+                  seconds, and the pusher retracts at full PWM for another <code>3 seconds</code>. That inner cycle is repeated
+                  three times.
+                </p>
+<p>
+                  The top-level tournament loop then executes three attack positions: one centered scoring pass, one
+                  pass with a short right strafe of <code>300 ms</code>, and one pass with a short left strafe of <code>300 ms</code>. Each
+                  of the later passes is separated by a five-second reload delay and a fresh line-acquisition phase.
+                </p>
+</div>
+</div>
+</div></section>
+<section id="code" class="section guide-section"><h2 class="label">Section 7</h2><h3 class="guide-title">Source Code</h3><div class="prose">
+<div>
+
+
+</div>
+<div>
+<p>
+              The full tournament Arduino script is included below. This is the exact <code>me210_tourneycode.ino</code>
+              file used as the software source for this report.
+            </p>
+</div>
+<p><a href="me210_tourneycode.ino" download="me210_tourneycode.ino">Download me210_tourneycode.ino</a></p><details class="check"><summary>View the full Arduino script</summary><pre><code>// --- Mega Master Script (V7: Full Autonomous &amp; Manual Control) ---
+
+// --- 1. Constants &amp; Variables ---
+int speedFL = 200; 
+int speedFR = 200; 
+int speedBL = 200; 
+int speedBR = 200; 
+
+const int IR_THRESH = 200;       // Adjust based on your serial plotter values
+const long TARGET_BACK_CM = 15;  // Adjust for arena
+const long TARGET_SIDE_CM = 15;  // Adjust for arena
+
+// --- 2. Pin Definitions ---
+// Drivetrain
+#define FL_PWM 2  
+#define FL_IN1 22 
+#define FL_IN2 24
+#define FR_PWM 3  
+#define FR_IN1 26 
+#define FR_IN2 28
+#define BL_PWM 4  
+#define BL_IN1 30 
+#define BL_IN2 32
+#define BR_PWM 5  
+#define BR_IN1 34 
+#define BR_IN2 36
+
+// Shooter
+#define TURN_PWM 6
+#define TURN_IN1 38
+#define TURN_IN2 40
+#define PUSH_PWM 7
+#define PUSH_IN1 42
+#define PUSH_IN2 44
+
+// Sensors
+#define IR_FL A0 
+#define IR_FR A1 
+#define IR_BC A2 
+
+#define US_BACK_TRIG 46
+#define US_BACK_ECHO 47
+#define US_LEFT_TRIG 48
+#define US_LEFT_ECHO 49
+#define US_RIGHT_TRIG 50
+#define US_RIGHT_ECHO 51
+
+unsigned long lastPrintTime = 0;
+
+// --- 3. Setup ---
+void setup() {
+  Serial.begin(9600);
+  
+  int outputPins[] = {2, 22, 24, 3, 26, 28, 4, 30, 32, 5, 34, 36, 6, 38, 40, 7, 42, 44};
+  for (int i = 0; i &lt; 18; i++) { pinMode(outputPins[i], OUTPUT); }
+  
+  pinMode(US_BACK_TRIG, OUTPUT); pinMode(US_BACK_ECHO, INPUT);
+  pinMode(US_LEFT_TRIG, OUTPUT); pinMode(US_LEFT_ECHO, INPUT);
+  pinMode(US_RIGHT_TRIG, OUTPUT); pinMode(US_RIGHT_ECHO, INPUT);
+
+  stopAll();
+  Serial.println("--- System Online ---");
+  Serial.println("Manual: WASD (Drive), QE (Turn), T/O/I (Shooter) format: [Key][Seconds]");
+  Serial.println("Auto: Z (Square), C (Align Line), M (Master Sequence)");
+}
+
+// --- 4. Main Loop ---
+void loop() {
+  // Background sensor printing
+  if (millis() - lastPrintTime &gt; 100) {
+    printSensors();
+    lastPrintTime = millis();
+  }
+
+  if (Serial.available() &gt; 0) {
+    char cmd = Serial.read();
+    float seconds = Serial.parseFloat();
+    
+    // Default time if no number is provided (ignored by autonomous functions)
+    if (seconds &lt;= 0) seconds = 0.1; 
+
+    unsigned long duration = seconds * 1000;
+    executeAction(cmd, duration);
+    
+    // Clear buffer
+    while(Serial.available() &gt; 0) Serial.read(); 
+  }
+
+  squareToWall();
+  alignToLine();
+  score();
+  returnToSquare();
+  delay(5000);
+  alignToLine();
+  strafeRight();
+  delay(300);
+  stopAll();
+  score();
+  strafeLeft();
+  delay(300);
+  stopAll();
+  returnToSquare();
+  delay(5000);
+  alignToLine();
+  strafeLeft();
+  delay(300);
+  stopAll();
+  score();
+}
+
+// --- 5. Sensor Logic ---
+long readUS(int trigPin, int echoPin) {
+  digitalWrite(trigPin, LOW); delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH); delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  long duration = pulseIn(echoPin, HIGH, 30000); 
+  if (duration == 0) return 999; 
+  return duration * 0.034 / 2;
+}
+
+void printSensors() {
+  int irFL = analogRead(IR_FL);
+  int irFR = analogRead(IR_FR);
+  int irBC = analogRead(IR_BC);
+
+  long usBack = readUS(US_BACK_TRIG, US_BACK_ECHO);
+  long usLeft = readUS(US_LEFT_TRIG, US_LEFT_ECHO);
+  long usRight = readUS(US_RIGHT_TRIG, US_RIGHT_ECHO);
+
+  Serial.print("IR[FL:"); Serial.print(irFL);
+  Serial.print(" FR:"); Serial.print(irFR);
+  Serial.print(" BC:"); Serial.print(irBC);
+  Serial.print("] | US_cm[Back:"); Serial.print(usBack);
+  Serial.print(" L:"); Serial.print(usLeft);
+  Serial.print(" R:"); Serial.print(usRight);
+  Serial.println("]");
+}
+
+void delayAndPrint(unsigned long ms) {
+  unsigned long start = millis();
+  while (millis() - start &lt; ms) {
+    if (millis() - lastPrintTime &gt; 100) {
+      printSensors();
+      lastPrintTime = millis();
+    }
+  }
+}
+
+// --- 6. Autonomous Strategies ---
+void squareToWall() {
+  Serial.println("Phase 1: Pure Rotation...");
+  const int THRESH = 45; 
+
+  // Temporarily lower speed for precision turning so we don't overshoot
+  int tempFL = speedFL; int tempFR = speedFR;
+  int tempBL = speedBL; int tempBR = speedBR;
+  speedFL = 130; speedFR = 130; speedBL = 130; speedBR = 130;
+
+  // 1 = Right (CW), -1 = Left (CCW). Default to scanning right.
+  int turnDir = 1; 
+
+  // --- Phase 1: ONLY Turning ---
+  while (true) {
+    long l = readUS(US_LEFT_TRIG, US_LEFT_ECHO);
+    long r = readUS(US_RIGHT_TRIG, US_RIGHT_ECHO);
+    long b = readUS(US_BACK_TRIG, US_BACK_ECHO);
+
+    // 1. LOCKED (Forward)
+    if (l &lt; THRESH &amp;&amp; b &lt; THRESH &amp;&amp; l != 999 &amp;&amp; b != 999) {
+      stopAll();
+      Serial.println("Forward orientation locked.");
+      break; 
+    }
+    // 2. Facing Right (Right and Back see the corner walls)
+    else if (r &lt; THRESH &amp;&amp; b &lt; THRESH &amp;&amp; r != 999 &amp;&amp; b != 999) {
+      turnDir = -1; // Set momentum to Left
+    }
+    // 3. Facing Left (Left sees Back wall, Back is open to arena)
+    else if (l &lt; THRESH &amp;&amp; l != 999 &amp;&amp; (b &gt; THRESH || b == 999)) {
+      turnDir = 1;  // Set momentum to Right
+    }
+    // 4. Facing Backwards (Right sees Left wall, Back is open to arena)
+    else if (r &lt; THRESH &amp;&amp; r != 999 &amp;&amp; (b &gt; THRESH || b == 999)) {
+      turnDir = -1; // Set momentum to Left
+    }
+    // 5. Diagonal Blindspot (999s)
+    // Notice there is NO "else" statement changing turnDir here.
+    // It just remembers the last known direction and coasts through the blindspot!
+
+    // Execute the turn based on current momentum
+    if (turnDir == 1) rotateRight();
+    else rotateLeft();
+    
+    delayAndPrint(40); 
+  }
+
+  stopAll();
+  delay(200); 
+
+  // Restore your normal driving speeds for the translation phase
+  speedFL = tempFL; speedFR = tempFR; 
+  speedBL = tempBL; speedBR = tempBR;
+
+  // --- Phase 2: ONLY Translating (The Tuck) ---
+  Serial.println("Phase 2: Translating Back-Left to Corner...");
+  unsigned long lockedTime = 0;
+  bool isSquared = false;
+
+  while (!isSquared) {
+    long l = readUS(US_LEFT_TRIG, US_LEFT_ECHO);
+    long b = readUS(US_BACK_TRIG, US_BACK_ECHO);
+
+    // Goal: Both sensors under 10cm for 2 continuous seconds
+    if (l &lt; 5 &amp;&amp; b &lt; 3 || b &gt; 980 &amp;&amp; l != 999 &amp;&amp; b != 999) {
+      stopAll();
+      if (lockedTime == 0) {
+        lockedTime = millis(); 
+        Serial.println("In position. Holding for 2 seconds...");
+      } else if (millis() - lockedTime &gt;= 2000) {
+        isSquared = true; 
+      }
+    } 
+    // If we drift outside 10cm, reset timer and correct
+    else {
+      if (lockedTime != 0) {
+        Serial.println("Lost position. Adjusting...");
+        lockedTime = 0; 
+      }
+      
+      if ((l &gt;= 6 || l == 999) &amp;&amp; (b &gt;= 6 || b == 999)) {
+        moveBackLeft(); // Diagonal drive
+      } else if (b &gt;= 10 || b == 999) {
+        moveBackward();
+      } else if (l &gt;= 10 || l == 999) {
+        strafeLeft();
+      }
+    }
+    
+    delayAndPrint(20);
+  }
+  
+  Serial.println("Perfectly Squared and Verified.");
+}
+
+void alignToLine() {
+  Serial.println("Initiating: Strafe to Center and Approach Hog Line...");
+  
+  // Save your normal driving speeds so we don't permanently overwrite them
+  int tempFL = speedFL; int tempFR = speedFR;
+  int tempBL = speedBL; int tempBR = speedBR;
+  
+  // --- Phase 1: Strafe Right Slowly (15% Speed) ---
+  speedFL = 38*2; speedFR = 38*2; speedBL = 38*2; speedBR = 38*2; // 15% of 255
+  
+  Serial.println("Phase 1: Strafing Right at 15% to find center line...");
+  strafeRight();
+  
+  // Keep strafing until the Back-Center sensor hits the black tape (&gt; IR_THRESH)
+  while (analogRead(IR_BC) &lt; IR_THRESH) {
+    delayAndPrint(10);
+  }
+  stopAll();
+  delay(200); // Let the momentum settle before switching to forward drive
+  
+  // --- Phase 2: Follow Line (30% Speed) ---
+  speedFL = 120; speedFR = 120; speedBL = 120; speedBR = 120; // 30% of 255
+  
+  Serial.println("Phase 2: Following line at 30% to hog line...");
+  
+  // Loop continuously until we hit the cross-line
+  while (true) {
+    int valFL = analogRead(IR_FL);
+    int valFR = analogRead(IR_FR);
+    
+    // THE STOP CONDITION: Both front sensors see black tape (The Hog Line)
+    if (valFL &gt; IR_THRESH &amp;&amp; valFR &gt; IR_THRESH) {
+      stopAll();
+      Serial.println("Hog line detected! Stopping.");
+      break; 
+    }
+    
+    // LINE FOLLOWING CORRECTIONS (Differential Steering)
+    if (valFL &gt; IR_THRESH &amp;&amp; valFR &lt; IR_THRESH) {
+      // Drifting Right: Left sensor hit the tape -&gt; Steer Left
+      // Left wheels run slow (30), Right wheels run fast (100)
+      runMotor(2,22,24,false, 30);  
+      runMotor(3,26,28,false, 100); 
+      runMotor(4,30,32,false, 100); 
+      runMotor(5,34,36,false, 30);  
+    } 
+    else if (valFR &gt; IR_THRESH &amp;&amp; valFL &lt; IR_THRESH) {
+      // Drifting Left: Right sensor hit the tape -&gt; Steer Right
+      // Left wheels run fast (100), Right wheels run slow (30)
+      runMotor(2,22,24,false, 100); 
+      runMotor(3,26,28,false, 30);  
+      runMotor(4,30,32,false, 30);  
+      runMotor(5,34,36,false, 100); 
+    } 
+    else {
+      // Perfectly straddling the line -&gt; Drive Straight at 30%
+      moveForward(); 
+    }
+    
+    delayAndPrint(10);
+  }
+  
+  // Restore your original driving speeds
+  speedFL = tempFL; speedFR = tempFR; 
+  speedBL = tempBL; speedBR = tempBR;
+  Serial.println("Ready to curl.");
+}
+
+void score() {
+  Serial.println("shooting");
+
+  const unsigned long t_ms = 3000;
+
+  for (int rep = 0; rep &lt; 3; rep++) {
+    Serial.print("Score cycle "); Serial.println(rep + 1);
+
+    // T3: turn motor forward @ full speed for 3s
+    runMotor(TURN_PWM, TURN_IN1, TURN_IN2, true, 255);
+    delayAndPrint(1500);
+    stopAll();
+    delay(150);
+
+    // O3: push motor forward @ full speed for 3s
+    runMotor(PUSH_PWM, PUSH_IN1, PUSH_IN2, true, 255);
+    delayAndPrint(t_ms);
+    stopAll();
+    delay(150);
+
+    // I3: push motor reverse @ full speed for 3s
+    runMotor(PUSH_PWM, PUSH_IN1, PUSH_IN2, false, 255);
+    delayAndPrint(t_ms);
+    stopAll();
+    delay(300);
+  }
+
+  Serial.println("shooting complete");
+}
+
+void returnToSquare() {
+  Serial.println("Initiating: Return to Square (Line Follow Reverse)...");
+
+  // Save standard driving speeds
+  int tempFL = speedFL; int tempFR = speedFR;
+  int tempBL = speedBL; int tempBR = speedBR;
+
+  // --- Phase 1: Follow Line Backwards ---
+  Serial.println("Phase 1: Following line backwards to wall...");
+  speedFL = 90; speedFR = 90; speedBL = 90; speedBR = 90; // Smooth reverse speed
+
+  while (true) {
+    long b = readUS(US_BACK_TRIG, US_BACK_ECHO);
+    
+    // STOP CONDITION: Back sensor sees the wall
+    if (b &lt; 10 &amp;&amp; b != 999) {
+      stopAll();
+      Serial.println("Back wall reached.");
+      break;
+    }
+
+    int valFL = analogRead(IR_FL);
+    int valFR = analogRead(IR_FR);
+
+    // BACKWARD LINE FOLLOWING CORRECTIONS (Differential Steering)
+    if (valFL &gt; IR_THRESH &amp;&amp; valFR &lt; IR_THRESH) {
+      // Drifting Right: FL hits tape -&gt; Steer Left while reversing
+      // Right wheels reverse fast, Left wheels reverse slow
+      runMotor(2,22,24,true, 60);   // FL Reverse Slow
+      runMotor(3,26,28,true, 130);  // FR Reverse Fast
+      runMotor(4,30,32,true, 130);  // BR Reverse Fast (Pin 4)
+      runMotor(5,34,36,true, 60);   // BL Reverse Slow (Pin 5)
+    } 
+    else if (valFR &gt; IR_THRESH &amp;&amp; valFL &lt; IR_THRESH) {
+      // Drifting Left: FR hits tape -&gt; Steer Right while reversing
+      // Left wheels reverse fast, Right wheels reverse slow
+      runMotor(2,22,24,true, 130);  // FL Reverse Fast
+      runMotor(3,26,28,true, 60);   // FR Reverse Slow
+      runMotor(4,30,32,true, 60);   // BR Reverse Slow (Pin 4)
+      runMotor(5,34,36,true, 130);  // BL Reverse Fast (Pin 5)
+    } 
+    else {
+      // Perfectly straddling the line -&gt; Reverse Straight
+      moveBackward(); 
+    }
+    
+    delayAndPrint(10);
+  }
+
+  delay(200); // Let momentum settle
+
+  // --- Phase 2: Strafe Left into Corner ---
+  Serial.println("Phase 2: Strafing left to corner...");
+  speedFL = 120; speedFR = 120; speedBL = 120; speedBR = 120; // Strafe power
+
+  while (true) {
+    long l = readUS(US_LEFT_TRIG, US_LEFT_ECHO);
+    
+    // STOP CONDITION: Left sensor sees the wall
+    if (l &lt; 10 &amp;&amp; l != 999) {
+      stopAll();
+      Serial.println("Left wall reached. Fully returned.");
+      break;
+    }
+    
+    strafeLeft();
+    delayAndPrint(20);
+  }
+
+  // Restore driving speeds
+  speedFL = tempFL; speedFR = tempFR; 
+  speedBL = tempBL; speedBR = tempBR;
+}
+
+// --- 7. Drivetrain &amp; Commands ---
+void executeAction(char cmd, unsigned long ms) {
+  switch (cmd) {
+    // Manual Time-Based Control
+    case 'w': case 'W': moveForward(); delayAndPrint(ms); break; 
+    case 's': case 'S': moveBackward(); delayAndPrint(ms); break;
+    case 'a': case 'A': strafeLeft(); delayAndPrint(ms); break;
+    case 'd': case 'D': strafeRight(); delayAndPrint(ms); break;
+    case 'q': case 'Q': rotateLeft(); delayAndPrint(ms); break;
+    case 'e': case 'E': rotateRight(); delayAndPrint(ms); break;
+    case 't': case 'T': runMotor(6, 38, 40, true, 255); delayAndPrint(ms); break;
+    case 'o': case 'O': runMotor(7, 42, 44, true, 255); delayAndPrint(ms); break;
+    case 'i': case 'I': runMotor(7, 42, 44, false, 255); delayAndPrint(ms); break;
+    
+    // Autonomous Sequences
+    case 'z': case 'Z': squareToWall(); break; 
+    case 'c': case 'C': alignToLine(); break; 
+    case 'x': case 'X': score(); break;
+    // Master Sequence
+    case 'm': case 'M': 
+      Serial.println("--- Starting Master Sequence ---");
+      squareToWall();
+      alignToLine();
+      score();
+      Serial.println("--- Master Sequence Complete ---");
+
+      break;
+      
+    default: return; 
+  }
+  stopAll();
+}
+
+void runMotor(int pwm, int in1, int in2, bool dir, int s) {
+  analogWrite(pwm, s);
+  digitalWrite(in1, dir ? HIGH : LOW);
+  digitalWrite(in2, dir ? LOW : HIGH);
+}
+
+// --- Logic Corrected for Swapped Pins 4 &amp; 5 ---
+void moveForward() {
+  runMotor(2,22,24,false,speedFL); runMotor(3,26,28,false,speedFR);
+  runMotor(4,30,32,false,speedBR); runMotor(5,34,36,false,speedBL);
+}
+void moveBackward() {
+  runMotor(2,22,24,true,speedFL); runMotor(3,26,28,true,speedFR);
+  runMotor(4,30,32,true,speedBR); runMotor(5,34,36,true,speedBL);
+}
+void strafeRight() {
+  runMotor(2,22,24,false,speedFL); runMotor(3,26,28,true,speedFR);
+  runMotor(4,30,32,false,speedBR); runMotor(5,34,36,true,speedBL);
+}
+void strafeLeft() {
+  runMotor(2,22,24,true,speedFL); runMotor(3,26,28,false,speedFR);
+  runMotor(4,30,32,true,speedBR); runMotor(5,34,36,false,speedBL);
+}
+void rotateRight() {
+  runMotor(2,22,24,false,speedFL); runMotor(3,26,28,true,speedFR);
+  runMotor(4,30,32,true,speedBR); runMotor(5,34,36,false,speedBL);
+}
+void rotateLeft() {
+  runMotor(2,22,24,true,speedFL); runMotor(3,26,28,false,speedFR);
+  runMotor(4,30,32,false,speedBR); runMotor(5,34,36,true,speedBL);
+}
+
+void moveBackLeft() {
+  // Mecanum Diagonal Back-Left: FL(Bwd), FR(Stop), BL(Stop), BR(Bwd)
+  runMotor(2,22,24,true,speedFL);  // FL Backward
+  runMotor(3,26,28,false,0);       // FR Stop
+  runMotor(4,30,32,true,speedBR);  // BR Backward
+  runMotor(5,34,36,false,0);       // BL Stop
+}
+
+void stopAll() {
+  for (int p = 2; p &lt;= 7; p++) { analogWrite(p, 0); }
+}</code></pre></details>
+</div></section>
+<section id="outcomes" class="section guide-section"><h2 class="label">Section 8</h2><h3 class="guide-title">Outcomes</h3><div class="prose">
+<div>
+
+
+</div>
+<ul>
+<li>Super reliable for first scoring cycle.</li>
+<li>Pusher worked great.</li>
+<li>
+              Line following left a bit to be desired, as the two front IR sensors were on the very edge of each
+              side of the robot.
+            </li>
+</ul>
+<div>
+<p>
+              The results show a system with one strong core behavior and one clear weakness. The first scoring
+              cycle was reliable and the pusher performed well, but line following remained less precise than
+              desired. The main issue was sensor placement at the outer edges of the front of the robot, which
+              reduced the system's ability to stay centered cleanly.
+            </p>
+</div>
+</div></section>
+<section id="lessons" class="section guide-section"><h2 class="label">Section 9</h2><h3 class="guide-title">Lessons Learned</h3><div class="prose">
+<div>
+
+
+</div>
+<div class="callout">
+<p class="label">Key Errors</p>
+<p>Several late-stage issues came from unnecessary hardware, missing calibration, limited cycle testing, and delayed assembly decisions.</p>
+</div>
+<ul>
+<li>Encoders on the drivetrain motors were not needed; the team eventually went for a sensor-based strategy.</li>
+<li>Encoders on the turntable <strong>were</strong> needed and had to be calibrated based on battery voltage.</li>
+<li>Before the tournament, the team never once tested multiple scoring cycles, which left an important system-level failure unexposed until late.</li>
+<li>Assembly bottlenecks such as 3D printing and quick adjustments needed to be addressed much earlier.</li>
+</ul>
+<div>
+<p>
+              The main lessons are about scope discipline and integration timing. Some instrumentation turned out to
+              be unnecessary, other sensing proved more critical than expected, and the lack of repeated full-cycle
+              testing hid important issues. On top of that, assembly bottlenecks reduced iteration time when the
+              team most needed it.
+            </p>
+</div>
+</div></section>
+<p class="aside"><a href="https://benjiw2.github.io/ME210-Final-Project-website/">Original team website</a> &middot; <a href="https://github.com/BenjiW2/ME210-Final-Project-website">Source repository</a></p>    <footer class="footer">
+      <p>Benji Warburton</p>
+      <a href="mailto:benjiw@stanford.edu">benjiw@stanford.edu</a>
+    </footer>
+  </main>
+
+  <script>
+    document.querySelector(".theme-toggle").addEventListener("click", function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      var stripe = document.querySelector(".livery");
+      if (stripe) {
+        stripe.style.animation = "none";
+        void stripe.offsetHeight;
+        stripe.style.animation = "";
+      }
+    });
+  </script>
+</body>
+</html>
