@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Return the Shell | Oysters and Quandamooka</title>
+<meta name="description" content="A scroll-through story of one oyster reef on Quandamooka Sea Country: how it was cared for, dredged away, and is being rebuilt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="story" id="top">
+  <div class="stage" id="stage">
+    <canvas id="scene" role="img" aria-label="Illustrated cross-section of a tidal flat in Moreton Bay. The scene changes as you scroll: an oyster reef grows, is dredged away, and is slowly rebuilt."></canvas>
+    <div id="map" aria-hidden="true"></div>
+    <div class="topbar">
+      <div class="progress" id="progress"></div>
+      <span class="brand">Return the Shell</span>
+      <nav class="chapters" id="chapters" aria-label="Chapters"></nav>
+    </div>
+    <div class="era" id="era" aria-live="polite"></div>
+    <div class="caption" id="caption"></div>
+    <div class="credit">Imagery © Esri, Maxar, Earthstar Geographics</div>
+  </div>
+
+  <div class="steps">
+
+    <!-- 0 -->
+    <section class="step hero" data-ch="Start" data-era="" data-s='{}'>
+      <div class="card">
+        <h1>Return<br>the Shell</h1>
+        <p class="lede">An oyster reef is built on the shells of the oysters that came before. On Quandamooka Sea Country, one way of living with oysters kept the shell coming back. Another took it away.</p>
+        <p class="scrollcue">Scroll to follow one oyster</p>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="step" data-s='{}' data-cap="A healthy tidal flat: mangroves, a shell midden on the shore, and an oyster reef under clear water.">
+      <div class="card">
+        <span class="kicker">Before we begin</span>
+        <p>We acknowledge the Quandamooka People, Traditional Owners of the lands and waters of Quandamooka (Moreton Bay), including Minjerribah (North Stradbroke Island) and Mulgumpin (Moreton Island). We pay our respects to Elders past and present.</p>
+        <p class="note">We are university students, not Quandamooka people, and we don't speak for Traditional Owners. What this story says about Quandamooka knowledge comes from published sources and from what Quandamooka people have chosen to share publicly. Every source is listed at the end.</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="step" data-era="" data-map='{"center":[153.3,-27.4],"zoom":9.1,"pitch":0}' data-places="quandamooka,minjerribah,mulgumpin,brisbane">
+      <div class="card">
+        <span class="kicker">The place</span>
+        <h2>A shallow bay behind islands of sand</h2>
+        <p>Quandamooka is the bay between the mainland and the great sand islands of Minjerribah and Mulgumpin. Rivers bring fresh water and sediment in from the west. The islands hold back the ocean swell from the east.<sup><a href="#s1">1</a></sup></p>
+        <p>Sheltered, shallow and fed by rivers, it was once thick with oysters.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- ============ 1. ONE OYSTER ============ -->
+    <!-- 3 -->
+    <section class="step chapter" id="one-oyster" data-ch="One oyster" data-era="" data-s='{}'>
+      <div class="chapter-title"><span class="num">01</span><h2>One oyster</h2><p>How a reef begins.</p></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="step" data-era="One oyster" data-s='{"larvae":1,"zoom":1.5,"fx":0.62,"fy":0.58}' data-cap="Oyster larvae drifting above the reef. The magnifier follows one of them.">
+      <div class="card">
+        <h2>It starts adrift</h2>
+        <p>A Sydney rock oyster (<i>Saccostrea glomerata</i>) begins life as a free-swimming larva, barely visible to the eye. When the water warms, millions are released at once and ride the tides of the bay for a few weeks.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="step" data-s='{"larvae":1,"settle":1,"zoom":2.0,"fx":0.64,"fy":0.66}' data-cap="The larva settles on an old shell and becomes spat.">
+      <div class="card">
+        <h2>It needs something hard to hold</h2>
+        <p>To survive, the larva has to cement itself to a hard surface. Once it does, it is called spat, and it never moves again.</p>
+        <p>The best surface of all is the shell of an older oyster.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="step" data-s='{"zoom":1.35,"fx":0.7,"fy":0.66}' data-cap="Living oysters growing on generations of older shell.">
+      <div class="card">
+        <h2>A reef is oysters on oysters</h2>
+        <p>Oyster reefs form the way coral reefs do. As older animals die, new ones grow on what they leave behind. Layer on layer, the shell becomes a three-dimensional structure that shelters young fish, crabs and other shellfish.<sup><a href="#s1">1</a></sup></p>
+        <p>Take the shell away and the next generation has nowhere to land.</p>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="step" data-slider="1" data-s='{}' data-cap="Move the slider in the card to change how much reef is left.">
+      <div class="card">
+        <h2>What a reef does for the bay</h2>
+        <p>Oysters feed by pumping water over their gills and straining out algae and silt. A reef full of them keeps the water clear, and clear water lets sunlight reach the seagrass.<sup><a href="#s1">1</a>,<a href="#s5">5</a></sup></p>
+        <div class="slider">
+          <label for="reefSlider">Try it: oysters on the reef</label>
+          <input type="range" id="reefSlider" min="0" max="100" value="100" step="1">
+          <output id="reefOut" for="reefSlider"></output>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2. SEA COUNTRY ============ -->
+    <!-- 8 -->
+    <section class="step chapter" id="sea-country" data-ch="Sea Country" data-era="" data-map='{"center":[153.45,-27.56],"zoom":10.3,"pitch":35,"bearing":-12}' data-places="minjerribah,goompi">
+      <div class="chapter-title"><span class="num">02</span><h2>Sea Country</h2><p>Looking after oysters, for a very long time.</p></div>
+    </section>
+
+    <!-- 9 -->
+    <section class="step" data-era="For thousands of years" data-s='{"zoom":1.7,"fx":0.12,"fy":0.36}' data-cap="A midden: shell built up on the shore over many generations of meals and gatherings.">
+      <div class="card">
+        <h2>The middens keep the record</h2>
+        <p>People have eaten oysters here for a very long time. The proof is in the middens: great mounds of oyster and other shell left all around the bay by generations of gatherings.<sup><a href="#s1">1</a>,<a href="#s2">2</a></sup></p>
+        <p>Archaeologists date the oldest shell found in these middens to 3,000–4,000 years ago. Aboriginal people contest that date and say they have been here since the beginnings of time.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="step" data-s='{"ret":1,"zoom":1.15,"fx":0.3,"fy":0.5}' data-cap="Spent shell going back into the water, where it becomes a place for spat to settle.">
+      <div class="card">
+        <h2>Looking after the reef</h2>
+        <p>Historian Jodi Frawley records that the Dandrabin-Gorenpul peoples of Quandamooka used a range of strategies to keep oysters plentiful:<sup><a href="#s1">1</a></sup></p>
+        <ul class="todo">
+          <li>watching the reefs closely</li>
+          <li>moving young oysters to places where they would grow better</li>
+          <li>putting spent shell back in the water to build new surface for the next generation</li>
+        </ul>
+        <p class="note">Scientists reviewing the bay's history agree that Quandamooka People probably farmed oysters as well as harvesting them.<sup><a href="#s2">2</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="step" data-s='{"ret":1}' data-cap="Harvest and reef as one cycle.">
+      <div class="card">
+        <h2>The shell goes back</h2>
+        <p>In this way of working, eating oysters and looking after the reef are parts of one cycle. The shell from a meal becomes the place where the next oysters settle.</p>
+        <p>It is one example of what is often called caring for Country: people are responsible for land and sea, and belong to it, instead of simply owning what it produces.</p>
+      </div>
+    </section>
+
+    <!-- ============ 3. SKINNING THE REEF ============ -->
+    <!-- 12 -->
+    <section class="step chapter take" id="skinning" data-ch="Skinning the reef" data-era="" data-s='{"dredge":1,"reef":0.8,"turb":0.2,"fish":0.8,"dusk":0.25}'>
+      <div class="chapter-title"><span class="num">03</span><h2>Skinning the reef</h2><p>A different idea of what oysters are for.</p></div>
+    </section>
+
+    <!-- 13 -->
+    <section class="step take" data-era="1860s" data-s='{"dredge":1,"reef":0.45,"turb":0.38,"fish":0.55,"dusk":0.25}' data-cap="A wire dredge basket dragged along the bed, breaking the reef apart.">
+      <div class="card">
+        <h2>Take everything, move on</h2>
+        <p>From the 1860s, settlers moved into the estuaries to supply oysters to growing towns. Frawley writes that they were intent on extracting as many as possible from any one place.<sup><a href="#s1">1</a></sup></p>
+        <p>They broke intertidal reefs apart with steel spikes and dragged wire dredge baskets along the deeper beds. A reef was worked for about three years until every animal was gone. They called it “skinning” the reef.<sup><a href="#s1">1</a></sup></p>
+        <p>They expected the reefs to grow back. They didn't.</p>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="step take" data-era="1860s–1880s" data-map='{"center":[153.233,-27.392],"zoom":13.4,"pitch":40,"bearing":20}' data-places="noogoon">
+      <div class="card">
+        <h2>Even the middens were burned</h2>
+        <p>The colony needed lime for mortar, and shell is almost pure lime. Oyster beds and middens were dug up and burned.<sup><a href="#s2">2</a></sup></p>
+        <p>Shell was shipped here, to the lime kiln at the island prison on Noogoon (St Helena Island).<sup><a href="#s5">5</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="step take" data-s='{"kiln":1,"midden":0.15,"reef":0.3,"turb":0.45,"fish":0.45,"zoom":1.55,"fx":0.1,"fy":0.34,"dusk":0.7}' data-cap="A lime kiln. Midden shell and reef shell were burned to make mortar.">
+      <div class="card">
+        <h2>Into the walls of a city</h2>
+        <p>Shell that would have gone back to the reef, and shell that held thousands of years of history, went into the buildings of Brisbane instead.</p>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="step take" data-era="1891" data-s='{"dredge":1,"reef":0.15,"midden":0.1,"turb":0.6,"fish":0.3,"grass":0.5,"dusk":0.35}' data-cap="Record harvests, with very little reef left under the boat.">
+      <div class="card">
+        <h2>More oysters sold, less reef left</h2>
+        <p>Oysters sold from Moreton Bay each year, in bags:<sup><a href="#s2">2</a></sup></p>
+        <ul class="bars" aria-label="Moreton Bay oyster production in bags per year">
+          <li><span>1870</span><span class="track"><span class="bar" style="--w:15%"></span><span class="v">4,500</span></span></li>
+          <li><span>1891</span><span class="track"><span class="bar" style="--w:70%"></span><span class="v">21,000</span></span></li>
+          <li><span>early 1920s</span><span class="track"><span class="bar" style="--w:6.7%"></span><span class="v">2,000</span></span></li>
+        </ul>
+        <p>Three Oyster Acts (1863, 1874, 1886) tried to control the harvest and largely failed.<sup><a href="#s2">2</a></sup> The reefs themselves were already disappearing while sales were still climbing.<sup><a href="#s3">3</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="step take" data-era="1890s" data-map='{"center":[153.2,-27.6],"zoom":9.6,"pitch":30,"bearing":-25}' data-places="river,coomera,brisbane">
+      <div class="card">
+        <h2>Then the mud came</h2>
+        <p>Land clearing upstream had been sending more sediment down the rivers and into the bay since about 1870.<sup><a href="#s2">2</a></sup></p>
+        <p>After the big floods of the 1890s, the oysters that were left became infested with mudworm, a shell-boring worm that thrives in silt. The first mass outbreak was recorded in the Coomera River in 1895.<sup><a href="#s1">1</a>,<a href="#s2">2</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="step take" data-era="1898" data-s='{"reef":0.04,"midden":0.08,"turb":1,"fish":0.08,"grass":0,"dusk":0.2}' data-cap="Mud from cleared catchments clouds the water. The seagrass is gone.">
+      <div class="card">
+        <h2>Collapse</h2>
+        <p>By 1898 the oyster fishery had collapsed across most of Moreton Bay.<sup><a href="#s1">1</a></sup></p>
+        <p>With no reef left to filter the water, there was nothing to slow the mud down.</p>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="step take" data-era="1900s–1920s" data-s='{"sticks":1,"mang":0.3,"reef":0.03,"midden":0.08,"turb":0.8,"fish":0.1,"grass":0.05}' data-cap="Oysters grown on cut mangrove sticks in the shallows. Stumps where mangroves stood.">
+      <div class="card">
+        <h2>A fix with its own cost</h2>
+        <p>Oysterers turned from harvesting reefs to farming. They caught spat on sticks and grew oysters in the shallows, where drying out at low tide kills mudworm.<sup><a href="#s1">1</a></sup></p>
+        <p>The sticks were cut from mangroves. In one New South Wales river an estimated three million left the estuary by the 1920s. Nobody counted in Queensland.<sup><a href="#s1">1</a></sup></p>
+        <p>Frawley calls this a techno-fix: a new technology to solve the problem the last one caused.</p>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="step take" data-era="Today" data-s='{"reef":0.03,"midden":0.08,"mang":0.55,"turb":0.7,"sticks":0.2,"fish":0.12,"grass":0.1}' data-cap="The same tidal flat today: bare mud where the reef stood.">
+      <div class="card">
+        <h2>What's left</h2>
+        <div class="stat"><b>6 of 60</b><span>places in eastern Australia where rock oyster reefs were once recorded still have them.<sup><a href="#s4">4</a></sup></span></div>
+        <p>Moreton Bay now produces less than a tenth of the oysters it did at its peak. Since 1936 its farms have relied on young oysters brought in from New South Wales, because so few settle here naturally.<sup><a href="#s2">2</a>,<a href="#s3">3</a></sup></p>
+      </div>
+    </section>
+
+    <!-- ============ 4. TWO WAYS OF SEEING ============ -->
+    <!-- 21 -->
+    <section class="step" id="two-ways" data-ch="Two ways of seeing" data-era="" data-s='{"reef":0.03,"midden":0.08,"mang":0.6,"turb":0.65,"fish":0.12,"grass":0.12}'>
+      <div class="card lens">
+        <span class="kicker">04 · Two ways of seeing</span>
+        <h2>Same oyster, different questions</h2>
+        <p>The methods mattered less than the attitude behind them. Pick a view.</p>
+        <div class="tabs" role="tablist" aria-label="Ways of seeing an oyster reef">
+          <button role="tab" id="tab-a" aria-controls="lens-panel" aria-selected="true" data-lens="a">Oyster as stock</button>
+          <button role="tab" id="tab-b" aria-controls="lens-panel" aria-selected="false" data-lens="b">Oyster as responsibility</button>
+          <button role="tab" id="tab-c" aria-controls="lens-panel" aria-selected="false" data-lens="c">Together</button>
+        </div>
+        <div id="lens-panel" role="tabpanel" aria-labelledby="tab-a"></div>
+        <p class="note">This is a simplification. Aboriginal people have worked in the bay's oyster industry from the 1800s to the present,<sup><a href="#s1">1</a></sup> and many growers today care deeply about the water they farm in.</p>
+      </div>
+    </section>
+
+    <!-- ============ 5. RETURNING ============ -->
+    <!-- 22 -->
+    <section class="step chapter" id="returning" data-ch="Returning" data-era="" data-map='{"center":[153.42,-27.5],"zoom":11.6,"pitch":45,"bearing":70}' data-places="goompi,minjerribah">
+      <div class="chapter-title"><span class="num">05</span><h2>Returning</h2><p>Country, and shell, coming back.</p></div>
+    </section>
+
+    <!-- 23 -->
+    <section class="step" data-era="2011" data-map='{"center":[153.405,-27.5],"zoom":12.6,"pitch":40,"bearing":60}' data-places="goompi">
+      <div class="card">
+        <h2>Country back in Quandamooka hands</h2>
+        <p>On 4 July 2011 the Federal Court recognised the Quandamooka People's native title over land and waters on and around Minjerribah.<sup><a href="#s10">10</a></sup></p>
+        <p>The Quandamooka Yoolooburrabee Aboriginal Corporation (QYAC) now manages those rights, with its own rangers and plans for land and sea.</p>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="step" data-era="2020s" data-s='{"restore":1,"reef":0.2,"midden":0.1,"mang":0.85,"turb":0.5,"fish":0.3,"grass":0.3}' data-cap="Wire baskets of recycled shell on the bed. Spat settle on them and a reef begins again.">
+      <div class="card">
+        <h2>Shell back in the water</h2>
+        <p>Reef-building trials are under way on Quandamooka Sea Country. QYAC and the Minjerribah Moorgumpin Elders-in-Council are working with OzFish, the University of the Sunshine Coast and Healthy Land and Water on a three-year study of where and how reefs can be rebuilt.<sup><a href="#s6">6</a></sup></p>
+        <p>The method echoes the old one: steel baskets and reef modules filled with used oyster shell, set on the bed for spat to settle on.</p>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="step" data-map='{"center":[153.125,-27.04],"zoom":11.4,"pitch":40,"bearing":-10}' data-places="pumicestone">
+      <div class="card">
+        <h2>Where the shell comes from</h2>
+        <p>In the north of the bay, volunteers collect used oyster shell, wash it and cure it in the sun for up to four months. Then it goes back into the water as the base for new reef.<sup><a href="#s7">7</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="step" data-s='{"restore":1,"reef":0.25,"midden":0.1,"mang":0.9,"turb":0.45,"fish":0.35,"grass":0.35,"zoom":1.6,"fx":0.3,"fy":0.42}' data-cap="Timber poles carrying oyster shell, standing in the shallows.">
+      <div class="card">
+        <h2>A sculpture that grows</h2>
+        <p>Quandamooka artist Megan Cope's <i>Kinyingarra Guwinyanba</i> is a living artwork on Minjerribah: timber poles from the island, hung with oyster shell and planted in the tidal flat so that a reef can grow on them.<sup><a href="#s5">5</a></sup></p>
+        <blockquote>“It's actually not for us; it's for Country, it's for the oysters.”
+          <footer>Megan Cope, speaking to ABC News, 2022<sup><a href="#s5">5</a></sup></footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="step" data-s='{"restore":1,"reef":0.4,"midden":0.1,"turb":0.35,"fish":0.6,"grass":0.5,"larvae":0.7}' data-cap="Life returning to the new reef.">
+      <div class="card">
+        <h2>New tools for an old practice</h2>
+        <p>How do you know a rebuilt reef is working? Researchers at the University of Queensland and their partners read it from the water. Every animal sheds traces of DNA, so a water sample can list who lives on a reef without anyone catching a thing.<sup><a href="#s8">8</a></sup></p>
+        <p>On reef modules 9, 21 and 42 months old, they found that life moved in fast, and that older reefs came to resemble one another as their communities matured.<sup><a href="#s8">8</a></sup></p>
+        <p class="note">This study is a 2026 preprint and has not yet been peer reviewed.</p>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="step" data-s='{"restore":1,"reef":0.45,"midden":0.1,"turb":0.42,"fish":0.6,"grass":0.5,"dusk":0.6}' data-cap="Warmer, more acidic water and bigger floods make it harder for oysters to build shell.">
+      <div class="card">
+        <h2>Why it matters more now</h2>
+        <p>Climate change is making life harder for oysters. Warmer, more acidic water makes it harder for young Sydney rock oysters to develop and build shell,<sup><a href="#s11">11</a></sup> and bigger floods carry more mud and fresh water into the bay.</p>
+        <p>It is also making reefs more valuable. A living reef breaks up waves, traps silt, and can keep growing upward as the sea rises, which a seawall cannot do.<sup><a href="#s12">12</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="step" data-s='{"restore":1,"reef":0.55,"midden":0.1,"turb":0.3,"fish":0.7,"grass":0.65}'>
+      <div class="card">
+        <h2>Oysters grown on Country</h2>
+        <p>On Minjerribah, Quandamooka Oyster Farm Tours is a family business working three oyster farms that grow native rock oysters. Quandamooka guides walk visitors out at low tide and share knowledge of Sea Country along with the history of the bay's oysters.<sup><a href="#s9">9</a></sup></p>
+      </div>
+    </section>
+
+    <!-- ============ 6. YOUR SHELL ============ -->
+    <!-- 30 -->
+    <section class="step" id="your-shell" data-ch="Your shell" data-era="A possible future" data-s='{"restore":1,"reef":0.9,"midden":0.12,"turb":0.1}' data-cap="A possible future: the reef rebuilt, the water clear again.">
+      <div class="card">
+        <span class="kicker">06 · Your shell</span>
+        <h2>Next time you eat an oyster</h2>
+        <ul class="todo">
+          <li>Ask where it was grown, and choose native rock oysters from local growers.</li>
+          <li>Ask what happens to the shell. Some venues send theirs to reef restoration.</li>
+          <li>Learn from Quandamooka people directly, on a tour or at a cultural centre on Minjerribah.</li>
+          <li>Leave middens and wild oysters where they are. Middens are protected cultural heritage.</li>
+        </ul>
+        <p>A reef lasts when the shell goes back. That was known here long before anyone measured it.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="after">
+  <div class="inner">
+    <section>
+      <h2>About this story</h2>
+      <p>This was made by students in the Coastal Ecosystems course at the University of Queensland as a science communication project. We are not Quandamooka people. We have tried to describe, as researchers, what published sources say about Quandamooka care for oysters alongside what Western science has learned, and we have not spoken to or for Traditional Owners.</p>
+      <p>The underwater scene is an illustration, not a picture of a real place. It shows no people, and uses no Quandamooka designs or imagery. Satellite imagery is from Esri, Maxar and Earthstar Geographics.</p>
+      <p>If we have got something wrong, we want to fix it.</p>
+    </section>
+    <section>
+      <h2>Sources</h2>
+      <ol class="sources">
+        <li id="s1">Frawley, J. (2017). Oyster culture in the estuary worlds of southern Queensland. <i>RCC Perspectives: Transformations in Environment and Society</i>, 2, 11–17. <a href="https://doi.org/10.5282/rcc/7904">doi.org/10.5282/rcc/7904</a></li>
+        <li id="s2">West, E., Conacher, C., Dexter, J., Lee, P., Heidenreich, M., &amp; Paterson, B. (2019). Aquaculture in Moreton Bay. In Tibbetts et al. (Eds.), <i>Moreton Bay Quandamooka &amp; Catchment: Past, present, and future</i>. The Moreton Bay Foundation. <a href="https://moretonbayfoundation.org/articles/aquaculture-in-moreton-bay/">moretonbayfoundation.org</a></li>
+        <li id="s3">Thurstan, R. H., et al. (2020). Charting two centuries of transformation in a coastal social-ecological system: A mixed methods approach. <i>Global Environmental Change</i>. <a href="https://researchonline.jcu.edu.au/63117/">researchonline.jcu.edu.au/63117</a></li>
+        <li id="s4">Gillies, C. L., et al. (2018). Australian shellfish ecosystems: Past distribution, current status and future direction. <i>PLoS ONE</i>, 13(2). <a href="https://doi.org/10.1371/journal.pone.0190914">doi.org/10.1371/journal.pone.0190914</a></li>
+        <li id="s5">ABC News (13 August 2022). Indigenous artist Megan Cope has created an oyster reef on Quandamooka Country. <a href="https://www.abc.net.au/news/2022-08-13/megan-cope-quandamooka-artist-minjerribah-oyster-reef/101274752">abc.net.au</a></li>
+        <li id="s6">OzFish Unlimited (2026). Ground-truthing shellfish reef recovery on Quandamooka Country. <a href="https://ozfish.org.au/article/shellfish-reef-recovery-on-quandamooka-country/">ozfish.org.au</a></li>
+        <li id="s7">OzFish Unlimited (2020). Shell washer welcomed to power clean oyster shells in Pumicestone. <a href="https://ozfish.org.au/2020/08/shell-washer-welcomed-to-power-clean-oyster-shells-in-pumicestone/">ozfish.org.au</a></li>
+        <li id="s8">Tettamanti, V., Staples, T. L., Mos, B., Porter, R., Gilby, B. L., &amp; Cheney, K. L. (2026). From deployment to functioning ecosystems: assessing taxonomic richness and community composition on modular shellfish reefs using environmental DNA metabarcoding. <i>bioRxiv</i> preprint. <a href="https://doi.org/10.64898/2026.10.26.762076">doi.org/10.64898/2026.10.26.762076</a></li>
+        <li id="s9">Quandamooka Oyster Farm Tours. <a href="https://www.quandamookaoysterfarmtours.com.au/">quandamookaoysterfarmtours.com.au</a></li>
+        <li id="s10">Quandamooka Yoolooburrabee Aboriginal Corporation. <a href="https://qyac.net.au/">qyac.net.au</a>. Native title determination: <i>Delaney on behalf of the Quandamooka People v State of Queensland</i>, Federal Court of Australia, 4 July 2011.</li>
+        <li id="s11">Parker, L. M., Ross, P. M., &amp; O'Connor, W. A. (2009). The effect of ocean acidification and temperature on the fertilization and embryonic development of the Sydney rock oyster <i>Saccostrea glomerata</i>. <i>Global Change Biology</i>, 15, 2123–2136.</li>
+        <li id="s12">Rodriguez, A. B., et al. (2014). Oyster reefs can outpace sea-level rise. <i>Nature Climate Change</i>, 4, 493–497.</li>
+      </ol>
+    </section>
+    <p><a href="#top">Back to the start ↑</a></p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
