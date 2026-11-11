@@ -3,17 +3,22 @@
    Story notes sit over it like printed labels: plain paper, ink, no effects. */
 :root{
   color-scheme: light;
-  --paper:#eef0ea;          /* label stock, a cool grey-white */
+  --paper:#fcfbf7;          /* label stock */
   --ink:#162024;
   --ink-soft:#4c5a5e;
   --sea:#0e5a60;            /* links and the interactive bits */
   --rust:#9a3d22;           /* red-lead paint: the extraction chapter */
-  --deep:#08212a;           /* behind the stage while it loads */
+  --deep:#f6f1e4;           /* the sheet the scene is painted on */
   --rule:rgba(22,32,36,.22);
   --display:"Besley",Rockwell,"Roboto Slab",Georgia,serif;
   --text:"Libre Franklin","Franklin Gothic Medium","Helvetica Neue",Arial,sans-serif;
   --gutter:max(16px, 4vw);
+  --over:#1c2428;                         /* type sitting directly on the stage */
+  --over-halo:0 0 14px rgba(246,241,228,.95), 0 0 3px rgba(246,241,228,.9);
+  --over-soft:rgba(28,36,40,.62);
+  --bar:linear-gradient(rgba(246,241,228,.85),rgba(246,241,228,0));
 }
+.story.on-map{--over:#fff;--over-halo:0 2px 20px rgba(4,16,22,.8);--over-soft:rgba(255,255,255,.72);--bar:linear-gradient(rgba(4,16,22,.7),rgba(4,16,22,0))}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--deep);color:var(--ink);font-family:var(--text);font-size:1.02rem;line-height:1.55;margin:0;overflow-x:hidden}
@@ -30,23 +35,23 @@ sup a{text-decoration:none;padding:0 .1em}
 #map{opacity:0;transition:opacity .9s linear}
 .stage.show-map #map{opacity:1}
 .topbar{position:absolute;z-index:3;inset:0 0 auto 0;display:flex;align-items:baseline;gap:1.5rem;padding:.8rem var(--gutter) 1.6rem;
-  background:linear-gradient(rgba(4,16,22,.7),rgba(4,16,22,0));color:#fff}
+  background:var(--bar);color:var(--over)}
 .brand{font-family:var(--display);font-weight:700;font-size:1.05rem;white-space:nowrap}
 .chapters{display:flex;gap:1.3rem;flex-wrap:wrap;margin-left:auto}
-.chapters button{font:500 .86rem/1.2 var(--text);color:rgba(255,255,255,.72);background:none;border:0;border-bottom:2px solid transparent;padding:.15rem 0;cursor:pointer}
-.chapters button:hover{color:#fff}
-.chapters button[aria-current="true"]{color:#fff;border-bottom-color:#fff}
-.progress{position:absolute;left:0;top:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:#fff}
+.chapters button{font:500 .86rem/1.2 var(--text);color:var(--over-soft);background:none;border:0;border-bottom:2px solid transparent;padding:.15rem 0;cursor:pointer}
+.chapters button:hover{color:var(--over)}
+.chapters button[aria-current="true"]{color:var(--over);border-bottom-color:var(--over)}
+.progress{position:absolute;left:0;top:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--over)}
 .era{position:absolute;z-index:3;left:var(--gutter);bottom:4.2rem;font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,4.4vw,3.8rem);line-height:1;
-  color:#fff;text-shadow:0 2px 20px rgba(4,16,22,.75);max-width:min(60vw,46rem)}
-.caption{position:absolute;z-index:3;left:var(--gutter);bottom:1.4rem;max-width:min(36rem,54vw);font:italic 400 .86rem/1.4 var(--text);color:#fff;text-shadow:0 1px 6px rgba(4,16,22,.95)}
+  color:var(--over);text-shadow:var(--over-halo);max-width:min(60vw,46rem)}
+.caption{position:absolute;z-index:3;left:var(--gutter);bottom:1.4rem;max-width:min(36rem,54vw);font:italic 400 .86rem/1.4 var(--text);color:var(--over);text-shadow:var(--over-halo)}
 .caption:empty{display:none}
 .credit{position:absolute;z-index:3;right:.6rem;bottom:.4rem;font:400 .66rem/1 var(--text);color:rgba(255,255,255,.7);opacity:0}
 .stage.show-map .credit{opacity:1}
 
 /* map place names */
 .place{display:flex;align-items:center;gap:.45rem;color:#fff;pointer-events:none;text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.8)}
-.place > *{opacity:0;transition:opacity .5s linear}
+.place > *{opacity:0}
 .place.on > *{opacity:1}
 .place i{width:9px;height:9px;border-radius:50%;background:#fff;flex:none}
 .place span{display:flex;flex-direction:column}
@@ -60,7 +65,7 @@ sup a{text-decoration:none;padding:0 .1em}
 .steps{position:relative;z-index:2;margin-top:-100vh;margin-top:-100svh;pointer-events:none}
 .step{min-height:130vh;min-height:130svh;display:flex;align-items:flex-end;justify-content:center;padding:0 var(--gutter) 8vh}
 .card{pointer-events:auto;width:min(29rem,100%);min-width:0;background:var(--paper);color:var(--ink);border-radius:2px;padding:1.3rem 1.4rem 1.45rem;
-  display:flex;flex-direction:column;gap:.8rem;box-shadow:0 1px 0 rgba(0,0,0,.35)}
+  display:flex;flex-direction:column;gap:.8rem;border:1px solid rgba(22,32,36,.3)}
 .card p{margin:0}
 .card h2{font-family:var(--display);font-weight:700;font-size:1.5rem;line-height:1.14;margin:0}
 .note{font-size:.88rem;color:var(--ink-soft)}
@@ -76,7 +81,7 @@ figcaption{font-size:.78rem;line-height:1.4;color:var(--ink-soft);margin-top:.35
 
 /* title and part openers: bare type over the stage */
 .step.hero{min-height:100vh;min-height:100svh}
-.hero .card,.part{background:none;box-shadow:none;color:#fff;text-shadow:0 2px 22px rgba(4,16,22,.8)}
+.hero .card,.part{background:none;box-shadow:none;border:0;color:var(--over);text-shadow:var(--over-halo)}
 .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(3rem,7.4vw,7rem);line-height:.9;letter-spacing:-.02em;margin:0}
 .hero .lede{font-size:clamp(1.05rem,1.45vw,1.25rem);max-width:33rem}
 .hero .scroll{font-size:.9rem;font-weight:600}
@@ -121,7 +126,7 @@ figcaption{font-size:.78rem;line-height:1.4;color:var(--ink-soft);margin-top:.35
 .todo{margin:0;padding-left:1.15rem;display:grid;gap:.4rem}
 
 /* ---------- after the story ---------- */
-.after{position:relative;z-index:4;background:var(--paper);color:var(--ink)}
+.after{position:relative;z-index:4;background:var(--paper);color:var(--ink);border-top:1px solid var(--rule)}
 .after .inner{max-width:44rem;margin:0 auto;padding:4rem var(--gutter) 5rem}
 .after h2{font-family:var(--display);font-weight:700;font-size:1.45rem;margin:2.6rem 0 .7rem}
 .after h2:first-child{margin-top:0}
@@ -134,5 +139,8 @@ figcaption{font-size:.78rem;line-height:1.4;color:var(--ink-soft);margin-top:.35
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  #map,.place > *{transition:none}
+  #map{transition:none}
 }
+
+/* MapLibre dims markers it thinks are covered; these labels should always be full strength */
+.maplibregl-marker.place{opacity:1 !important}

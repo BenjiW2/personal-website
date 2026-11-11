@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const Scene = window.OysterScene;
-  const stage = document.getElementById('stage'), cv = document.getElementById('scene');
+  const stage = document.getElementById('stage'), cv = document.getElementById('scene'), story = stage.parentElement;
   const steps = [...document.querySelectorAll('.step')];
   const eraEl = document.getElementById('era'), capEl = document.getElementById('caption');
   const progEl = document.getElementById('progress'), chEl = document.getElementById('chapters');
@@ -82,7 +82,7 @@
   let lastMapIdx = -1;
   function updateMap(idx) {
     const m = meta[idx].map, show = !!(m && mapOK);
-    stage.classList.toggle('show-map', show);
+    stage.classList.toggle('show-map', show); story.classList.toggle('on-map', show);
     if (!show || idx === lastMapIdx) return;
     lastMapIdx = idx;
     for (const k in markers) markers[k].classList.toggle('on', meta[idx].places.includes(k));
@@ -180,7 +180,7 @@
   /* ---------- go ---------- */
   Scene.onready = () => { dirty = true; };
   Scene.init(cv);
-  showLens('a');
+  if (panel) showLens('a');          // the short version of the page has no tabs
   measure();
   window.addEventListener('load', () => {
     measure(); dirty = true;

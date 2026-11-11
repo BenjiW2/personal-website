@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Return the Shell | One oyster</title>
+<meta name="description" content="A scroll-through story of one oyster reef on Quandamooka Sea Country: how it was cared for, dredged away, and is being rebuilt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Besley:wght@700;800;900&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="../css/style.css?v=20">
+</head>
+<body>
+
+<div class="story" id="top">
+  <div class="stage" id="stage">
+    <canvas id="scene" role="img" aria-label="Pencil and watercolour cross-section of a tidal flat in Moreton Bay, worked up from museum photographs and old engravings. The scene changes as you scroll: an oyster reef grows, is dredged away, and is slowly rebuilt."></canvas>
+    <div id="map" aria-hidden="true"></div>
+    <div class="topbar">
+      <div class="progress" id="progress"></div>
+      <span class="brand">Return the Shell</span>
+      <nav class="chapters" id="chapters" aria-label="Chapters"></nav>
+    </div>
+    <div class="era" id="era" aria-live="polite"></div>
+    <div class="caption" id="caption"></div>
+    <div class="credit">Imagery © Esri, Maxar, Earthstar Geographics</div>
+  </div>
+
+  <div class="steps">
+
+    <!-- 0 -->
+    <section class="step hero" data-ch="Start" data-era="" data-s='{}'>
+      <div class="card">
+        <h1>Return<br>the Shell</h1>
+        <p class="lede">An oyster reef is built on the shells of the oysters that came before. On Quandamooka Sea Country, one way of living with oysters kept the shell coming back. Another took it away.</p>
+        <p class="scroll">Scroll down to follow one oyster.</p>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="step" data-s='{}' data-cap="A healthy tidal flat: mangroves, a shell midden on the shore, and an oyster reef under clear water.">
+      <div class="card">
+                <p>We acknowledge the Quandamooka People, Traditional Owners of the lands and waters of Quandamooka (Moreton Bay), including Minjerribah (North Stradbroke Island) and Mulgumpin (Moreton Island). We pay our respects to Elders past and present.</p>
+        <p class="note">We are university students, not Quandamooka people, and we don't speak for Traditional Owners. What this story says about Quandamooka knowledge comes from published sources and from what Quandamooka people have chosen to share publicly. Every source is listed at the end.</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="step" data-era="" data-map='{"center":[153.3,-27.4],"zoom":9.1,"pitch":0}' data-places="quandamooka,minjerribah,mulgumpin,brisbane">
+      <div class="card">
+                <h2>A shallow bay behind islands of sand</h2>
+        <p>Quandamooka is the bay between the mainland and the great sand islands of Minjerribah and Mulgumpin. Rivers bring fresh water and sediment in from the west. The islands hold back the ocean swell from the east.<sup><a href="#s1">1</a></sup></p>
+        <p>Sheltered, shallow and fed by rivers, it was once thick with oysters.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- ============ 1. ONE OYSTER ============ -->
+    <!-- 3 -->
+    <section class="step chapter" id="one-oyster" data-ch="One oyster" data-era="" data-s='{}'>
+      <div class="part"><h2>One oyster</h2><p>How a reef begins.</p></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="step" data-era="One oyster" data-s='{"larvae":1,"zoom":1.5,"fx":0.62,"fy":0.58}' data-cap="Oyster larvae drifting above the reef. The magnifier shows a larva as W. K. Brooks drew it in 1891.">
+      <div class="card">
+        <h2>It starts adrift</h2>
+        <p>A Sydney rock oyster (<i>Saccostrea glomerata</i>) begins life as a free-swimming larva, barely visible to the eye. When the water warms, millions are released at once and ride the tides of the bay for a few weeks.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="step" data-s='{"larvae":1,"settle":1,"zoom":2.0,"fx":0.64,"fy":0.66}' data-cap="The larva settles on an old shell and becomes spat.">
+      <div class="card">
+        <h2>It needs something hard to hold</h2>
+        <p>To survive, the larva has to cement itself to a hard surface. Once it does, it is called spat, and it never moves again.</p>
+        <p>The best surface of all is the shell of an older oyster.<sup><a href="#s1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="step" data-s='{"zoom":1.35,"fx":0.7,"fy":0.66}' data-cap="Living oysters growing on generations of older shell.">
+      <div class="card">
+        <h2>A reef is oysters on oysters</h2>
+        <p>Oyster reefs form the way coral reefs do. As older animals die, new ones grow on what they leave behind. Layer on layer, the shell becomes a three-dimensional structure that shelters young fish, crabs and other shellfish.<sup><a href="#s1">1</a></sup></p>
+        <p>Take the shell away and the next generation has nowhere to land.</p>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="step" data-slider="1" data-s='{}' data-cap="Move the slider in the card to change how much reef is left.">
+      <div class="card">
+        <h2>What a reef does for the bay</h2>
+        <p>Oysters feed by pumping water over their gills and straining out algae and silt. A reef full of them keeps the water clear, and clear water lets sunlight reach the seagrass.<sup><a href="#s1">1</a>,<a href="#s2">2</a></sup></p>
+        <div class="slider">
+          <label for="reefSlider">Try it: oysters on the reef</label>
+          <input type="range" id="reefSlider" min="0" max="100" value="100" step="1">
+          <output id="reefOut" for="reefSlider"></output>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="after">
+  <div class="inner">
+    <h2>About this story</h2>
+    <p>This was made by students in the Coastal Ecosystems course at the University of Queensland as a science communication project. We are not Quandamooka people. We have tried to describe, as researchers, what published sources say about Quandamooka care for oysters alongside what Western science has learned, and we have not spoken to or for Traditional Owners.</p>
+    <p>The tidal-flat scene is an illustration, not a picture of a real place. It shows no Quandamooka people and uses no Quandamooka designs or imagery.</p>
+    <p>If we have got something wrong, we want to fix it.</p>
+
+    <h2>Sources</h2>
+    <ol class="sources">
+        <li id="s1">Frawley, J. (2017). Oyster culture in the estuary worlds of southern Queensland. <i>RCC Perspectives: Transformations in Environment and Society</i>, 2, 11–17. <a href="https://doi.org/10.5282/rcc/7904">doi.org/10.5282/rcc/7904</a></li>
+        <li id="s2">ABC News (13 August 2022). Indigenous artist Megan Cope has created an oyster reef on Quandamooka Country. <a href="https://www.abc.net.au/news/2022-08-13/megan-cope-quandamooka-artist-minjerribah-oyster-reef/101274752">abc.net.au</a></li>
+    </ol>
+
+    <h2>Pictures</h2>
+    <p>The scene is a pencil-and-watercolour treatment of museum photographs and old illustrations that are free to reuse. Each one has been redrawn digitally from the source listed here.</p>
+    <ul class="credits">
+      <li>Oyster shells: Sydney rock oyster (<i>Saccostrea glomerata</i>) specimens ZMA.MOLL.415744 and ZMA.MOLL.415571, Naturalis Biodiversity Center, Leiden. CC0, via <a href="https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_ZMA.MOLL.415744_-_Saccostrea_glomerata_(Gould,_1850)_-_Ostreidae_-_Mollusc_shell.jpeg">Wikimedia Commons</a>.</li>
+      <li>Fish: yellowfin bream, labelled <i>Sparus australis</i>, drawn by Edgar R. Waite, 1921. Public domain, via <a href="https://commons.wikimedia.org/wiki/File:FMIB_45671_Sparus_australis.jpeg">Freshwater and Marine Image Bank</a>.</li>
+      <li>Oyster larva: from “Development of the Oyster” by William Keith Brooks, 1891. Public domain, via <a href="https://commons.wikimedia.org/wiki/File:FMIB_33260_Oyster;_Development_of_the_Oyster.jpeg">Freshwater and Marine Image Bank</a>. It shows an American oyster; Sydney rock oyster larvae look much the same.</li>
+      <li>Mangroves: red mangroves (<i>Rhizophora mangle</i>) on San Salvador Island, Bahamas, photographed by James St. John. CC BY 2.0, via <a href="https://commons.wikimedia.org/wiki/File:Rhizophora_mangle_(red_mangroves)_(San_Salvador_Island,_Bahamas)_7_(15786145972).jpg">Wikimedia Commons</a>. Cut out and redrawn by us. Moreton Bay's stilt-rooted mangrove is a close relative.</li>
+      <li>Seagrass: eelgrass (<i>Zostera marina</i>) by Carl Lindman, <i>Bilder ur Nordens Flora</i>, 1917–26. Public domain, via <a href="https://commons.wikimedia.org/wiki/File:Zostera_marina_nf_clean.jpg">Wikimedia Commons</a>. Moreton Bay's eelgrass is a close relative.</li>
+      <li>Satellite imagery: Esri, Maxar, Earthstar Geographics.</li>
+      <li>The water, sky and seabed are drawn by us.</li>
+    </ul>
+    <p style="margin-top:2.4rem"><a href="../">Read the full story</a> · <a href="#top">Back to the start</a></p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>window.OYSTER_BASE = "../";</script>
+<script src="../js/scene.js?v=20"></script>
+<script src="../js/app.js?v=20"></script>
+</body>
+</html>
