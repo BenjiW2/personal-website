@@ -1,7 +1,6 @@
 /* Return the Shell: scroll engine, satellite map, and the small interactive widgets. */
 (function () {
   'use strict';
-  document.documentElement.classList.add('js');
   const Scene = window.OysterScene;
   const stage = document.getElementById('stage'), cv = document.getElementById('scene');
   const steps = [...document.querySelectorAll('.step')];
@@ -92,7 +91,7 @@
   }
 
   /* ---------- scroll → state ---------- */
-  if (still >= 0) { steps.forEach((el, k) => { if (k !== still) el.style.visibility = 'hidden'; }); const el = steps[still]; el.classList.add('in'); Object.assign(el.style, { position: 'fixed', inset: '0', minHeight: '0', zIndex: 5 }); document.getElementById('map').style.transition = 'none'; }
+  if (still >= 0) { steps.forEach((el, k) => { if (k !== still) el.style.visibility = 'hidden'; }); const el = steps[still]; Object.assign(el.style, { position: 'fixed', inset: '0', minHeight: '0', zIndex: 5 }); document.getElementById('map').style.transition = 'none'; }
   let centers = [], dirty = true, activeIdx = -1;
   const cur = Object.assign({}, Scene.DEF);
   function measure() { centers = steps.map(el => { const r = el.getBoundingClientRect(); return r.top + window.scrollY + r.height / 2; }); }
@@ -139,9 +138,7 @@
   window.addEventListener('resize', onResize);
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(e => { visible = e[0].isIntersecting; }).observe(stage);
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: .12 });
-    steps.forEach(s => io.observe(s));
-  } else steps.forEach(s => s.classList.add('in'));
+  }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); dirty = true; });
 
   /* ---------- reef slider ---------- */
@@ -181,6 +178,7 @@
   tabs.forEach(t => t.addEventListener('click', () => showLens(t.dataset.lens)));
 
   /* ---------- go ---------- */
+  Scene.onready = () => { dirty = true; };
   Scene.init(cv);
   showLens('a');
   measure();
