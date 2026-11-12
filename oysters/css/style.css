@@ -44,8 +44,6 @@ sup a{text-decoration:none;padding:0 .1em}
 .progress{position:absolute;left:0;top:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--over)}
 .era{position:absolute;z-index:3;left:var(--gutter);bottom:1.8rem;font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,4.4vw,3.8rem);line-height:1;
   color:var(--over);text-shadow:var(--over-halo);max-width:min(60vw,46rem)}
-.caption{position:absolute;z-index:3;left:var(--gutter);bottom:1.4rem;max-width:min(36rem,54vw);font:italic 400 .86rem/1.4 var(--text);color:var(--over);text-shadow:var(--over-halo)}
-.caption{display:none}        /* scene captions switched off; the text stays in the markup */
 .credit{position:absolute;z-index:3;right:.6rem;bottom:.4rem;font:400 .66rem/1 var(--text);color:rgba(255,255,255,.7);opacity:0}
 .stage.show-map .credit{opacity:1}
 
@@ -98,8 +96,7 @@ figcaption{font-size:.78rem;line-height:1.4;color:var(--ink-soft);margin-top:.35
 @media (max-width:899px){
   .chapters button{display:none}
   .chapters button[aria-current="true"]{display:block}
-  .caption{display:none}
-  .era{bottom:auto;top:3.3rem;font-size:1.5rem;max-width:calc(100% - 32px)}
+    .era{bottom:auto;top:3.3rem;font-size:1.5rem;max-width:calc(100% - 32px)}
   .step.chapter{padding-bottom:16vh}
   .hero .card{padding:0 0 1rem}
 }

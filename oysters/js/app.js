@@ -4,7 +4,7 @@
   const Scene = window.OysterScene;
   const stage = document.getElementById('stage'), cv = document.getElementById('scene'), story = stage.parentElement;
   const steps = [...document.querySelectorAll('.step')];
-  const eraEl = document.getElementById('era'), capEl = document.getElementById('caption');
+  const eraEl = document.getElementById('era');
   const progEl = document.getElementById('progress'), chEl = document.getElementById('chapters');
   const slider = document.getElementById('reefSlider'), sliderOut = document.getElementById('reefOut');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -27,7 +27,7 @@
   let era = '', ch = '';
   const meta = steps.map(el => {
     if ('era' in el.dataset) era = el.dataset.era; ch = el.dataset.ch || ch;
-    return { era, ch, cap: el.dataset.cap || '', map: el.dataset.map ? JSON.parse(el.dataset.map) : null, places: (el.dataset.places || '').split(',').filter(Boolean) };
+    return { era, ch, map: el.dataset.map ? JSON.parse(el.dataset.map) : null, places: (el.dataset.places || '').split(',').filter(Boolean) };
   });
 
   /* ---------- chapter buttons ---------- */
@@ -116,7 +116,7 @@
     const near = f > .5 ? Math.min(i + 1, steps.length - 1) : i;
     if (near !== activeIdx) {
       activeIdx = near;
-      eraEl.textContent = meta[near].era; capEl.textContent = meta[near].cap;
+      eraEl.textContent = meta[near].era;
       chapterBtns.forEach(c => c.b.setAttribute('aria-current', c.name === meta[near].ch ? 'true' : 'false'));
     }
     updateMap(near);
