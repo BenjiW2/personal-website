@@ -156,14 +156,17 @@
         ['A reef is', 'A store of product, waiting to be collected.'],
         ['Success is', 'Bags sent to market this season.'],
         ['Shell is', 'Waste, or raw material for lime.'],
-        ['When it fails', 'Move to the next reef, then look for a technical fix.']],
+        ['When it fails', 'Move to the next reef, then look for a technical fix.'],
+        ['How long it lasted', 'About forty years, from the 1860s to the collapse of 1898.']],
     b: [['Whose view', 'Quandamooka stewardship, as described in published sources. We are reporting it, not speaking for it.'],
         ['A reef is', 'Something people look after, and are answerable for.'],
         ['Success is', 'Oysters still plentiful for the generations that follow.'],
         ['Shell is', 'The start of the next reef. It goes back.'],
-        ['Knowledge comes from', 'Watching the same places closely, over a very long time.']],
+        ['Knowledge comes from', 'Watching the same places closely, over a very long time.'],
+        ['How long it lasted', 'Thousands of years, on the evidence of the middens.']],
     c: [['Where they meet', 'Science can now measure what stewardship protected: hard surface for larvae, clear water, shelter for fish.'],
         ['What that looks like', 'Reef trials on Quandamooka Sea Country run with Traditional Owners, using recycled shell and tracked with DNA sampling.'],
+        ['What it takes', 'Traditional Owners helping to design and manage projects from the start, not being consulted at the end.'],
         ['What changes', 'The question shifts from “how many can we take?” to “what does the reef need back?”']]
   };
   const panel = document.getElementById('lens-panel'), tabs = [...document.querySelectorAll('.tabs button')];
