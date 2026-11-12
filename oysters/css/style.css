@@ -125,6 +125,15 @@ figcaption{font-size:.78rem;line-height:1.4;color:var(--ink-soft);margin-top:.35
 .lens dd{margin:0}
 .todo{margin:0;padding-left:1.15rem;display:grid;gap:.4rem}
 
+.cmp-wrap{overflow-x:auto}
+.cmp{width:100%;border-collapse:collapse;font-size:.9rem;line-height:1.35}
+.cmp th,.cmp td{text-align:left;vertical-align:top;padding:.45rem .5rem .45rem 0;border-top:1px solid var(--rule)}
+.cmp thead th{font-family:var(--display);font-size:.95rem;border-top:0;padding-top:0}
+.cmp thead td{border-top:0}
+.cmp tbody th{font-weight:600;font-size:.8rem;color:var(--ink-soft);width:5.2rem}
+.cmp td:last-child{color:var(--rust)}
+.pearls{margin:0;padding-left:1.3rem;display:grid;gap:.3rem;font-size:.95rem}
+
 /* ---------- after the story ---------- */
 .after{position:relative;z-index:4;background:var(--paper);color:var(--ink);border-top:1px solid var(--rule)}
 .after .inner{max-width:44rem;margin:0 auto;padding:4rem var(--gutter) 5rem}
