@@ -42,10 +42,10 @@ sup a{text-decoration:none;padding:0 .1em}
 .chapters button:hover{color:var(--over)}
 .chapters button[aria-current="true"]{color:var(--over);border-bottom-color:var(--over)}
 .progress{position:absolute;left:0;top:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--over)}
-.era{position:absolute;z-index:3;left:var(--gutter);bottom:4.2rem;font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,4.4vw,3.8rem);line-height:1;
+.era{position:absolute;z-index:3;left:var(--gutter);bottom:1.8rem;font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,4.4vw,3.8rem);line-height:1;
   color:var(--over);text-shadow:var(--over-halo);max-width:min(60vw,46rem)}
 .caption{position:absolute;z-index:3;left:var(--gutter);bottom:1.4rem;max-width:min(36rem,54vw);font:italic 400 .86rem/1.4 var(--text);color:var(--over);text-shadow:var(--over-halo)}
-.caption:empty{display:none}
+.caption{display:none}        /* scene captions switched off; the text stays in the markup */
 .credit{position:absolute;z-index:3;right:.6rem;bottom:.4rem;font:400 .66rem/1 var(--text);color:rgba(255,255,255,.7);opacity:0}
 .stage.show-map .credit{opacity:1}
 
