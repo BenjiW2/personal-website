@@ -154,26 +154,25 @@
   const LENS = {
     a: [['Whose view', 'The oysterers of the 1860s, as historians describe them.'],
         ['A reef is', 'A store of product, waiting to be collected.'],
-        ['Success is', 'Bags sent to market this season.'],
-        ['Shell is', 'Waste, or raw material for lime.'],
-        ['When it fails', 'Move to the next reef, then look for a technical fix.'],
-        ['How long it lasted', 'About forty years, from the 1860s to the collapse of 1898.']],
-    b: [['Whose view', 'Quandamooka stewardship, as described in published sources. We are reporting it, not speaking for it.'],
+        ['Success is', 'A large number of bags are sent to market this season.'],
+        ['Shell is', 'Either waste from food, or raw material for lime.'],
+        ['When it fails', 'Move to the next reef'],
+        ['How long it lasted', 'Just forty years, from the 1860s to the collapse of 1898.']],
+    b: [['Whose view', 'Quandamooka stewardship, as described in published sources.'],
         ['A reef is', 'Something people look after, and are answerable for.'],
-        ['Success is', 'Oysters still plentiful for the generations that follow.'],
-        ['Shell is', 'The start of the next reef. It goes back.'],
-        ['Knowledge comes from', 'Watching the same places closely, over a very long time.'],
-        ['How long it lasted', 'Thousands of years, on the evidence of the middens.']],
-    c: [['Where they meet', 'Science can now measure what stewardship protected: hard surface for larvae, clear water, shelter for fish.'],
-        ['What that looks like', 'Reef trials on Quandamooka Sea Country run with Traditional Owners, using recycled shell and tracked with DNA sampling.'],
-        ['What it takes', 'Traditional Owners helping to design and manage projects from the start, not being consulted at the end.'],
-        ['What changes', 'The question shifts from “how many can we take?” to “what does the reef need back?”']]
+        ['Success is', 'Oysters still being plentiful for the generations that follow. Populations stay consistent'],
+        ['Shell is', 'The start of the next reef. A home for baby oyster spats'],
+        ['Knowledge comes from', 'Watching the same places closely for a long time.'],
+        ['How long it lasted', 'At least thousands of years, based on the evidence of the middens.']],
+    c: [['', 'Reef trials on Quandamooka Sea Country run with Traditional Owners, using recycled shells and tracked with DNA sampling.'],
+        ['', 'Shifting the question from “how many can we take?” to “what does the reef need back?”']]
   };
+
   const panel = document.getElementById('lens-panel'), tabs = [...document.querySelectorAll('.tabs button')];
   function showLens(k) {
     panel.innerHTML = '';
     const dl = document.createElement('dl');
-    for (const [dt, dd] of LENS[k]) { const w = document.createElement('div'), a = document.createElement('dt'), b = document.createElement('dd'); a.textContent = dt; b.textContent = dd; w.append(a, b); dl.append(w); }
+    for (const [dt, dd] of LENS[k]) { const w = document.createElement('div'), a = document.createElement('dt'), b = document.createElement('dd'); a.textContent = dt; b.textContent = dd; if (dt) w.append(a); w.append(b); dl.append(w); }
     panel.append(dl);
     tabs.forEach(t => { const on = t.dataset.lens === k; t.setAttribute('aria-selected', on); if (on) panel.setAttribute('aria-labelledby', t.id); });
     measure(); dirty = true;
