@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quandamooka BRUV Workshop</title>
+<meta name="robots" content="noindex">
+<script>
+  (function () {
+    var m = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    document.documentElement.setAttribute('data-bs-theme', m && m.matches ? 'dark' : 'light');
+  })();
+</script>
+<link rel="icon" href="icons/Icon_BRUV_bait.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
+  <div class="container-fluid">
+    <span class="navbar-brand"><img src="icons/Icon_BRUV_bait.svg" alt="BRUV"><span id="site-title">Quandamooka BRUV Workshop</span></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav nav-underline me-auto" role="tablist">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#t-intro">Introduction</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#t-sites">Sites</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#t-guide">ID guide</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#t-asg">Assignments</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#t-entry">Enter data</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#t-graphs">Graphs</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#t-data">Data</a></li>
+      </ul>
+      <img id="partner-logo" class="partner-logo d-none" alt="">
+    </div>
+  </div>
+</nav>
+
+<div id="toast-area" aria-live="polite"></div>
+
+<div class="container-fluid">
+  <div id="mode-banner" class="alert alert-warning mode-banner mt-2 mb-0 d-none">
+    <strong>Offline mode:</strong> no database is connected, so new entries are saved only in this browser.
+    Add your Supabase URL and key in <code>js/config.js</code> to share data between everyone (see README.md).
+  </div>
+  <div id="load-error" class="alert alert-danger mt-2 mb-0 d-none"></div>
+
+  <div class="tab-content">
+
+    <!-- ===================== Introduction ===================== -->
+    <div class="tab-pane fade show active" id="t-intro">
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="card h-100">
+            <div class="card-header">Why use baited remote underwater video?</div>
+            <div class="card-body">
+              <p>Baited Remote Underwater Videos (BRUVs) are widely used to study the relative abundance, behaviour and biodiversity of marine fauna (Grimmel et al., 2020; Kiggins et al., 2020; Langlois et al., 2020). They are a non-invasive, low-cost method that lets us study fish assemblages in different habitats (French et al., 2021; Gilby et al., 2016; Jones et al., 2019; Kiggins et al., 2020).</p>
+              <p>Willis et al. (2000) showed that BRUVs can be even more effective than underwater visual census for some species, because they remove the human disturbance that makes diver-shy species avoid divers. The bait plume also attracts fish from a wider area than a visual survey transect can cover (Willis et al., 2000).</p>
+              <p>BRUVs do have limitations, such as a bias towards attracting predatory and scavenging fishes. However, Harvey et al. (2007) showed that this does not stop herbivorous fishes from visiting, and that baited videos are overall more effective than unbaited videos (RUVs).</p>
+              <h5 class="mt-3">What we're doing today</h5>
+              <p>In this workshop we will analyse BRUV videos that we collected in different habitats of Quandamooka. You will watch BRUV videos, identify fish species, and count how many of each species you see. We will record <strong>MaxN</strong>: the maximum number of individuals of a species visible in a single frame, rather than tallying every sighting. Everyone's counts are collated as you go, and by the end of the session we will combine our observations to compare assemblages between habitats.</p>
+              <h6 class="mt-3">References</h6>
+              <ol class="small text-body-secondary">
+                <li class="mb-1">French, B., Wilson, S., Holmes, T., Kendrick, A., Rule, M., &amp; Ryan, N. (2021). Comparing five methods for quantifying abundance and diversity of fish assemblages in seagrass habitat. <em>Ecological Indicators, 124</em>, 107415.</li>
+                <li class="mb-1">Gilby, B. L., Tibbetts, I. R., Olds, A. D., Maxwell, P. S., &amp; Stevens, T. (2016). Seascape context and predators override water quality effects on inshore coral reef fish communities. <em>Coral Reefs, 35</em>, 979&ndash;990.</li>
+                <li class="mb-1">Grimmel, H. M. V., Bullock, R. W., Dedman, S. L., Guttridge, T. L., &amp; Bond, M. E. (2020). Assessment of faunal communities and habitat use within a shallow water system using non-invasive BRUVs methodology. <em>Aquaculture and Fisheries, 5</em>, 224&ndash;233.</li>
+                <li class="mb-1">Harvey, E., Cappo, M., Butler, J. J., Hall, N., &amp; Kendrick, G. (2007). Bait attraction affects the performance of remote underwater video stations in assessment of demersal fish community structure. <em>Marine Ecology Progress Series, 350</em>, 245&ndash;254.</li>
+                <li class="mb-1">Jones, R. E., Griffin, R. A., Rees, S. C., &amp; Unsworth, R. K. F. (2019). Improving visual biodiversity assessments of motile fauna in turbid aquatic environments. <em>Limnology and Oceanography: Methods, 17</em>, 544&ndash;554.</li>
+                <li class="mb-1">Kiggins, R. S., Knott, N. A., New, T., &amp; Davis, A. R. (2020). Fish assemblages in protected seagrass habitats: Assessing fish abundance and diversity in no-take marine reserves and fished areas. <em>Aquaculture and Fisheries, 5</em>, 213&ndash;223.</li>
+                <li class="mb-1">Langlois, T., Goetze, J., Bond, T., Monk, J., Abesamis, R. A., Asher, J., ... Harvey, E. S. (2020). A field and video annotation guide for baited remote underwater stereo-video surveys of demersal fish assemblages. <em>Methods in Ecology and Evolution, 11</em>, 1401&ndash;1409.</li>
+                <li class="mb-1">Willis, T., Millar, R., &amp; Babcock, R. (2000). Detection of spatial variability in relative density of fishes: Comparison of visual census, angling, and baited underwater video. <em>Marine Ecology Progress Series, 198</em>, 249&ndash;260.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header">Your task</div>
+            <div class="card-body">
+              <ol>
+                <li><strong>ID guide:</strong> get to know the species you might see. Filter by habitat or search by name.</li>
+                <li><strong>Enter data:</strong> type your name or group, then choose the habitat, station and video. It plays in the app, or open it in a new tab.</li>
+                <li>For each species, find the moment when the <strong>most individuals are visible at once</strong> and record that number (MaxN). Leave it at 0 if you don't see it.</li>
+                <li><strong>Submit,</strong> then pick your next video.</li>
+                <li><strong>Graphs:</strong> compare everyone's results between habitats, sites or any other category.</li>
+              </ol>
+              <div class="alert alert-info small mb-0"><strong>MaxN tip:</strong> pause the video when a school is biggest and count in that frame. Never add counts from different moments together, because the same fish may swim in and out of view many times.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Sites ===================== -->
+    <div class="tab-pane fade" id="t-sites">
+      <p class="text-body-secondary mb-2">The stations where the BRUVs were deployed, by habitat.</p>
+      <div id="map" class="mb-3 d-none"></div>
+      <div id="sites_ui"></div>
+    </div>
+
+    <!-- ===================== ID guide ===================== -->
+    <div class="tab-pane fade" id="t-guide">
+      <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+        <div class="hab-pills" data-hab-group="guide_hab"></div>
+        <input id="guide_search" type="search" class="form-control" style="max-width:260px" placeholder="Search name or family">
+      </div>
+      <div id="guide_cards" class="guide-grid"></div>
+    </div>
+
+    <!-- ===================== Assignments ===================== -->
+    <div class="tab-pane fade" id="t-asg">
+      <p class="text-body-secondary mb-2">The videos each pair has been given. A video is ticked off by itself once an entry for it has been submitted on Enter data.</p>
+      <div class="d-flex flex-wrap gap-3 mb-3">
+        <div style="width:220px"><label class="form-label" for="asg_group">Group</label><select id="asg_group" class="form-select"></select></div>
+        <div style="width:300px"><label class="form-label" for="asg_pair">Pair</label><select id="asg_pair" class="form-select"></select></div>
+      </div>
+      <div id="asg_ui"></div>
+    </div>
+
+    <!-- ===================== Enter data ===================== -->
+    <div class="tab-pane fade" id="t-entry">
+      <div class="row g-3">
+        <div class="col-lg-5">
+          <div class="card">
+            <div class="card-header">1. Choose your video</div>
+            <div class="card-body">
+              <div class="mb-3"><label class="form-label" for="student">Your name or group</label>
+                <input id="student" type="text" class="form-control" placeholder="e.g. Group 3" maxlength="80" autocomplete="off"></div>
+              <div class="row g-2 mb-2">
+                <div class="col-sm-6"><label class="form-label" for="pick_hab">Habitat</label><select id="pick_hab" class="form-select"></select></div>
+                <div class="col-sm-6"><label class="form-label" for="pick_station">Station</label><select id="pick_station" class="form-select"></select></div>
+              </div>
+              <div id="site_note" class="small text-body-secondary mb-2"></div>
+              <div class="mb-3"><label class="form-label" for="video">Video</label><select id="video" class="form-select"></select></div>
+              <div id="video_info"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7 d-flex flex-column gap-3">
+          <div class="card">
+            <div class="card-header">2. Enter MaxN for each species you see</div>
+            <div class="card-body">
+              <p class="text-body-secondary small mb-1">MaxN = the most individuals of that species visible in a single frame. Leave a species at 0 if you don't see it. Click a photo for ID features. Re-submitting the same video replaces your earlier entry.</p>
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <div class="hab-pills" data-hab-group="entry_hab"></div>
+                <input id="entry_search" type="search" class="form-control form-control-sm" placeholder="Search species" style="max-width:200px">
+                <label class="small ms-1"><input id="entry_only" type="checkbox" class="form-check-input me-1">Only species I've entered</label>
+              </div>
+              <div id="sp_grid" class="sp-grid"></div>
+              <div class="other-box mt-2">
+                <label class="form-label mb-1" for="other_name"><strong>Other species</strong> (only if it's not in the ID guide)</label>
+                <div id="other_list"></div>
+                <div class="d-flex gap-2 align-items-start">
+                  <input id="other_name" class="form-control" placeholder="Common or scientific name" maxlength="80" autocomplete="off">
+                  <input id="other_n" type="number" class="form-control" value="1" min="0" step="1" style="width:90px">
+                  <button id="other_add" class="btn btn-outline-primary" type="button">+ Add</button>
+                </div>
+                <div id="other_sugg" class="sugg"></div>
+                <div class="form-text mt-1">Type a name (or pick one another group has added), set its MaxN, then click Add. To take one off, set its MaxN to 0 and click Add, or click remove.</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">3. Check and submit</div>
+            <div class="card-body">
+              <div id="entry_summary" class="mb-2"></div>
+              <div class="mb-3"><label class="form-label" for="notes">Notes (unknown fish, behaviour, visibility...)</label>
+                <textarea id="notes" class="form-control" rows="2" maxlength="2000"></textarea></div>
+              <button id="submit" class="btn btn-primary btn-lg" type="button">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Graphs ===================== -->
+    <div class="tab-pane fade" id="t-graphs">
+      <div class="row g-3">
+        <div class="col-lg-3 graphs-side">
+          <div class="mb-3"><label class="form-label" for="compare_by">Compare videos by</label>
+            <select id="compare_by" class="form-select">
+              <option value="">(none)</option><option value="habitat" selected>Habitat</option><option value="site">Site</option><option value="station">Station</option>
+            </select></div>
+          <div class="mb-3"><label class="form-label" for="who">Show entries from</label><select id="who" class="form-select"></select></div>
+          <div class="mb-2"><div class="form-label">Average using</div>
+            <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="stat" id="stat_median" value="median" checked><label class="form-check-label" for="stat_median">Median</label></div>
+            <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="stat" id="stat_mean" value="mean"><label class="form-check-label" for="stat_mean">Mean</label></div>
+          </div>
+          <p class="small text-body-secondary">When several groups watch the same video, their MaxN values are combined using this average. The MaxN by species bars use it too: median with interquartile range, or mean with standard error.</p>
+          <div class="mb-2"><div class="form-label">Unit</div>
+            <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="unit" id="unit_video" value="video" checked><label class="form-check-label" for="unit_video">Video</label></div>
+            <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="unit" id="unit_drop" value="drop"><label class="form-check-label" for="unit_drop">Drop</label></div>
+          </div>
+          <p class="small text-body-secondary">Drop: a recording cut into several videos counts once, using the largest MaxN of each species across its videos (not the sum, so the same fish isn't counted twice).</p>
+          <div class="mb-2"><label class="form-label" for="sp_show">Species shown (MaxN by species and Occurrence)</label>
+            <select id="sp_show" class="form-select" multiple size="6"></select>
+            <div class="form-text">None selected = all species. Ctrl/Cmd-click to pick several. <a href="#" id="sp_clear">Clear</a></div></div>
+          <div id="drop_coverage" class="small mb-2"></div>
+          <button id="refresh" type="button" class="btn btn-outline-secondary w-100">&#x21bb; Refresh now</button>
+          <div id="n_submissions" class="small text-body-secondary mt-2"></div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#g-rich">Species richness</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#g-total">Total MaxN</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#g-species">MaxN by species</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#g-occ">Occurrence</a></li>
+              </ul>
+            </div>
+            <div class="card-body tab-content">
+              <div class="tab-pane fade show active" id="g-rich"><div id="p_richness" class="plot"></div></div>
+              <div class="tab-pane fade" id="g-total"><div id="p_total" class="plot"></div></div>
+              <div class="tab-pane fade" id="g-species"><div id="p_species" class="plot"></div></div>
+              <div class="tab-pane fade" id="g-occ"><div id="p_occurrence" class="plot"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Data ===================== -->
+    <div class="tab-pane fade" id="t-data">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#d-entries">Entries</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#d-videos">Videos</a></li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <button id="dl_entries" class="btn btn-sm btn-outline-secondary" type="button">&#x2B73; Download entries (CSV)</button>
+            <button id="dl_videos" class="btn btn-sm btn-outline-secondary" type="button">&#x2B73; Download per-video (or per-drop) MaxN (CSV)</button>
+            <input id="table_filter" type="search" class="form-control form-control-sm ms-auto" style="max-width:220px" placeholder="Filter rows">
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="d-entries"><div id="entries_table" class="table-wrap"></div></div>
+            <div class="tab-pane fade" id="d-videos"><div id="videos_table" class="table-wrap"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Species modal -->
+<div class="modal fade" id="sp_modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="sp_modal_title"></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+    <div class="modal-body" id="sp_modal_body"></div>
+  </div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/species.js"></script>
+<script src="js/demo-data.js"></script>
+<script src="js/db.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

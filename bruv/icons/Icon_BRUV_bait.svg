@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 100" fill="none" stroke="#263250" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Original BRUV icon: rope to the surface, camera housing on a frame,
+       bait arm with a mesh bait bag, and a fish coming in to the bait -->
+  <title>BRUV</title>
+  <!-- surface -->
+  <path d="M4 8 q7.5 -6 15 0 t15 0 t15 0 t15 0 t15 0 t15 0 t15 0 t15 0" />
+  <!-- rope from the surface to the frame -->
+  <path d="M36 9 V34" stroke-width="3.5" />
+  <!-- frame legs standing on the seabed -->
+  <path d="M14 92 L26 62 H48 L60 92" />
+  <!-- seabed -->
+  <path d="M4 93 H124" stroke-width="4" />
+  <!-- camera housing on top of the frame, lens facing the bait -->
+  <rect x="18" y="36" width="34" height="24" rx="5" />
+  <circle cx="58" cy="48" r="7" />
+  <!-- bait arm -->
+  <path d="M48 62 H100" />
+  <!-- bait bag (mesh) hanging off the end of the arm -->
+  <rect x="100" y="54" width="18" height="22" rx="5" />
+  <path d="M100 65 H118 M109 54 V76" stroke-width="2.5" />
+  <!-- fish coming in to the bait -->
+  <path d="M84 30 q10 -10 22 0 q-12 10 -22 0 Z" stroke-width="3.5" />
+  <path d="M106 30 l8 -6 v12 Z" stroke-width="3.5" />
+  <circle cx="89" cy="29" r="1" fill="#263250" stroke-width="1.5" />
+</svg>
