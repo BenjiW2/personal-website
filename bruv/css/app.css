@@ -43,3 +43,6 @@ body { background: var(--bs-body-bg); }
 @media (max-width: 991px) { .graphs-side { max-width: none; } }
 .tab-pane { padding-top: 1rem; padding-bottom: 2rem; }
 .sp-nophoto { background: var(--bs-tertiary-bg); color: var(--bs-secondary-color); display: flex; align-items: center; justify-content: center; font-size: .8rem; cursor: zoom-in; }
+@keyframes rowflash { from { background: rgba(47,158,104,.45); } to { background: transparent; } }
+.row-new td { animation: rowflash 4s ease-out; }
+.table-wrap td { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }

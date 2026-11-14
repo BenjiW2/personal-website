@@ -280,7 +280,7 @@
   function renderOtherSugg() {
     const q = $('other_name').value.toLowerCase().trim();
     const list = others.filter(o => !o.hidden && !(o.name in otherCounts) && (!q || o.name.toLowerCase().includes(q))).slice(0, 15);
-    $('other_sugg').innerHTML = list.map(o => `<span class="chip"><button type="button" data-sugg="${esc(o.name)}">${esc(o.name)}</button><button type="button" class="opt-hide" title="Remove from the list" data-hide="${esc(o.name)}">&times;</button></span>`).join('');
+    $('other_sugg').innerHTML = list.map(o => `<span class="chip"><button type="button" data-sugg="${esc(o.name)}">${esc(o.name)}</button></span>`).join('');
   }
   async function addOther() {
     const name = $('other_name').value.trim().replace(/\s+/g, ' ');
@@ -298,8 +298,6 @@
     $('other_name').value = ''; $('other_n').value = 1;
     renderOtherList(); renderSummary(); renderOtherSugg();
     if (n > 0) {
-      const o = others.find(x => x.name === existing);
-      if (!o) others.push({ name: existing, hidden: false }); else o.hidden = false;
       DB.addOther(existing).catch(() => {});
     }
   }
@@ -480,13 +478,13 @@
     });
   }
   const sortState = {};
-  function renderTable(elId, rows) {
+  function renderTable(elId, rows, filterId = 'table_filter') {
     const el = $(elId);
     if (!rows.length) { el.innerHTML = '<p class="text-body-secondary p-2">No entries yet.</p>'; return; }
     const cols = Object.keys(rows[0]);
     const ss = sortState[elId];
     if (ss) rows = [...rows].sort((a, b) => { const x = a[ss.c], y = b[ss.c]; const r = typeof x === 'number' && typeof y === 'number' ? x - y : String(x ?? '').localeCompare(String(y ?? ''), undefined, { numeric: true }); return ss.d * r; });
-    const q = $('table_filter').value.toLowerCase().trim();
+    const q = $(filterId).value.toLowerCase().trim();
     if (q) rows = rows.filter(r => cols.some(c => String(r[c] ?? '').toLowerCase().includes(q)));
     const fmt = (c, v) => c === 'updated_at' && v ? new Date(v).toLocaleString() : v;
     el.innerHTML = `<table class="table table-sm table-striped table-hover mb-0"><thead><tr>${cols.map(c => `<th data-sort="${esc(c)}">${esc(c)}${ss && ss.c === c ? (ss.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead>
@@ -509,6 +507,38 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   }
 
+  // ---------------------------------------------------------------- Live database tab (read-only)
+  const seenIds = new Set(); let dbFirst = true;
+  function dbTables() {
+    const subRows = [...subs].sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at))).map(s => {
+      const m = videoMeta(s.video_id);
+      return { id: s.id, updated_at: s.updated_at, student: s.student, video_id: s.video_id, habitat: m.habitat, station: m.station, drop: m.drop_id,
+        species: Object.entries(s.counts || {}).map(([k, n]) => `${(SP[k] || {}).common || k} ${n}`).join('; '),
+        other_species: Object.entries(s.other || {}).map(([k, n]) => `${k} ${n}`).join('; '), notes: s.notes || '' };
+    });
+    return {
+      db_submissions: subRows,
+      db_videos: setup.videos.map(v => ({ video_id: v.video_id, station: v.station, habitat: (siteBy[v.station] || {}).habitat || '', drop_id: v.drop_id, label: v.label,
+        entries: subs.filter(s => s.video_id === v.video_id).length, url: v.url })),
+      db_assignments: setup.assignments.map(a => ({ group_name: a.group_name, pair_name: a.pair_name, video_id: a.video_id, done: subs.some(s => s.video_id === a.video_id) ? 'yes' : '' })),
+      db_sites: setup.sites.map(s => ({ station: s.station, habitat: s.habitat, site: s.site, lat: s.lat ?? '', lon: s.lon ?? '', depth_m: s.depth_m ?? '', videos: setup.videos.filter(v => v.station === s.station).length })),
+      db_other: others.filter(o => !o.hidden).map(o => ({ name: o.name, times_recorded: subs.filter(s => (s.other || {})[o.name] > 0).length }))
+    };
+  }
+  function renderDb() {
+    const t = dbTables();
+    $('db_counts').innerHTML = `<strong>${subs.length}</strong> submissions · <strong>${uniq(subs.map(s => s.student)).length}</strong> groups · <strong>${uniq(subs.map(s => s.video_id)).length}</strong> of ${setup.videos.length} videos watched`;
+    $('db_status').innerHTML = `<span class="text-success">&#9679;</span> Live · updated ${lastLoaded ? lastLoaded.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '…'}`;
+    for (const id of Object.keys(t)) if (visible(id.replace('db_', 'dbp_'))) renderTable(id, t[id], 'db_filter');
+    const fresh = subs.filter(s => !seenIds.has(String(s.id)));
+    fresh.forEach(s => seenIds.add(String(s.id)));
+    if (!dbFirst && fresh.length) {
+      const ids = new Set(fresh.map(s => String(s.id)));
+      document.querySelectorAll('#db_submissions tbody tr').forEach(tr => { if (ids.has(tr.firstElementChild.textContent)) tr.classList.add('row-new'); });
+    }
+    dbFirst = false;
+  }
+
   // ---------------------------------------------------------------- render what is on screen
   const visible = id => { const e = $(id); return e && e.classList.contains('active'); };
   function renderVisible() {
@@ -523,9 +553,8 @@
       if (visible('d-entries')) renderTable('entries_table', entryRows());
       if (visible('d-videos')) renderTable('videos_table', unitRows());
     }
-    if (visible('t-entry')) renderVideoInfoCountOnly();
+    if (visible('t-db')) renderDb();
   }
-  function renderVideoInfoCountOnly() { /* keep the playing video untouched; counts refresh on next pick */ }
 
   // ---------------------------------------------------------------- wiring
   function wire() {
@@ -540,13 +569,6 @@
       const go = e.target.closest('[data-goto-video]'); if (go) { gotoVideo(go.dataset.gotoVideo); return; }
       const rm = e.target.closest('[data-other-remove]'); if (rm) { delete otherCounts[rm.dataset.otherRemove]; renderOtherList(); renderSummary(); renderOtherSugg(); return; }
       const sg = e.target.closest('[data-sugg]'); if (sg) { $('other_name').value = sg.dataset.sugg; $('other_n').focus(); $('other_n').select(); return; }
-      const hd = e.target.closest('[data-hide]');
-      if (hd) {
-        const n = hd.dataset.hide;
-        if (!confirm(`Remove "${n}" from everyone's suggestion list?`)) return;
-        const o = others.find(x => x.name === n); if (o) o.hidden = true; renderOtherSugg();
-        DB.hideOther(n).catch(err => toast('Could not remove: ' + esc(err.message), 'danger'));
-      }
     });
     pills(document.querySelector('[data-hab-group="guide_hab"]'), 'guide_hab', filterGuide);
     pills(document.querySelector('[data-hab-group="entry_hab"]'), 'entry_hab', filterTiles);
@@ -576,6 +598,7 @@
     $('sp_clear').addEventListener('click', e => { e.preventDefault(); [...$('sp_show').options].forEach(o => o.selected = false); renderVisible(); });
     $('refresh').addEventListener('click', async () => { $('refresh').disabled = true; await refreshAll(true); $('refresh').disabled = false; });
     $('table_filter').addEventListener('input', renderVisible);
+    $('db_filter').addEventListener('input', renderVisible);
     $('dl_entries').addEventListener('click', () => download('bruv_entries.csv', csv(entryRows())));
     $('dl_videos').addEventListener('click', () => { const u = document.querySelector('input[name=unit]:checked').value; download(`bruv_per_${u}_maxn.csv`, csv(unitRows())); });
     window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => { document.documentElement.setAttribute('data-bs-theme', e.matches ? 'dark' : 'light'); renderVisible(); });
@@ -602,7 +625,8 @@
     const every = Math.max(5, +cfg.refreshSeconds || 20) * 1000;
     setTimeout(function tick() {
       if (document.visibilityState === 'visible') refreshAll(false);
-      setTimeout(tick, every * (0.85 + Math.random() * 0.3));
+      const ms = visible('t-db') ? Math.min(every, 8000) : every;
+      setTimeout(tick, ms * (0.85 + Math.random() * 0.3));
     }, every * Math.random());
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshAll(false); });
   }

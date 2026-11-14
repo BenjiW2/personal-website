@@ -55,24 +55,14 @@
     },
     loadSubmissions: () => all('bruv_submissions', '&order=updated_at'),
     loadOther: () => all('bruv_other_species', '&order=name'),
+    // The only write the public key is allowed: a validated upsert via the bruv_submit() function.
     async saveSubmission(s) {
-      const body = { student: s.student, video_id: s.video_id, counts: s.counts, other: s.other, notes: s.notes || null };
-      await req('bruv_submissions?on_conflict=student,video_id', {
-        method: 'POST', body: JSON.stringify(body),
-        headers: { Prefer: 'resolution=merge-duplicates,return=minimal' }
+      await req('rpc/bruv_submit', {
+        method: 'POST', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({ p_student: s.student, p_video_id: s.video_id, p_counts: s.counts, p_other: s.other, p_notes: s.notes || '' })
       });
     },
-    async addOther(name) {
-      await req('bruv_other_species?on_conflict=name', {
-        method: 'POST', body: JSON.stringify({ name, hidden: false }),
-        headers: { Prefer: 'resolution=merge-duplicates,return=minimal' }
-      });
-    },
-    async hideOther(name) {
-      await req('bruv_other_species?name=eq.' + encodeURIComponent(name), {
-        method: 'PATCH', body: JSON.stringify({ hidden: true }), headers: { Prefer: 'return=minimal' }
-      });
-    }
+    async addOther() {},   // saved with the submission
   };
 
   // ---------------- Local demo mode ----------------
