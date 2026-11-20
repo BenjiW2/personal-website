@@ -407,6 +407,10 @@ dialog#lightbox button { font-family: var(--type); font-size: 20px; background: 
   .outtakes .strip { grid-template-columns: repeat(4, 1fr); }
   .ending { grid-template-columns: 1.3fr .7fr; }
   .todo + * { margin-top: 0; }
+  /* entries with extra text: tighten so they still fit one printed page */
+  .entry.long .notebook p { font-size: 9.7px; line-height: 1.36; margin-bottom: 5px; }
+  .entry.long .index-card p { font-size: 9.6px; }
+  .entry.long .entry-head { margin-bottom: 8px; }
   .photos { gap: 12px 8px; position: static; } .photos .up { margin-top: -6px; }
   .polaroid { padding: 6px 6px 0; break-inside: avoid; box-shadow: 1px 2px 4px rgba(0,0,0,.35); }
   .polaroid figcaption { font-size: 14px; padding: 4px 2px 6px; }
