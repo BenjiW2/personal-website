@@ -81,6 +81,7 @@ a { color: inherit; }
   transform: rotate(var(--r, 0deg));
   transition: transform .25s ease, box-shadow .25s ease;
 }
+.polaroid:not(:has(figcaption)) { padding-bottom: 11px; }
 .polaroid button {
   display: block; padding: 0; border: 0; background: none; cursor: zoom-in; width: 100%;
 }
@@ -414,6 +415,7 @@ dialog#lightbox button { font-family: var(--type); font-size: 20px; background: 
   .photos { gap: 12px 8px; position: static; } .photos .up { margin-top: -6px; }
   .polaroid { padding: 6px 6px 0; break-inside: avoid; box-shadow: 1px 2px 4px rgba(0,0,0,.35); }
   .polaroid figcaption { font-size: 14px; padding: 4px 2px 6px; }
+  .polaroid:not(:has(figcaption)) { padding-bottom: 6px; }
   .index-card { margin-bottom: 14px; padding: 8px 14px 12px; background: var(--card); }
   .index-card p { font-size: 10.4px; line-height: 1.5; }
   .label { font-size: 10px; line-height: 20px; }
