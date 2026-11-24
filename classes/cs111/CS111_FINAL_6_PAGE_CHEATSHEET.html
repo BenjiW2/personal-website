@@ -1,0 +1,2083 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>CS111 Final 6-Page Cheatsheet</title>
+  <style>
+    @page { size: A4; margin: 5mm; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #f3f1ec; color: #151515; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 5.25pt; line-height: 1.055; }
+    .sheet { width: 200mm; min-height: 287mm; margin: 0 auto 8mm; padding: 3.15mm; background: #fffdfa; page-break-after: always; overflow: hidden; }
+    .sheet:last-child { page-break-after: auto; }
+    header { display: flex; align-items: baseline; justify-content: space-between; gap: 3mm; border-bottom: .35mm solid #111; padding-bottom: .85mm; margin-bottom: 1.35mm; }
+    h1 { font-size: 9.9pt; margin: 0; letter-spacing: 0; }
+    .sub { font-size: 5.1pt; font-weight: 700; }
+    .cols { columns: 2; column-gap: 3.4mm; }
+    .twocol { columns: 2; column-gap: 3mm; }
+    section, .box { break-inside: avoid; page-break-inside: avoid; margin: 0 0 1mm; }
+    h2 { font-size: 6.55pt; margin: 0 0 .42mm; padding: .28mm .6mm; background: #1e1e1e; color: #fff; break-after: avoid; }
+    h3 { font-size: 5.8pt; margin: .65mm 0 .25mm; border-bottom: .2mm solid #aaa; break-after: avoid; }
+    p { margin: 0 0 .38mm; }
+    ul, ol { margin: 0 0 .52mm 2.35mm; padding: 0; }
+    li { margin: 0 0 .08mm; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    code { background: #eee9df; padding: 0 .35mm; border-radius: .6mm; }
+    pre { margin: .35mm 0 .5mm; padding: .45mm; border: .2mm solid #d8d0c3; background: #fbfaf7; white-space: pre-wrap; font-size: 4.42pt; line-height: 1.055; }
+    table { width: 100%; border-collapse: collapse; margin: .25mm 0 .55mm; font-size: 4.85pt; }
+    th, td { border: .2mm solid #cfc6b8; padding: .24mm .32mm; vertical-align: top; }
+    th { background: #eee7dc; text-align: left; }
+    .tight li { margin-bottom: .1mm; }
+    .mini { font-size: 4.7pt; }
+    .warn { border-left: .8mm solid #9b3d16; padding-left: 1mm; background: #fff7ef; }
+    .rule { border-left: .8mm solid #155c3a; padding-left: 1mm; background: #f2fbf5; }
+    .formula { border: .2mm solid #bbb; padding: .8mm; background: #f8f8f8; }
+    @media screen {
+      body { padding: 10mm 0; }
+      .sheet { box-shadow: 0 2mm 8mm rgba(0,0,0,.14); }
+    }
+  </style>
+</head>
+<body>
+
+<article class="sheet">
+  <header><h1>CS111 Final Cheatsheet: Processes, Exec, FDs, Threads</h1><div class="sub">Page 1 / 6</div></header>
+  <div class="cols">
+    <section>
+      <h2>Process / Thread Core</h2>
+      <ul class="tight">
+        <li><b>Process</b>: running program + address space + resources + kernel bookkeeping.</li>
+        <li><b>Thread</b>: execution stream inside a process. Own PC, registers, stack, state; shares process address space/files.</li>
+        <li><b>PCB/TCB</b>: kernel records for process/thread: state, registers, scheduling info, address-space info, open files.</li>
+        <li><b>Kernel</b>: privileged OS core. <b>System call</b>: controlled user -> kernel entry.</li>
+        <li><b>Context switch</b>: save current thread state, restore next thread state.</li>
+        <li>Thread states: running, ready, blocked. Ready means runnable but not on CPU.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Process/FD API Must-Know</h2>
+      <table>
+        <tr><th>call</th><th>returns</th><th>exam use</th></tr>
+        <tr><td><code>pid_t fork(void)</code></td><td><code>0</code> child, child PID parent, <code>-1</code> error</td><td>create duplicate process</td></tr>
+        <tr><td><code>int execvp(char *file,char *argv[])</code></td><td>only returns <code>-1</code> on failure</td><td>replace current process image</td></tr>
+        <tr><td><code>pid_t waitpid(pid,&amp;st,0)</code></td><td>child PID or <code>-1</code></td><td>wait/reap exact child</td></tr>
+        <tr><td><code>int pipe(int p[2])</code></td><td><code>0</code> or <code>-1</code></td><td><code>p[0]</code> read, <code>p[1]</code> write</td></tr>
+        <tr><td><code>int dup2(old,new)</code></td><td><code>new</code> or <code>-1</code></td><td>redirect fd <code>new</code> to same target as <code>old</code></td></tr>
+        <tr><td><code>int open(path,flags,mode)</code></td><td>new lowest fd or <code>-1</code></td><td>file input/output</td></tr>
+        <tr><td><code>ssize_t read/write(fd,buf,n)</code></td><td>bytes, <code>0</code> EOF for read, <code>-1</code> error</td><td>raw byte I/O</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2><code>fork</code></h2>
+      <p><code>fork()</code> duplicates the calling process. Both continue after the call.</p>
+      <table>
+        <tr><th>Where</th><th>return value</th><th>meaning</th></tr>
+        <tr><td>child</td><td><code>0</code></td><td>I am the newly created child.</td></tr>
+        <tr><td>parent</td><td>child PID</td><td>I created this child.</td></tr>
+        <tr><td>error</td><td><code>-1</code></td><td>No child created.</td></tr>
+      </table>
+      <ul class="tight">
+        <li>Memory is separate after <code>fork</code>; variables are copied, not shared.</li>
+        <li>Open file descriptors are inherited.</li>
+        <li>Output order is not guaranteed unless synchronized or waited.</li>
+        <li>Loop with <code>N</code> unconditional forks: total processes <code>2^N</code>, new processes <code>2^N - 1</code>.</li>
+      </ul>
+      <pre>pid_t pid = fork();
+if (pid == 0) { /* child */ }
+else { /* parent; pid is child's PID */ }</pre>
+    </section>
+
+    <section>
+      <h2>Multiple Fork Trace</h2>
+      <pre>pid_t a = fork();
+pid_t b = fork();</pre>
+      <p>Each existing process executes the next <code>fork</code>. Child of a later fork copies old variable values from its parent.</p>
+      <table>
+        <tr><th>process</th><th><code>a</code></th><th><code>b</code></th></tr>
+        <tr><td>original parent</td><td>PID of first child</td><td>PID of its second child</td></tr>
+        <tr><td>first child</td><td>0</td><td>PID of its child</td></tr>
+        <tr><td>second child from parent</td><td>PID of first child</td><td>0</td></tr>
+        <tr><td>second child from first child</td><td>0</td><td>0</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2><code>execvp</code></h2>
+      <p><code>execvp</code> loads a new executable file into the current process. Same PID, new program image.</p>
+      <pre>char *args[] = {"wc", "-l", NULL};
+execvp(args[0], args);
+perror("execvp"); exit(1);</pre>
+      <ul class="tight">
+        <li><code>p</code> means search <code>PATH</code>, like shell. <code>"wc"</code> might resolve to <code>/usr/bin/wc</code>.</li>
+        <li>Replaces old code, globals, heap, stack. Does not create a new process.</li>
+        <li>If successful, never returns to old code.</li>
+        <li><code>argv</code> array must end with <code>NULL</code>.</li>
+        <li>File descriptors usually survive across <code>exec</code> unless close-on-exec.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><code>waitpid</code> / Zombies</h2>
+      <pre>int status;
+waitpid(pid, &status, 0);
+if (WIFEXITED(status))
+  WEXITSTATUS(status);</pre>
+      <ul class="tight">
+        <li><code>waitpid(pid,NULL,0)</code>: wait for exact child, ignore status, blocking wait.</li>
+        <li>Collects child's exit status and prevents zombie persistence.</li>
+        <li><code>status</code> is encoded; use <code>WIFEXITED</code>, <code>WEXITSTATUS</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Shell Pattern</h2>
+      <pre>pid_t pid = fork();
+if (pid == 0) {
+  dup2(fd, STDIN_FILENO);
+  close(fd);
+  execvp(args[0], args);
+  perror("execvp"); exit(1);
+}
+waitpid(pid, NULL, 0);</pre>
+      <p>Parent keeps shell/program alive. Child redirects FDs, then becomes command.</p>
+    </section>
+
+    <section>
+      <h2>File Descriptors</h2>
+      <table>
+        <tr><th>fd</th><th>name</th><th>constant</th></tr>
+        <tr><td>0</td><td>stdin</td><td><code>STDIN_FILENO</code></td></tr>
+        <tr><td>1</td><td>stdout</td><td><code>STDOUT_FILENO</code></td></tr>
+        <tr><td>2</td><td>stderr</td><td><code>STDERR_FILENO</code></td></tr>
+      </table>
+      <ul class="tight">
+        <li><code>open</code> returns lowest available fd.</li>
+        <li><code>read(fd,buf,n)</code>, <code>write(fd,buf,n)</code>, <code>close(fd)</code>.</li>
+        <li><code>dup2(oldfd,newfd)</code>: make <code>newfd</code> refer to same open file description as <code>oldfd</code>. Direction matters.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Pipes</h2>
+      <pre>int fds[2]; pipe(fds);
+// fds[0] read end, fds[1] write end</pre>
+      <ul class="tight">
+        <li>Data written to <code>fds[1]</code> is read from <code>fds[0]</code>.</li>
+        <li>After <code>fork</code>, both processes inherit both ends.</li>
+        <li>EOF only when all write ends are closed. Exam trap: leaked write end -> reader blocks forever.</li>
+        <li>Pipe command pattern: child1 stdout -> pipe write; child2 stdin -> pipe read; close unused ends in all processes.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>C/C++ Syntax Traps</h2>
+      <ul class="tight">
+        <li><code>p->field</code> means <code>(*p).field</code>.</li>
+        <li><code>&x</code> address of x. <code>*p</code> object pointed to by p.</li>
+        <li>Array of strings: <code>char *argv[] = {"ls","-l",NULL};</code>, array of char pointers; each string ends in <code>'\0'</code>; argv list ends in <code>NULL</code>.</li>
+        <li><code>std::deque&lt;T&gt;</code> is a double-ended queue, not the verb dequeue. <code>push_back</code> add at back, <code>front</code> first, <code>pop_front</code> remove first.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Command-Line Args</h2>
+      <pre>int main(int argc, char *argv[]) {
+  // argv[0] program name
+  // argv[1] first real arg
+}</pre>
+      <ul class="tight">
+        <li><code>argv</code> is an array of C-string pointers. Each string ends with <code>'\0'</code>.</li>
+        <li><code>argc</code> counts entries including <code>argv[0]</code>.</li>
+        <li>For <code>execvp</code>, argument vector itself ends with <code>NULL</code>, not just <code>'\0'</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>FD Table vs Open File</h2>
+      <ul class="tight">
+        <li>Process fd table maps small ints to open-file descriptions.</li>
+        <li>Open-file description stores file object/inode, mode, current offset, flags.</li>
+        <li><code>fork</code> copies fd table entries; parent/child entries can refer to same open-file description, so file offset can be shared.</li>
+        <li><code>dup2</code> makes two fd numbers refer to same open-file description.</li>
+        <li><code>close(fd)</code> removes this process's fd entry; file object closes only when last reference gone.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Read/Write Return Values</h2>
+      <ul class="tight">
+        <li><code>read</code> returns bytes read, <code>0</code> for EOF, <code>-1</code> for error.</li>
+        <li><code>write</code> returns bytes written or <code>-1</code>; may be partial, so robust code loops.</li>
+        <li><code>perror("x")</code> prints message using current <code>errno</code>.</li>
+        <li><code>exit(n)</code> terminates process with status <code>n</code>; returning from <code>main</code> is similar.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Process Identity</h2>
+      <ul class="tight">
+        <li><code>getpid()</code>: current process ID. <code>getppid()</code>: parent process ID.</li>
+        <li>PID stays same across successful <code>exec</code>.</li>
+        <li><code>fork</code> creates new PID; <code>exec</code> changes program image only.</li>
+        <li>Zombie: child exited but parent has not waited. Orphan: parent exits first; OS reparents child.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Pipe Pipeline Skeleton</h2>
+      <pre>pipe(p);
+if (fork()==0) {
+  dup2(p[1], STDOUT_FILENO);
+  close(p[0]); close(p[1]);
+  execvp(cmd1[0], cmd1);
+}
+if (fork()==0) {
+  dup2(p[0], STDIN_FILENO);
+  close(p[0]); close(p[1]);
+  execvp(cmd2[0], cmd2);
+}
+close(p[0]); close(p[1]);
+waitpid(...); waitpid(...);</pre>
+      <p>Parent must close both pipe ends too, or reader may never see EOF.</p>
+    </section>
+
+    <section>
+      <h2>Process / FD Rapid Fire</h2>
+      <ul class="tight">
+        <li><code>fork</code> copies user-space memory; child gets copied globals/heap/stack values.</li>
+        <li><code>fork</code> does not copy "one thread per parent thread" in the ordinary kernel-thread sense; user-level thread bookkeeping may be copied as memory.</li>
+        <li>Parent/child after <code>fork</code> are scheduled independently; either may run first.</li>
+        <li>If a variable is changed before second <code>fork</code>, child of second fork inherits that changed value.</li>
+        <li><code>printf</code> before <code>fork</code> can be duplicated if output buffer not flushed; newline/terminal often flushes but do not rely blindly.</li>
+        <li><code>execvp</code> searches <code>PATH</code>; <code>execv</code> uses explicit path.</li>
+        <li>After successful <code>exec</code>, old signal handlers/memory/thread state mostly gone; open fds remain unless close-on-exec.</li>
+        <li>Close unused pipe ends immediately after <code>dup2</code>.</li>
+        <li><code>dup2(fd,1)</code> redirects stdout; <code>dup2(1,fd)</code> is the wrong direction for redirecting stdout.</li>
+        <li><code>stderr</code> is fd 2, often unbuffered; useful for errors even when stdout redirected.</li>
+        <li>Exit status convention: <code>0</code> success, nonzero failure.</li>
+        <li>Parent waiting for children in either order is okay unless output/order requirement says otherwise.</li>
+        <li>If child should not continue parent loop, it must <code>return</code>/<code>exit</code> after its child work.</li>
+        <li>Shell command <code>cmd &gt; file</code>: open file, <code>dup2(file,1)</code>, exec command.</li>
+        <li>Shell command <code>a | b</code>: connect <code>a</code> stdout to pipe write, <code>b</code> stdin to pipe read.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Threads / Process Weird Cases</h2>
+      <ul class="tight">
+        <li>Multiple threads in one process share globals/heap/fd table; each thread has own stack/registers/PC.</li>
+        <li><code>std::thread t(f); t.join();</code>: parent waits for thread to finish, analogous intuition to wait but within same process.</li>
+        <li>Successful <code>exec</code> in multithreaded process replaces entire process image; old threads are gone; new program starts normally.</li>
+        <li>User-level threads are represented by data structures in process memory; <code>fork</code> can copy those records as ordinary memory.</li>
+        <li>Kernel threads are known/scheduled by kernel; user-level threads may be invisible to kernel scheduler.</li>
+        <li>After <code>fork</code> in a multithreaded program, be careful with copied locks/metadata that may describe vanished execution contexts.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Struct / Pointer Syntax</h2>
+      <pre>typedef struct Point { int x; int y; } Point;
+Point p; p.x = 3;
+Point *q = &p; q->x = 4; // (*q).x</pre>
+      <ul class="tight">
+        <li><code>Point p;</code> declares a struct variable with fields <code>x,y</code>.</li>
+        <li><code>typedef ... Point;</code> creates the convenient type name <code>Point</code>.</li>
+        <li><code>.</code> for object, <code>-></code> for pointer to object.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Worked: Fork Values</h2>
+      <pre>pid_t a = fork();
+pid_t b = fork();
+printf("a=%d b=%d\n", a, b);</pre>
+      <table>
+        <tr><th>process</th><th><code>a</code></th><th><code>b</code></th><th>why</th></tr>
+        <tr><td>P0</td><td>PID(P1)</td><td>PID(P2)</td><td>parent of both forks</td></tr>
+        <tr><td>P1</td><td>0</td><td>PID(P3)</td><td>child of first, parent of second</td></tr>
+        <tr><td>P2</td><td>PID(P1)</td><td>0</td><td>child of second fork from P0; copied old <code>a</code></td></tr>
+        <tr><td>P3</td><td>0</td><td>0</td><td>child of second fork from P1</td></tr>
+      </table>
+      <p>Rule: <code>0</code> only in the new child of that exact fork call; old variables are copied from parent.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Redirect + Exec</h2>
+      <pre>int fd = open("out", O_WRONLY|O_CREAT|O_TRUNC, 0644);
+pid_t pid = fork();
+if (pid == 0) {
+  dup2(fd, STDOUT_FILENO);
+  close(fd);
+  char *a[] = {"echo","hi",NULL};
+  execvp(a[0], a);
+  exit(1);
+}
+close(fd); waitpid(pid,NULL,0);</pre>
+      <p>Child becomes <code>echo</code>; same child PID; fd 1 points to <code>out</code>, so <code>hi</code> goes to file. Parent does not exec and waits.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Correct Pipeline</h2>
+      <p>Implement <code>left | right</code>. Key: fork two children, use <code>dup2</code>, close all inherited pipe ends.</p>
+      <pre>int p[2]; pipe(p);
+pid_t left_pid = fork();
+if (left_pid == 0) {
+  dup2(p[1], STDOUT_FILENO); // stdout -> pipe
+  close(p[0]); close(p[1]);
+  execvp(left[0], left); perror("exec left"); exit(1);
+}
+pid_t right_pid = fork();
+if (right_pid == 0) {
+  dup2(p[0], STDIN_FILENO);  // stdin <- pipe
+  close(p[0]); close(p[1]);
+  execvp(right[0], right); perror("exec right"); exit(1);
+}
+close(p[0]); close(p[1]);
+waitpid(left_pid,NULL,0);
+waitpid(right_pid,NULL,0);</pre>
+      <p>If parent keeps <code>p[1]</code> open, <code>right</code> may block waiting for EOF forever.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Child Loop Trap</h2>
+      <pre>for (int i=0; i&lt;3; i++) {
+  pid_t pid = fork();
+  if (pid == 0) {
+    do_child_work(i);
+    exit(0);     // critical: child must not keep forking
+  }
+}
+while (waitpid(-1,NULL,0) &gt; 0) {}</pre>
+      <p>Without <code>exit</code>, each child continues the loop and creates extra children. <code>waitpid(-1,...)</code> waits for any child.</p>
+    </section>
+  </div>
+</article>
+
+<article class="sheet">
+  <header><h1>CS111 Final Cheatsheet: Synchronization and Monitors</h1><div class="sub">Page 2 / 6</div></header>
+  <div class="cols">
+    <section>
+      <h2>Race / Critical Section</h2>
+      <ul class="tight">
+        <li><b>Race condition</b>: correctness depends on timing/interleaving.</li>
+        <li><b>Critical section</b>: shared-state access that must be mutually exclusive.</li>
+        <li>Atomicity: operation appears indivisible to other threads.</li>
+        <li>Thread-safe: correct under concurrent calls.</li>
+        <li>Interrupts alone do not solve multicore races: another core can still run.</li>
+      </ul>
+      <pre>// x++ is read, add, write; not atomic
+int tmp = x; tmp = tmp + 1; x = tmp;</pre>
+    </section>
+
+    <section>
+      <h2>Mutex / RAII</h2>
+      <pre>std::mutex m;
+void f() {
+  std::unique_lock&lt;std::mutex&gt; lock(m);
+  // critical section
+} // auto unlock</pre>
+      <ul class="tight">
+        <li>Creating <code>unique_lock</code>/<code>lock_guard</code> locks the mutex.</li>
+        <li>Leaving scope unlocks automatically.</li>
+        <li>Use <code>unique_lock</code> with condition variables because <code>wait</code> must unlock/relock.</li>
+        <li>Manual <code>m.lock(); ... m.unlock();</code> is error-prone, especially early returns.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Condition Variables</h2>
+      <pre>std::unique_lock&lt;std::mutex&gt; lock(m);
+while (!predicate) {
+  cv.wait(lock);
+}
+// predicate true while lock held</pre>
+      <ul class="tight">
+        <li><code>wait(lock)</code> atomically releases mutex and sleeps; on wake, reacquires before returning.</li>
+        <li>Always use <code>while</code>, not <code>if</code>: spurious wakeups, stale predicates, wrong waiter woken.</li>
+        <li>Change shared state while holding lock, then notify.</li>
+        <li><code>notify_one</code>: one waiter can proceed. <code>notify_all</code>: multiple/different predicates or simplicity.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Thread/Sync API Must-Know</h2>
+      <table>
+        <tr><th>API</th><th>meaning/trap</th></tr>
+        <tr><td><code>std::thread t(fn,args)</code></td><td>starts concurrent thread running <code>fn(args)</code>.</td></tr>
+        <tr><td><code>t.join()</code></td><td>waits for that thread to finish; call once.</td></tr>
+        <tr><td><code>std::mutex m</code></td><td>mutual exclusion object; protects shared state.</td></tr>
+        <tr><td><code>std::unique_lock&lt;mutex&gt; lock(m)</code></td><td>locks now, unlocks at scope end; usable with CV.</td></tr>
+        <tr><td><code>cv.wait(lock)</code></td><td>atomically unlocks + sleeps; relocks before returning.</td></tr>
+        <tr><td><code>cv.notify_one/all()</code></td><td>wakes waiters; predicate still decides who can proceed.</td></tr>
+        <tr><td><code>deque.push_back(x)</code>, <code>front()</code>, <code>pop_front()</code></td><td>queue selected waiter records in arrival order.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Monitor Pattern</h2>
+      <p>Monitor = mutex + shared state + condition variables + methods that hold lock while checking/updating state.</p>
+      <pre>class Buffer {
+ mutex m; condition_variable nonempty, nonfull;
+ queue&lt;Item&gt; q; int cap;
+ void put(Item x) {
+  unique_lock&lt;mutex&gt; lock(m);
+  while (q.size()==cap) nonfull.wait(lock);
+  q.push(x); nonempty.notify_one();
+ }
+ Item get() {
+  unique_lock&lt;mutex&gt; lock(m);
+  while (q.empty()) nonempty.wait(lock);
+  Item x=q.front(); q.pop();
+  nonfull.notify_one(); return x;
+ }
+};</pre>
+    </section>
+
+    <section>
+      <h2>Selected-Thread Grouping</h2>
+      <p>If prompt says exactly selected threads proceed, counters alone are unsafe. Store waiter records.</p>
+      <pre>struct Waiter { bool assigned=false; condition_variable cv; };
+deque&lt;Waiter*&gt; H, O;
+void try_group() {
+ if (H.size()>=2 && O.size()>=1) {
+  Waiter *h1=H.front(); H.pop_front();
+  Waiter *h2=H.front(); H.pop_front();
+  Waiter *o=O.front(); O.pop_front();
+  h1->assigned=h2->assigned=o->assigned=true;
+  h1->cv.notify_one(); h2->cv.notify_one(); o->cv.notify_one();
+ }
+}
+void hydrogen() {
+ Waiter self; unique_lock&lt;mutex&gt; lock(m);
+ H.push_back(&self); try_group();
+ while (!self.assigned) self.cv.wait(lock);
+ lock.unlock(); bond();
+}</pre>
+      <ul class="tight">
+        <li><code>h1->cv</code> = <code>(*h1).cv</code>. Wake exact selected waiter.</li>
+        <li><code>&self</code> address of this thread's local waiter record.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Deadlock</h2>
+      <p>Coffman conditions: mutual exclusion, hold-and-wait, no preemption, circular wait.</p>
+      <ul class="tight">
+        <li>Prevent circular wait by global lock ordering.</li>
+        <li>Acquire all resources at once, or release before waiting.</li>
+        <li>Starvation != deadlock. Starvation: one waits too long though system progresses. Deadlock: cycle, no progress.</li>
+      </ul>
+      <pre>// order rule
+lock(A); lock(B); ... unlock(B); unlock(A);</pre>
+    </section>
+
+    <section>
+      <h2>Low-Level Lock Implementation</h2>
+      <ul class="tight">
+        <li>Single core: disabling interrupts can protect lock/scheduler internals briefly.</li>
+        <li>User mutex does not disable interrupts for your entire critical section.</li>
+        <li>Multicore: disabling interrupts on one core is insufficient; need atomic instructions.</li>
+        <li>Test-and-set/swap/CAS allow read-modify-write atomicity.</li>
+        <li>Busy waiting wastes CPU but can be necessary inside low-level spinlocks, especially very short waits.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Common Sync Bugs</h2>
+      <ul class="tight">
+        <li>Wait predicate checked with <code>if</code> instead of <code>while</code>.</li>
+        <li>Notify before changing state.</li>
+        <li>Holding lock during slow/external work.</li>
+        <li>Sleeping after partially consuming resources.</li>
+        <li>Forgetting "in progress" state: boarding/crossing/merging but not finished.</li>
+        <li>Using <code>notify_all</code> when exactly one specific waiter must proceed, without assignment state.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Monitor Design Checklist</h2>
+      <ol class="tight">
+        <li>List methods and which threads call each.</li>
+        <li>Write shared state fields before code.</li>
+        <li>Write wait predicate as Boolean expression over shared state.</li>
+        <li>Acquire lock at start of each monitor method.</li>
+        <li>Update waiting counts/records before sleeping.</li>
+        <li>Use <code>while</code> around every <code>wait</code>.</li>
+        <li>Change shared state before notifying.</li>
+        <li>Release lock before slow/external simulated work when safe.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>CalTrain Pattern</h2>
+      <ul class="tight">
+        <li>State needs seats available, waiting passengers, passengers currently boarding.</li>
+        <li>Passenger waits until train present and seat available.</li>
+        <li>Train waits until no boarders-in-progress or no seats/waiters remain.</li>
+        <li>Trap: count passenger after signaled but before <code>boarded()</code>; otherwise train may leave early.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Bridge / Merge Pattern</h2>
+      <ul class="tight">
+        <li>Bridge: track current direction, cars on bridge, waiting per direction, capacity.</li>
+        <li>Wait while wrong direction, bridge full, or fairness rule says other direction should go.</li>
+        <li>Merge: track lane queues, current merging car, fairness/no-starvation rule.</li>
+        <li>Trap: "notify a lane" may not identify exact car unless lane order/state is explicit.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Inventory Reservation</h2>
+      <ul class="tight">
+        <li>Request needs multiple item counts atomically.</li>
+        <li>Wait until all requested items are available at once.</li>
+        <li>Do not subtract item A then sleep for item B; that partially reserves and can block others.</li>
+        <li><code>add()</code> often uses <code>notify_all</code> because different orders have different predicates.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Condition Variable Semantics</h2>
+      <ul class="tight">
+        <li>CV has no memory. If nobody is waiting, notification can be lost.</li>
+        <li>The real condition is the shared-state predicate, not the CV itself.</li>
+        <li>Wait returns with lock held, so recheck predicate immediately while state is protected.</li>
+        <li>Signaling thread usually keeps running until it releases the lock; notified thread competes to reacquire.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Priority Inversion</h2>
+      <p>High-priority thread waits for lock held by low-priority thread, while medium-priority work prevents low-priority owner from running. Fix idea: priority donation/inheritance.</p>
+    </section>
+
+    <section>
+      <h2>Synchronization Rapid Fire</h2>
+      <ul class="tight">
+        <li>Protect every shared variable that participates in a predicate with the same mutex.</li>
+        <li>A predicate like <code>count &gt; 0</code> must be checked while holding the lock protecting <code>count</code>.</li>
+        <li><code>notify_one</code> does not transfer the lock to the waiter; waiter still must reacquire.</li>
+        <li>Unlocking before notify is sometimes okay, but exam-safe pattern is update state then notify while reasoning clearly.</li>
+        <li>Condition variables solve sleeping, not mutual exclusion. You still need the mutex.</li>
+        <li>Busy waiting: repeatedly checking a condition while consuming CPU.</li>
+        <li>Blocking wait: thread sleeps; scheduler runs someone else.</li>
+        <li>Semaphore intuition: counter + wait/signal; mutex is binary mutual exclusion conceptually, but use course's monitor style when asked.</li>
+        <li>Reader/writer style: many readers allowed if no writer; writer needs exclusive access; fairness policy prevents starvation.</li>
+        <li>Barrier style: threads wait until count reaches N, then all proceed; need generation number for reusable barrier.</li>
+        <li>Exactly-one/lowest-number/selected-thread prompts require identity/queue state, not only counts.</li>
+        <li>All-or-nothing resource prompts require checking all resources before consuming any.</li>
+        <li>No-starvation prompts require turn/fairness state, not just "while unsafe wait".</li>
+        <li>Spurious wakeup: wait can return even without useful notification; hence <code>while</code>.</li>
+        <li>Lost wakeup avoided because <code>wait(lock)</code> releases lock and sleeps atomically.</li>
+        <li>Invariant examples: count never negative; bridge cars <= capacity; one merge at a time; selected waiters exactly match group.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Atomic Ops / Spinlock Sketch</h2>
+      <pre>while (test_and_set(&lock) == true) {
+  // spin
+}
+// critical section
+lock = false;</pre>
+      <ul class="tight">
+        <li>Atomic read-modify-write makes check-and-acquire indivisible.</li>
+        <li>Spinlocks waste CPU if held long; okay for tiny kernel critical sections.</li>
+        <li>On single core, spinning while lock holder cannot run is bad unless interrupts/preemption rules guarantee short wait.</li>
+        <li>Interrupt disable protects against preemption on same core, not concurrent execution on other cores.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>When To Use What</h2>
+      <table>
+        <tr><th>need</th><th>tool/state</th></tr>
+        <tr><td>one-at-a-time shared update</td><td>mutex</td></tr>
+        <tr><td>sleep until condition</td><td>condition variable + predicate</td></tr>
+        <tr><td>exact selected thread</td><td>per-waiter record/CV</td></tr>
+        <tr><td>group of N</td><td>queues + assignment counts</td></tr>
+        <tr><td>fair alternation</td><td>turn/direction/served counters</td></tr>
+        <tr><td>all resources available</td><td>check all before decrement any</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Worked: Monitor Predicate</h2>
+      <p>Prompt: “Cars may cross bridge if same direction, capacity 3, no opposite-direction car currently crossing.”</p>
+      <pre>while ((on_bridge > 0 && dir != my_dir) ||
+       on_bridge == 3 ||
+       should_yield_to_other_dir(my_dir)) {
+  cv[my_dir].wait(lock);
+}
+on_bridge++;
+dir = my_dir;</pre>
+      <ul class="tight">
+        <li>Shared state: <code>on_bridge</code>, current <code>dir</code>, wait counts/fairness state.</li>
+        <li>Predicate says when this car cannot safely proceed.</li>
+        <li>On exit: decrement <code>on_bridge</code>, maybe switch direction, notify appropriate waiters.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Worked: Inventory All-Or-Nothing</h2>
+      <pre>// need: map item -> requested count
+while (!all_available(need)) {
+  cv.wait(lock);
+}
+for (auto [item,n] : need) {
+  stock[item] -= n;
+}</pre>
+      <p>Correct because it waits before subtracting anything. Wrong solution subtracts available items, then sleeps for missing items, creating partial reservation/deadlock/starvation risk.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Lost Update Race</h2>
+      <pre>int x = 0;
+void worker() { x = x + 1; } // two threads</pre>
+      <table>
+        <tr><th>step</th><th>T1</th><th>T2</th></tr>
+        <tr><td>1</td><td>read x=0</td><td></td></tr>
+        <tr><td>2</td><td></td><td>read x=0</td></tr>
+        <tr><td>3</td><td>write x=1</td><td></td></tr>
+        <tr><td>4</td><td></td><td>write x=1</td></tr>
+      </table>
+      <p>Final can be <code>1</code>, not <code>2</code>. Fix: protect read-modify-write with same mutex.</p>
+      <pre>void worker() {
+  unique_lock&lt;mutex&gt; lock(m);
+  x = x + 1;
+}</pre>
+    </section>
+
+    <section>
+      <h2>Worked: Reusable Barrier</h2>
+      <pre>int arrived=0, generation=0; mutex m; condition_variable cv;
+void barrier(int n) {
+  unique_lock&lt;mutex&gt; lock(m);
+  int my_gen = generation;
+  arrived++;
+  if (arrived == n) {
+    arrived = 0; generation++;
+    cv.notify_all();
+  } else {
+    while (my_gen == generation) cv.wait(lock);
+  }
+}</pre>
+      <p><code>generation</code> prevents a thread from the next round passing because of an old notification.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Deadlock Code</h2>
+      <pre>// bad
+T1: lock(A); lock(B);
+T2: lock(B); lock(A);
+// good: every thread uses same order
+lock(A); lock(B); ... unlock(B); unlock(A);</pre>
+      <p>Opposite lock order creates circular wait. Exam fix: global order or acquire all resources atomically in one monitor.</p>
+    </section>
+  </div>
+</article>
+
+<article class="sheet">
+  <header><h1>CS111 Final Cheatsheet: Dispatching, Scheduling, BSD, Multicore</h1><div class="sub">Page 3 / 6</div></header>
+  <div class="cols">
+    <section>
+      <h2>Dispatching vs Scheduling</h2>
+      <ul class="tight">
+        <li><b>Scheduler</b>: policy deciding which ready thread should run.</li>
+        <li><b>Dispatcher</b>: mechanism that switches CPU to chosen thread.</li>
+        <li>Dispatcher is OS code, not a special high-priority thread.</li>
+        <li>Preemption does not release locks; only owning thread can safely release.</li>
+      </ul>
+      <p>Dispatcher/scheduler share ready-queue state; scheduler updates policy/data, dispatcher quickly selects/runs.</p>
+    </section>
+
+    <section>
+      <h2>Events Causing Dispatch</h2>
+      <ul class="tight">
+        <li>Running thread blocks on I/O/condition/page fault.</li>
+        <li>Thread exits.</li>
+        <li>Timer interrupt/time slice expires.</li>
+        <li>Higher-priority thread becomes ready.</li>
+        <li>Yield/system call may trigger scheduling.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Scheduling Goals</h2>
+      <table>
+        <tr><th>goal</th><th>meaning</th></tr>
+        <tr><td>throughput</td><td>jobs completed/time</td></tr>
+        <tr><td>turnaround</td><td>finish - arrival</td></tr>
+        <tr><td>response</td><td>first run/output latency</td></tr>
+        <tr><td>fairness</td><td>reasonable sharing/no starvation</td></tr>
+        <tr><td>utilization</td><td>keep cores busy</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Algorithms</h2>
+      <table>
+        <tr><th>policy</th><th>good</th><th>bad/trap</th></tr>
+        <tr><td>FIFO/FCFS</td><td>simple</td><td>convoy effect; poor response</td></tr>
+        <tr><td>Round robin</td><td>fair, responsive</td><td>too small quantum -> switch overhead; too large -> FIFO-like</td></tr>
+        <tr><td>SRPT/SJF</td><td>great average turnaround if estimates good</td><td>needs job length estimate; long jobs may starve</td></tr>
+        <tr><td>Priority</td><td>policy/control</td><td>starvation, inversion</td></tr>
+      </table>
+      <p>I/O-bound jobs often get good response under SRPT-like heuristics because CPU bursts are short.</p>
+    </section>
+
+    <section>
+      <h2>Priority Queues</h2>
+      <p>Implementation: one ready queue per priority level. Dispatcher picks highest non-empty priority queue; ties often round-robin.</p>
+      <pre>highest priority: Q0 -> run first
+Q1
+Q2
+lowest priority</pre>
+    </section>
+
+    <section>
+      <h2>4.4 BSD Scheduler</h2>
+      <ul class="tight">
+        <li>Real Unix scheduler example. Combines priority, recent CPU usage, user hints, interactivity heuristics.</li>
+        <li>Dispatcher records start/stop times; scheduler estimates recent CPU usage.</li>
+        <li>Rule: least recent CPU usage -> higher priority; lots recent CPU -> lower priority.</li>
+        <li>Interactive/I/O-bound: run briefly then block -> low recent CPU -> high priority.</li>
+        <li>CPU-bound: uses full slices -> accumulates CPU -> lower priority.</li>
+        <li>CPU-bound should not starve forever: while waiting, recent CPU stops increasing/decays, priority rises.</li>
+        <li>Overloaded/tied case can devolve to round robin among highest-priority runnable threads.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Unix <code>nice</code></h2>
+      <ul class="tight">
+        <li><code>nice=0</code> default.</li>
+        <li><code>+19</code>: very nice, emphasize CPU usage, lower priority.</li>
+        <li><code>-20</code>: least nice, de-emphasize CPU usage, higher priority.</li>
+        <li><code>nice</code> is a hint/input, not absolute CPU control.</li>
+      </ul>
+      <pre>nice -n 19 ./background_script.sh
+nice -n -20 ./urgent</pre>
+    </section>
+
+    <section>
+      <h2>Multicore Scheduling</h2>
+      <ul class="tight">
+        <li>Shared: ready queues/scheduler data + lock.</li>
+        <li>Per core: interrupts, dispatcher, currently running thread.</li>
+        <li>Run k highest-priority ready threads on k cores.</li>
+        <li>New high-priority ready thread may preempt lowest-priority running thread.</li>
+        <li>Need synchronization around scheduler queues because multiple cores access them.</li>
+        <li>Work-conserving: do not leave core idle when ready work could run.</li>
+        <li>Work stealing: idle core takes work from busier core/queue. Helps load balance.</li>
+        <li>Core affinity/locality: running same thread on same core may preserve cache/TLB warmth.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Exam Phrases</h2>
+      <ul class="tight">
+        <li>Reducing recent CPU usage, by blocking/sleeping/yielding, can improve BSD effective priority.</li>
+        <li>Recent CPU usage, not lifetime CPU usage.</li>
+        <li>Preemption can expose interleavings but does not itself make code safe.</li>
+        <li>Voluntary yield not required for preemptive scheduler to regain CPU; timer interrupt can do it.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Scheduling Calculations</h2>
+      <ul class="tight">
+        <li>Completion time: when job finishes.</li>
+        <li>Turnaround: completion - arrival.</li>
+        <li>Response: first scheduled - arrival.</li>
+        <li>Waiting time: time ready but not running.</li>
+        <li>Average metrics: compute per job, then average; do not average endpoints.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Preemptive vs Cooperative</h2>
+      <ul class="tight">
+        <li>Cooperative: running thread gives up CPU voluntarily by yield/block/exit.</li>
+        <li>Preemptive: timer interrupt lets OS regain control and switch threads.</li>
+        <li>Preemption can happen while user code holds a mutex; that mutex remains locked.</li>
+        <li>Trap: "dispatcher runs" does not mean a lock is released or shared data becomes safe.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Traps / Interrupts</h2>
+      <ul class="tight">
+        <li>Trap: synchronous control transfer caused by current instruction, e.g. syscall/fault.</li>
+        <li>Interrupt: asynchronous event, e.g. timer/device.</li>
+        <li>Both enter kernel via controlled mechanism and save enough state to resume/handle.</li>
+        <li>Timer interrupts are what make preemptive scheduling possible on one core.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>MLFQ Intuition</h2>
+      <ul class="tight">
+        <li>Multiple feedback queues approximate unknown job length.</li>
+        <li>New/interactive jobs start high priority.</li>
+        <li>Using whole time slice suggests CPU-bound -> move lower.</li>
+        <li>Blocking before slice ends suggests interactive/I/O-bound -> stay high.</li>
+        <li>Aging/boosting prevents starvation.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Ready Queue Shared State</h2>
+      <ul class="tight">
+        <li>Ready queues are kernel shared state. Lock/scheduler internals need atomic updates.</li>
+        <li>Disabling interrupts helps on single core during tiny kernel critical sections.</li>
+        <li>On multicore, also need spinlocks/atomic ops because other cores keep running.</li>
+        <li>Dispatcher must not be interrupted halfway through inconsistent queue/state updates.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>CPU vs I/O Bound</h2>
+      <table>
+        <tr><th>type</th><th>behavior</th><th>scheduler effect</th></tr>
+        <tr><td>CPU-bound</td><td>long CPU bursts, uses slices</td><td>lower BSD priority over time</td></tr>
+        <tr><td>I/O-bound</td><td>short CPU, blocks on I/O</td><td>often high priority/responsive</td></tr>
+        <tr><td>interactive</td><td>waits for user input</td><td>should get quick response</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Scheduling Rapid Fire</h2>
+      <ul class="tight">
+        <li>Convoy effect: one long CPU-bound job delays many short/I/O-bound jobs under FIFO.</li>
+        <li>Round-robin response improves because jobs get CPU periodically before finishing.</li>
+        <li>Quantum tradeoff: shorter improves response but increases context-switch overhead.</li>
+        <li>SRPT minimizes average turnaround under ideal known remaining times, but estimates are hard.</li>
+        <li>Priority scheduling can express importance but risks starvation.</li>
+        <li>Aging gradually raises waiting jobs' priority to prevent starvation.</li>
+        <li>Priority inversion is not deadlock; system can progress but priority policy is defeated.</li>
+        <li>Work-conserving scheduler runs ready work if any exists; exceptions may involve power/locality/policy.</li>
+        <li>Per-core ready queues reduce contention but can imbalance load.</li>
+        <li>Global ready queue balances easily but needs shared lock/coordination.</li>
+        <li>Thread affinity improves cache/TLB locality but can conflict with load balancing.</li>
+        <li>Interrupts insufficient to prevent races on multicore; atomic ops/locks needed.</li>
+        <li>Running -> blocked: waits for I/O/lock/CV/page. Blocked -> ready: event occurs. Ready -> running: scheduler picks it.</li>
+        <li>Trap/fault/syscall can enter kernel on behalf of current thread; timer interrupt can enter kernel asynchronously.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Gantt Trace Method</h2>
+      <ol class="tight">
+        <li>Sort arrivals by time.</li>
+        <li>At each decision point, list ready jobs only.</li>
+        <li>Apply policy exactly: FIFO order, shortest remaining, highest priority, or RR queue head.</li>
+        <li>For preemptive policies, check new arrivals/timer ticks for possible switch.</li>
+        <li>Record first-run time and completion time for each job.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>BSD Short Answer Template</h2>
+      <p>“BSD uses dynamic priority based partly on recent CPU usage. A CPU-bound thread accumulates recent CPU and drops in priority; an I/O-bound or interactive thread blocks often, accumulates less recent CPU, and stays responsive. Waiting lets priority recover, so CPU-bound work should not starve forever. <code>nice</code> shifts the priority behavior but is only a hint.”</p>
+    </section>
+
+    <section>
+      <h2>Scheduler Bug Reasoning</h2>
+      <ul class="tight">
+        <li>A scheduler change can expose a race by making a previously rare interleaving common.</li>
+        <li>If code is only correct under one schedule, it is not synchronized correctly.</li>
+        <li>Correct concurrent code must tolerate arbitrary preemption at instruction boundaries, except inside properly protected critical sections.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Dispatcher Sequence</h2>
+      <ol class="tight">
+        <li>Kernel enters because current thread blocks, exits, traps, or timer interrupt fires.</li>
+        <li>Save current thread registers/PC/stack pointer in TCB if it will resume later.</li>
+        <li>Move current thread to appropriate state: ready, blocked, or finished.</li>
+        <li>Pick next ready thread using scheduling policy.</li>
+        <li>Restore next thread's saved registers/PC/stack pointer.</li>
+        <li>Return from trap/interrupt into next thread's execution.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Per-Core Scheduling Facts</h2>
+      <ul class="tight">
+        <li>Each core has its own current running thread or idle loop.</li>
+        <li>A multicore system can have multiple threads running truly simultaneously.</li>
+        <li>Locks protect scheduler structures because different cores may enqueue/dequeue at same time.</li>
+        <li>Disabling interrupts on core A does not stop core B from modifying shared memory.</li>
+        <li>Cross-core preemption may require interrupting another core to reschedule it.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Policy Comparison Phrases</h2>
+      <ul class="tight">
+        <li>FIFO favors simplicity and low overhead but can be terrible for interactive response.</li>
+        <li>RR approximates fair sharing when all ready threads should make progress.</li>
+        <li>SRPT is aggressive about short jobs; great average turnaround, possible unfairness.</li>
+        <li>Priority scheduling separates mechanism from policy: priority value encodes desired preference.</li>
+        <li>BSD dynamic priority is a heuristic for interactivity without explicitly knowing job type.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Scheduling Mistakes</h2>
+      <ul class="tight">
+        <li>Including blocked jobs in ready-queue decisions.</li>
+        <li>Forgetting RR requeues unfinished job at back after quantum expires.</li>
+        <li>Preempting non-preemptive FIFO/SJF when a shorter job arrives.</li>
+        <li>Computing response time from completion instead of first run.</li>
+        <li>Assuming all jobs arrive at time 0 when arrivals differ.</li>
+        <li>Assuming priority value direction without checking problem statement.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Worked: RR Trace</h2>
+      <p>All arrive at 0. Quantum 2. Bursts: A=5, B=3, C=1.</p>
+      <pre>0-2 A rem3
+2-4 B rem1
+4-5 C done
+5-7 A rem1
+7-8 B done
+8-9 A done</pre>
+      <table>
+        <tr><th>job</th><th>first run</th><th>finish</th><th>response</th><th>turnaround</th></tr>
+        <tr><td>A</td><td>0</td><td>9</td><td>0</td><td>9</td></tr>
+        <tr><td>B</td><td>2</td><td>8</td><td>2</td><td>8</td></tr>
+        <tr><td>C</td><td>4</td><td>5</td><td>4</td><td>5</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Worked: SRPT Decision</h2>
+      <p>At t=0 A needs 8. At t=2 B arrives needing 3. A has 6 remaining, B has 3, so preempt A and run B. SRPT always compares remaining time among ready jobs.</p>
+    </section>
+
+    <section>
+      <h2>Storage Comparison</h2>
+      <table>
+        <tr><th>device</th><th>important asymmetry</th></tr>
+        <tr><td>magnetic disk</td><td>seek/rotation dominate random I/O</td></tr>
+        <tr><td>SSD/flash</td><td>erase before rewrite, wear, FTL remapping</td></tr>
+        <tr><td>RAM</td><td>byte-addressable, volatile, much faster</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Disk Request Reasoning</h2>
+      <ul class="tight">
+        <li>For SSTF/SCAN questions, track current head position and direction.</li>
+        <li>SSTF can repeatedly serve nearby requests and starve distant ones.</li>
+        <li>SCAN moves like elevator; C-SCAN wraps to one side to provide more uniform wait.</li>
+        <li>Shortest seek is not always best if fairness or starvation matters.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Disk Locality / BSD FS</h2>
+      <ul class="tight">
+        <li>Keep related inodes/data near each other to reduce seek time.</li>
+        <li>Spreading structures across disk can avoid all metadata being far from data.</li>
+        <li>Large blocks improve throughput; fragments reduce internal waste for small file tails.</li>
+        <li>Block cache exploits temporal locality: repeated reads hit memory, not disk.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Flash Memory</h2>
+      <ul class="tight">
+        <li>Cannot overwrite like RAM/disk sector. Must erase before rewrite.</li>
+        <li>Erase is block/granularity larger than page writes.</li>
+        <li>Blocks wear out after finite erase cycles.</li>
+        <li>FTL maps logical block addresses to physical flash locations.</li>
+        <li>Wear leveling spreads erases across device.</li>
+        <li>Garbage collection compacts live pages and erases blocks.</li>
+        <li>Write amplification: internal writes > user writes.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Flash FTL Details</h2>
+      <ul class="tight">
+        <li>Logical page write often goes to fresh physical page; mapping table updated.</li>
+        <li>Old physical page becomes invalid/stale, not overwritten in place.</li>
+        <li>Garbage collection selects blocks, copies still-live pages elsewhere, erases block.</li>
+        <li>Wear leveling may choose less-worn blocks even if not locally optimal for speed.</li>
+        <li>FTL hides flash constraints behind disk-like block interface.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Flash Weird Details</h2>
+      <ul class="tight">
+        <li>Lecture page header bits: A-W-G can encode allocation/write/garbage state so FTL can recover mapping by scanning headers on startup.</li>
+        <li>High utilization makes garbage collection expensive: if erase unit has utilization <code>U</code>, only <code>1-U</code> becomes free after copying live pages.</li>
+        <li>Hot data changes often; cold data rarely changes. Mixing hot+cold is bad because cold live pages get copied repeatedly during GC.</li>
+        <li>Sometimes FTL garbage-collects cold units even for little immediate free space to improve wear/locality later.</li>
+        <li><code>TRIM</code>: OS tells SSD logical blocks are no longer useful, reducing needless copying during GC.</li>
+        <li>Flash near full often gets slower because GC has less free space and write amplification rises.</li>
+      </ul>
+    </section>
+  </div>
+</article>
+
+<article class="sheet">
+  <header><h1>CS111 Final Cheatsheet: Linking, Memory, Virtual Memory, Paging</h1><div class="sub">Page 4 / 6</div></header>
+  <div class="cols">
+    <section>
+      <h2>Program Memory Layout</h2>
+      <ul class="tight">
+        <li>Text/code: instructions, often read-only/shareable.</li>
+        <li>Data: initialized globals/statics.</li>
+        <li>BSS: zero-initialized globals/statics.</li>
+        <li>Heap: dynamic allocation, arbitrary lifetimes.</li>
+        <li>Stack: calls, locals, return addresses; per thread.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Linking / Loading</h2>
+      <ul class="tight">
+        <li>Compiler -> object files with machine code + symbols + relocation info.</li>
+        <li>Linker combines object files, resolves symbols, creates executable.</li>
+        <li>Static linking copies library code into executable.</li>
+        <li>Dynamic linking uses shared libraries loaded/connected at load/run time.</li>
+        <li>Relocation entry: "fix this address later."</li>
+        <li>Import table entry: "this external symbol/library function is needed."</li>
+        <li>Debug info maps machine code back to source names/lines/types.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Allocator / Heap</h2>
+      <ul class="tight">
+        <li><code>malloc</code> returns heap block; <code>free</code> releases it.</li>
+        <li>Leak: lost pointer to allocated live block; memory cannot be reused.</li>
+        <li>Dangling pointer: pointer to freed/invalid object.</li>
+        <li>Double free: freeing same block twice corrupts allocator state.</li>
+        <li>Internal fragmentation: waste inside allocated block.</li>
+        <li>External fragmentation: free memory split into unusable holes.</li>
+        <li>First fit: first adequate hole. Best fit: smallest adequate hole. Coalescing merges adjacent free blocks.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Free Space</h2>
+      <ul class="tight">
+        <li>Free list: linked list of free blocks; simple but can have locality/recovery issues.</li>
+        <li>Bitmap: one bit per block; easy to find contiguous runs; compact for large disks.</li>
+        <li>Allocation policy affects locality and fragmentation.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Virtual Memory</h2>
+      <p>Each process sees its own virtual address space. MMU translates virtual -> physical and checks permissions.</p>
+      <ul class="tight">
+        <li>Goals: isolation/protection, relocation, sharing, sparse address spaces, demand paging.</li>
+        <li>Virtual address generated by CPU/program. Physical address indexes RAM.</li>
+        <li>Invalid/protected access -> trap/page fault/segfault.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Base and Bound</h2>
+      <div class="formula">If <code>VA &lt; bound</code>, <code>PA = base + VA</code>; else trap.</div>
+      <ul class="tight">
+        <li>Supports relocation/protection for one contiguous segment.</li>
+        <li>External fragmentation issue.</li>
+        <li>Message-passing style: kernel can translate/copy between process address spaces using each process's base/bound.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Segmentation</h2>
+      <p>Multiple variable-sized regions, each with base, bound, permissions: code, heap, stack, etc.</p>
+      <ul class="tight">
+        <li>Address = segment number + offset.</li>
+        <li>Check offset against segment bound; add segment base.</li>
+        <li>Allows different permissions/sharing per segment but still external fragmentation.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Paging</h2>
+      <p>Fixed-size virtual pages map to fixed-size physical frames.</p>
+      <div class="formula">VA = VPN + offset. Page size = 2^k -> offset is low k bits. PA = PPN + same offset.</div>
+      <ul class="tight">
+        <li>Page table maps VPN -> PPN + valid/protection/dirty/reference bits.</li>
+        <li>No external fragmentation for physical memory; possible internal fragmentation in last page.</li>
+        <li>Page table can be huge; use multi-level page tables, TLB.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>TLB</h2>
+      <ul class="tight">
+        <li>Hardware cache of recent translations.</li>
+        <li>TLB hit: fast translation. Miss: consult page table.</li>
+        <li>Context switch may require TLB flush or address-space identifiers.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Demand Paging</h2>
+      <ul class="tight">
+        <li>Pages loaded into RAM only when used.</li>
+        <li>Page fault: page not resident or permission problem. Kernel handles fault.</li>
+        <li>On nonresident valid page: choose frame, maybe evict victim, read needed page from disk, update table, restart instruction.</li>
+        <li>Dirty victim must be written back before reuse; clean victim can be discarded.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Replacement</h2>
+      <table>
+        <tr><th>policy</th><th>idea/trap</th></tr>
+        <tr><td>Random</td><td>simple baseline</td></tr>
+        <tr><td>FIFO</td><td>evict oldest resident; can evict hot pages; Belady anomaly possible</td></tr>
+        <tr><td>LRU</td><td>evict least recently used; good but costly to implement exactly</td></tr>
+        <tr><td>Clock</td><td>approx LRU using reference bit; sweep clears reference bits, evicts unreferenced page</td></tr>
+      </table>
+      <ul class="tight">
+        <li>Local/per-process replacement: victim from faulting process.</li>
+        <li>Global replacement: victim from any process; can improve utilization but interference.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Thrashing</h2>
+      <p>System spends most time paging, little time executing. Symptoms: paging disk near 100%, CPU idle/low useful work. Fix by reducing working set, adding memory, or improving paging I/O; scheduling alone usually does not fix.</p>
+    </section>
+
+    <section>
+      <h2>Address Bit Math</h2>
+      <ul class="tight">
+        <li>Page size <code>2^k</code> -> offset has <code>k</code> bits.</li>
+        <li>Virtual address bits = VPN bits + offset bits.</li>
+        <li>Physical address bits = PPN bits + offset bits.</li>
+        <li># virtual pages = virtual address space size / page size.</li>
+        <li># physical frames = physical memory size / page size.</li>
+        <li>Page table bytes = entries * PTE size, before multi-level savings.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Multi-Level Page Tables</h2>
+      <ul class="tight">
+        <li>Split VPN bits into indexes for each level.</li>
+        <li>Each level points to next-level page-map page; final level gives PPN/protection.</li>
+        <li>Allocate lower-level tables only for used address ranges, saving memory for sparse spaces.</li>
+        <li>Entries per page-map page = page size / PTE size.</li>
+      </ul>
+      <pre>VA = [L1 index][L2 index]...[offset]</pre>
+    </section>
+
+    <section>
+      <h2>TLB Entry Fields</h2>
+      <ul class="tight">
+        <li>VPN tag and PPN/frame.</li>
+        <li>Valid bit and permission bits.</li>
+        <li>Address-space ID/process tag if avoiding flush on context switch.</li>
+        <li>May include dirty/reference or cache bits depending design.</li>
+        <li>Does not need page offset; offset passes through unchanged.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Page Fault Steps</h2>
+      <ol class="tight">
+        <li>Hardware traps into kernel with faulting VA/reason.</li>
+        <li>OS checks if access is legal in process address space.</li>
+        <li>If illegal: kill/signal process.</li>
+        <li>If legal but nonresident: find free frame or evict victim.</li>
+        <li>If victim dirty, write it to disk/swap.</li>
+        <li>Read needed page into frame; update PTE/TLB; restart instruction.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Worked: Base/Bound Code</h2>
+      <pre>uintptr_t translate(uintptr_t va) {
+  if (va &gt;= bound) trap();   // out of process region
+  return base + va;           // physical address
+}</pre>
+      <p>Message passing still works: sender traps, kernel validates sender pointer/bound, copies bytes into kernel/receiver.</p>
+    </section>
+
+    <section>
+      <h2>Replacement Simulation</h2>
+      <ul class="tight">
+        <li>FIFO: maintain arrival order into memory, not last-use order.</li>
+        <li>LRU: update recency on every access, including hits.</li>
+        <li>Clock: if ref=1, clear and skip; if ref=0, evict. Hand can move many steps.</li>
+        <li>Dirty pages cost write-back; clean pages cheaper to evict.</li>
+        <li>MIN/optimal evicts page used farthest in future; only theoretical comparison.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Sharing / Protection</h2>
+      <ul class="tight">
+        <li>Two processes can map different VPNs to same PPN for shared memory/code.</li>
+        <li>Read-only shared text pages save memory and are safe across processes.</li>
+        <li>Copy-on-write lets fork share pages until a write occurs, then copies.</li>
+        <li>Permission bits enforce read/write/execute/user access.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Memory Bug Vocabulary</h2>
+      <ul class="tight">
+        <li>Buffer overflow: write past allocated object.</li>
+        <li>Use-after-free: use pointer after object freed.</li>
+        <li>Uninitialized read: value depends on stale memory.</li>
+        <li>Stack pointer escape: returning pointer to local stack object.</li>
+        <li>Aliasing: two names/pointers refer to same object.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>VM / Linking Rapid Fire</h2>
+      <ul class="tight">
+        <li>Compile-time: source -> object; link-time: symbols combined/resolved; load-time: executable mapped; run-time: code executes and dynamic linking/page faults may happen.</li>
+        <li>Object file can contain unresolved external symbols plus relocation entries.</li>
+        <li>Relocation/import tables are metadata for patching or connecting addresses, not ordinary program logic.</li>
+        <li>Dynamic linking saves memory/disk when many processes share library text pages.</li>
+        <li>Position-independent code helps shared libraries load at flexible addresses.</li>
+        <li>Stack grows/shrinks with calls; heap grows/shrinks with allocator; globals live for whole process lifetime.</li>
+        <li>Base/bound gives one contiguous protected region; segmentation generalizes to several regions.</li>
+        <li>Paging uses fixed sizes, eliminating external fragmentation in physical memory.</li>
+        <li>Internal fragmentation still possible inside final page/frame.</li>
+        <li>Page fault is not always an error; it can be normal demand paging.</li>
+        <li>Protection fault is an illegal access; nonresident valid page is recoverable by loading page.</li>
+        <li>Dirty bit affects eviction cost; reference bit helps replacement approximation.</li>
+        <li>TLB locality comes from programs repeatedly touching nearby/recent pages.</li>
+        <li>Larger pages reduce TLB pressure but may increase internal fragmentation and I/O cost per fault.</li>
+        <li>Copy-on-write after <code>fork</code> avoids physically copying all pages until a write.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Translation Worked Mini-Pattern</h2>
+      <pre>page size = 4096 = 2^12
+VA = 0x12345
+offset = low 12 bits = 0x345
+VPN = VA >> 12 = 0x12
+lookup VPN -> PPN
+PA = (PPN << 12) | offset</pre>
+      <p>Offset never changes during page translation. Only page number changes.</p>
+    </section>
+
+    <section>
+      <h2>Page Table Design Questions</h2>
+      <ul class="tight">
+        <li>Given VA bits and page size, compute VPN bits.</li>
+        <li>Given physical memory and page size, compute PPN/frame bits.</li>
+        <li>Given PTE size and page size, compute entries per page table page.</li>
+        <li>For multi-level design, divide VPN bits into index chunks.</li>
+        <li>Include valid/protection/resident bits in PTE; include PPN when resident.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Allocator Free List</h2>
+      <ul class="tight">
+        <li>Allocator metadata often stored in block headers/footers.</li>
+        <li>Splitting: large free block divided into allocated piece + remaining free block.</li>
+        <li>Coalescing: adjacent free blocks merged to reduce external fragmentation.</li>
+        <li>Alignment means allocator may round requested sizes upward.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Allocator Weird Details</h2>
+      <ul class="tight">
+        <li><b>Slab allocator</b>: allocate large slabs, divide into fixed-size objects, maintain free objects. Fast for common kernel object types; can waste memory if slabs underused.</li>
+        <li><b>Reference counting</b>: free when count reaches zero. Fails on cycles; bugs if increments/decrements missed; can still leave dangling pointers.</li>
+        <li><b>Garbage collection</b>: runtime finds unreachable objects. Avoids many manual frees but has overhead/pauses and needs language/runtime support.</li>
+        <li><b>Mark-and-sweep</b>: mark reachable objects from roots, then sweep unmarked objects into free space.</li>
+        <li>Manual memory exam bug distinction: leak = unreachable allocated memory; dangling = pointer to invalid/freed memory.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>OS/User Same Address Space</h2>
+      <ul class="tight">
+        <li>Some designs map kernel into every process address space for fast syscall/trap transitions.</li>
+        <li>User mode cannot access kernel pages because permission bits prohibit it.</li>
+        <li>On trap/syscall, CPU switches privilege level and kernel can run using protected mappings.</li>
+        <li>Kernel must validate user pointers before copying data to/from user memory.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Device I/O Weird Details</h2>
+      <ul class="tight">
+        <li>OS talks to devices through device controllers, not directly to raw hardware mechanics.</li>
+        <li>Controllers expose registers: command, status, data/buffer address, block number, etc.</li>
+        <li>Programmed I/O: CPU copies data itself; wastes CPU for large transfers.</li>
+        <li>DMA: device/controller copies data directly between device and memory; CPU sets up transfer and is interrupted on completion.</li>
+        <li>Without interrupts, OS would poll device status; with interrupts, device signals when done.</li>
+        <li>Disk read sketch: OS programs controller with block + memory address; controller/DMA transfers; interrupt marks request complete and wakes waiter.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Worked: Address Translation</h2>
+      <p>VA bits 16, page size 1KB, VA <code>0x2ABC</code>, page table maps VPN <code>0xA</code> -> PPN <code>0x35</code>.</p>
+      <pre>1KB = 2^10 -> offset 10 bits
+offset = 0x2ABC & 0x3FF = 0x2BC
+VPN = 0x2ABC >> 10 = 0xA
+PA = (0x35 << 10) | 0x2BC
+   = 0xD6BC</pre>
+      <p>If VPN invalid or permissions fail, trap/page fault instead of producing PA.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Page Index Extraction</h2>
+      <p>Generic single-level translation for power-of-two page size.</p>
+      <pre>int k = log2(page_size);
+uint64_t off_mask = (1ULL &lt;&lt; k) - 1;
+uint64_t offset = va &amp; off_mask;
+uint64_t vpn = va &gt;&gt; k;
+pte_t pte = page_table[vpn];
+if (!pte.valid || !allows(pte.perm, access)) fault();
+pa = (pte.ppn &lt;&lt; k) | offset;</pre>
+      <p>Offset bits are copied unchanged because virtual page and physical frame have same size.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Multilevel Split</h2>
+      <p>48-bit VA, 4KB pages, 8B PTEs: offset=12 bits, entries/table=<code>4096/8=512=2^9</code>, so 9 bits per level and <code>(48-12)/9=4</code> levels.</p>
+      <pre>offset = va &amp; 0xfff;
+L1 = (va &gt;&gt; 39) &amp; 0x1ff;
+L2 = (va &gt;&gt; 30) &amp; 0x1ff;
+L3 = (va &gt;&gt; 21) &amp; 0x1ff;
+L4 = (va &gt;&gt; 12) &amp; 0x1ff;</pre>
+      <p>Each index selects an entry in one page-map page; final entry gives the PPN.</p>
+    </section>
+
+    <section>
+      <h2>Worked: FIFO vs LRU</h2>
+      <p>Frames=3, references: 1 2 3 1 4.</p>
+      <table>
+        <tr><th>ref</th><th>FIFO frames</th><th>LRU frames</th></tr>
+        <tr><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>2</td><td>1 2</td><td>1 2</td></tr>
+        <tr><td>3</td><td>1 2 3</td><td>1 2 3</td></tr>
+        <tr><td>1</td><td>hit; order still 1 oldest</td><td>hit; 1 becomes recent</td></tr>
+        <tr><td>4</td><td>evict 1</td><td>evict 2</td></tr>
+      </table>
+      <p>Key difference: LRU updates recency on hits; FIFO does not.</p>
+    </section>
+  </div>
+</article>
+
+<article class="sheet">
+  <header><h1>CS111 Final Cheatsheet: Filesystems, Disks, Inodes, Flash</h1><div class="sub">Page 5 / 6</div></header>
+  <div class="cols">
+    <section>
+      <h2>Disk Scheduling</h2>
+      <table>
+        <tr><th>policy</th><th>idea</th><th>trap</th></tr>
+        <tr><td>FIFO</td><td>serve in arrival order</td><td>bad seek behavior</td></tr>
+        <tr><td>SSTF</td><td>closest request next</td><td>may starve far requests</td></tr>
+        <tr><td>SCAN/elevator</td><td>sweep direction, serving requests</td><td>edge behavior matters</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>File API Must-Know</h2>
+      <table>
+        <tr><th>API</th><th>coding meaning</th></tr>
+        <tr><td><code>open(path,O_RDONLY)</code></td><td>get fd for reading.</td></tr>
+        <tr><td><code>open(path,O_WRONLY|O_CREAT|O_TRUNC,0644)</code></td><td>create/overwrite output file.</td></tr>
+        <tr><td><code>read(fd,buf,n)</code></td><td>copy bytes from file/pipe/device into memory buffer.</td></tr>
+        <tr><td><code>write(fd,buf,n)</code></td><td>copy bytes from memory buffer to file/pipe/device.</td></tr>
+        <tr><td><code>close(fd)</code></td><td>drop this fd table entry; object persists if other refs.</td></tr>
+        <tr><td><code>unlink(path)</code></td><td>remove directory entry; inode freed when link/open refs gone.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Assignment 7 Unix V6 APIs</h2>
+      <table>
+        <tr><th>helper</th><th>what it should do</th></tr>
+        <tr><td><code>diskimg_readsector(dfd,s,buf)</code></td><td>read one 512B sector; success == <code>DISKIMG_SECTOR_SIZE</code>.</td></tr>
+        <tr><td><code>inode_iget(fs,inum,&amp;in)</code></td><td>fetch inode; inumber 1 is inode index 0.</td></tr>
+        <tr><td><code>inode_getsize(&amp;in)</code></td><td><code>(i_size0&lt;&lt;16) | i_size1</code>.</td></tr>
+        <tr><td><code>inode_indexlookup(fs,&amp;in,lbn)</code></td><td>logical file block -> physical sector.</td></tr>
+        <tr><td><code>file_getblock(fs,inum,lbn,buf)</code></td><td>read logical file block; return valid byte count.</td></tr>
+        <tr><td><code>directory_findname(fs,name,dirinum,&amp;de)</code></td><td>scan dir file for name -> dirent.</td></tr>
+        <tr><td><code>pathname_lookup(fs,path)</code></td><td>start at root inode 1; walk components.</td></tr>
+      </table>
+      <p>Layering smell: pathname -> directory -> file -> inode -> disk sector.</p>
+    </section>
+
+    <section>
+      <h2>Assignment 7 V6 Constants/Structs</h2>
+      <ul class="tight">
+        <li><code>DISKIMG_SECTOR_SIZE=512</code>, <code>INODE_START_SECTOR=2</code>, <code>ROOT_INUMBER=1</code>, <code>MAX_COMPONENT_LENGTH=14</code>.</li>
+        <li>Disk layout: sector 0 boot, 1 superblock, sector 2.. inode list, then data/indirect/directory sectors.</li>
+        <li><code>struct inode</code>: <code>i_mode</code>, <code>i_nlink</code>, <code>i_size0/i_size1</code>, <code>i_addr[8]</code>.</li>
+        <li>Mode bits: <code>IALLOC</code> allocated, <code>IFMT</code> type mask, <code>IFDIR</code> directory, <code>ILARG</code> large addressing.</li>
+        <li><code>struct direntv6</code>: <code>uint16_t d_inumber</code> + <code>char d_name[14]</code>; 14-char name may lack <code>'\0'</code>, use <code>strncmp</code>.</li>
+        <li>Derived: 512B sector / 2B pointer = 256 pointers; 512B / 16B dirent = 32 directory entries.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Allocation Strategies</h2>
+      <table>
+        <tr><th>method</th><th>good</th><th>bad</th></tr>
+        <tr><td>contiguous</td><td>fast sequential/random, simple</td><td>external fragmentation, hard growth</td></tr>
+        <tr><td>linked</td><td>easy growth, no external fragmentation</td><td>poor random access, pointer overhead, reliability</td></tr>
+        <tr><td>FAT</td><td>links stored in table; easier traversal/cache</td><td>large table, random access still chain-like</td></tr>
+        <tr><td>indexed/inodes</td><td>direct/random access, supports growth</td><td>metadata blocks overhead</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Unix V6 / BSD Inodes</h2>
+      <p>Inode stores metadata and block pointers. Directory maps name -> inode number.</p>
+      <ul class="tight">
+        <li>Metadata: type, owner, permissions, size, timestamps, link count, block pointers.</li>
+        <li>Direct pointers: point directly to data blocks.</li>
+        <li>Single-indirect: pointer to block full of data-block pointers.</li>
+        <li>Double-indirect: pointer to block of pointers to indirect blocks.</li>
+      </ul>
+      <div class="formula">Block index = file offset / block size. Offset in block = file offset % block size.</div>
+      <p>For pointer-count problems: pointers per indirect block = block size / pointer size.</p>
+    </section>
+
+    <section>
+      <h2>Directories / Links</h2>
+      <ul class="tight">
+        <li>Directory is a file containing mappings from names to inode numbers.</li>
+        <li>Path lookup walks components one directory at a time.</li>
+        <li>Hard link: another directory entry for same inode; link count tracks names.</li>
+        <li>Symbolic link: special file whose contents are another pathname; lookup substitutes target path.</li>
+        <li>Deleting name removes directory entry; inode/data freed when link count zero and no opens.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Block Cache</h2>
+      <ul class="tight">
+        <li>Cache disk blocks in memory to avoid repeated I/O.</li>
+        <li>Delayed write/write-back improves performance but risks data loss/inconsistency on crash.</li>
+        <li>Synchronous write safer but slower.</li>
+        <li>Dirty block = cache differs from disk and must be written eventually.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Fragmentation</h2>
+      <ul class="tight">
+        <li>Internal fragmentation: allocated unit larger than data, unused space inside unit.</li>
+        <li>External fragmentation: enough free space exists but split into pieces.</li>
+        <li>BSD FS uses block/fragments ideas to balance large-block throughput and small-file waste.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>BSD Inode Pointer Math</h2>
+      <ul class="tight">
+        <li>Course BSD inode model: 14 block pointers: first 12 direct, 13th single-indirect, 14th double-indirect.</li>
+        <li>If block size <code>B</code> and pointer size <code>P</code>, indirect block holds <code>B/P</code> pointers.</li>
+        <li>Logical blocks <code>0..11</code> use direct pointers.</li>
+        <li>Then subtract 12; next <code>B/P</code> logical blocks use single indirect.</li>
+        <li>For double indirect, quotient chooses indirect block, remainder chooses pointer inside it.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>V6 Small/Large Inode Rules</h2>
+      <ul class="tight">
+        <li>If prompt shows <code>i_addr[8]</code> and <code>ILARG</code>, use Assignment 7 V6 rules, not 12-direct BSD rules.</li>
+        <li>Small inode, <code>!(i_mode &amp; ILARG)</code>: <code>i_addr[0..7]</code> point directly to data sectors.</li>
+        <li>Large inode: <code>i_addr[0..6]</code> point to singly indirect sectors; <code>i_addr[7]</code> points to doubly indirect sector.</li>
+        <li>Large file first <code>7*256=1792</code> logical blocks use single-indirect region.</li>
+        <li>For double: <code>rem=lbn-1792</code>; outer=<code>rem/256</code>; inner=<code>rem%256</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Path Lookup Example</h2>
+      <ol class="tight">
+        <li>Start at root inode for absolute path or current directory for relative path.</li>
+        <li>Read directory file and find next component name.</li>
+        <li>Directory entry gives inode number.</li>
+        <li>Load that inode; repeat until final component.</li>
+        <li>Open file creates process-local fd pointing to kernel open-file state.</li>
+      </ol>
+      <p><code>/a/b/c</code>: lookup <code>a</code> in root, <code>b</code> in <code>a</code>, <code>c</code> in <code>b</code>.</p>
+    </section>
+
+    <section>
+      <h2>Open Files and Unlink</h2>
+      <ul class="tight">
+        <li><code>open</code> returns process-local fd; multiple fds can refer to same inode/open-file state.</li>
+        <li><code>unlink</code> removes directory entry and decrements link count.</li>
+        <li>If file is still open, data blocks are not necessarily freed until last open reference closes.</li>
+        <li>Filename lives in directory, not usually in inode.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Filesystem Exam Traps</h2>
+      <ul class="tight">
+        <li>Directory entry maps name to inode; inode does not know all its names.</li>
+        <li>Hard links share inode; symlink is its own inode containing a path.</li>
+        <li>Random access in linked allocation requires chasing pointers.</li>
+        <li>FAT keeps chain pointers in table, so table corruption is serious.</li>
+        <li>Delayed writes improve performance but make crash recovery harder.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Worked: V6 <code>file_getblock</code></h2>
+      <pre>inode_iget(fs, inum, &amp;in);
+size = inode_getsize(&amp;in);
+first = lbn * DISKIMG_SECTOR_SIZE;
+if (first &gt;= size) return 0;
+sector = inode_indexlookup(fs,&amp;in,lbn);
+diskimg_readsector(fs->dfd, sector, buf);
+return min(size-first, DISKIMG_SECTOR_SIZE);</pre>
+      <p>Last block may be partial; return valid byte count, not always 512.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Is Block An Indirect Block?</h2>
+      <pre>for each allocated inode:
+ if (!(in.i_mode &amp; ILARG)) continue;
+ for i in 0..6:
+   if (in.i_addr[i] == block) return true;
+ read in.i_addr[7] into ptrs;
+ for each ptr in ptrs:
+   if (ptr == block) return true;</pre>
+      <p>Trap: <code>i_addr[7]</code> itself is the doubly-indirect block; entries inside it name singly indirect blocks.</p>
+    </section>
+
+    <section>
+      <h2>Crash-Relevant FS Writes</h2>
+      <ul class="tight">
+        <li>Allocating block changes free map and inode pointer.</li>
+        <li>Creating file changes inode, directory block, free inode map, maybe data block.</li>
+        <li>Appending changes data block, inode size, block pointers, free map.</li>
+        <li>Deleting changes directory entry, link count, free maps, maybe data blocks.</li>
+        <li>Each multi-write operation has intermediate crash states.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Max File Size Formula</h2>
+      <p>For BSD-style 12 direct + 1 indirect + 1 double-indirect:</p>
+      <div class="formula">max data blocks = <code>12 + ptrs + ptrs*ptrs</code>, where <code>ptrs = block_size / pointer_size</code>.</div>
+      <p>Max bytes = max data blocks * block size. If the problem gives different pointer counts, use the problem's numbers.</p>
+    </section>
+
+    <section>
+      <h2>Directory Entry Details</h2>
+      <ul class="tight">
+        <li>Directory contents are ordinary file data interpreted as entries.</li>
+        <li>An entry usually contains name plus inode number.</li>
+        <li>Renaming within same filesystem may only update directory entries, not file data.</li>
+        <li>Moving across filesystems cannot be a pure hard-link rename; data may need copying.</li>
+        <li>Hard link to directory is usually forbidden to prevent cycles confusing traversal/reference counts.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Cache Write Policies</h2>
+      <table>
+        <tr><th>policy</th><th>meaning</th><th>risk/cost</th></tr>
+        <tr><td>write-through</td><td>write disk immediately</td><td>slow, safer</td></tr>
+        <tr><td>write-back</td><td>mark dirty, write later</td><td>fast, crash risk</td></tr>
+        <tr><td>sync</td><td>caller waits for disk</td><td>durable but high latency</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Worked: Inode Offset</h2>
+      <p>Block size 4KB, pointer 4B, 12 direct. Offset 70KB.</p>
+      <pre>ptrs per indirect = 4096/4 = 1024
+logical block = 70KB/4KB = 17
+17 >= 12, so not direct
+17 - 12 = 5
+5 < 1024, so single indirect entry 5
+byte offset in data block = 70KB % 4KB = 2KB</pre>
+      <p>Answer: use inode's single-indirect pointer, then the 5th pointer inside that indirect block.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Inode Block Lookup</h2>
+      <pre>int block_for(inode *in, int lbn) {
+  int n = BLOCK_SIZE / PTR_SIZE;
+  if (lbn &lt; 12) return in->direct[lbn];
+  lbn -= 12;
+  if (lbn &lt; n) {
+    block *ind = read_block(in->single);
+    return ind->ptr[lbn];
+  }
+  lbn -= n;
+  block *dbl = read_block(in->dbl);
+  block *ind = read_block(dbl->ptr[lbn / n]);
+  return ind->ptr[lbn % n];
+}</pre>
+      <p>Double-indirect: quotient selects which indirect block; remainder selects entry inside it.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Path Lookup</h2>
+      <p>Open <code>/usr/bin/ls</code>:</p>
+      <pre>root inode -> read root dir, find "usr"
+usr inode -> read usr dir, find "bin"
+bin inode -> read bin dir, find "ls"
+ls inode -> create open-file object
+process fd table gets new fd -> open-file object</pre>
+      <p>The filename <code>ls</code> is in the <code>bin</code> directory entry, not inside the <code>ls</code> inode.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Directory Scan</h2>
+      <pre>int lookup(inode *dir, char *name) {
+  for each directory entry e in dir's data blocks:
+    if (strcmp(e.name, name) == 0)
+      return e.inumber;
+  return -1;
+}</pre>
+      <p>Directory file contents map names to inode numbers. Then OS indexes the on-disk inode array/table by that number.</p>
+    </section>
+
+    <section>
+      <h2>Worked: V6 <code>inode_indexlookup</code></h2>
+      <pre>int lookup(fs, inode *in, int b) {
+  uint16_t ptrs[256], ptrs2[256];
+  if (!(in->i_mode &amp; ILARG)) return in->i_addr[b];
+  if (b &lt; 7*256) {
+    diskimg_readsector(fs->dfd, in->i_addr[b/256], ptrs);
+    return ptrs[b % 256];
+  }
+  b -= 7*256;
+  diskimg_readsector(fs->dfd, in->i_addr[7], ptrs);
+  diskimg_readsector(fs->dfd, ptrs[b/256], ptrs2);
+  return ptrs2[b % 256];
+}</pre>
+      <p>Check bounds/zero/error in real code. Trap: <code>i_addr[7]</code> is the doubly-indirect block, not an indirect data-pointer block.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Scan All V6 Inodes</h2>
+      <pre>int n = fs->superblock.s_isize *
+        (DISKIMG_SECTOR_SIZE / sizeof(struct inode));
+for (int inum=1; inum&lt;=n; inum++) {
+  struct inode in;
+  if (inode_iget(fs, inum, &amp;in) &lt; 0) return -1;
+  if (!(in.i_mode &amp; IALLOC)) continue;
+  // test property of allocated inode
+}</pre>
+      <p>Use this for “find any file/inode/block with property X” final problems.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Hard Link Skeleton</h2>
+      <pre>target = pathname_lookup(fs, oldpath);
+inode_iget(fs, target, &amp;tin);
+if ((tin.i_mode &amp; IFMT) == IFDIR) reject;
+parent = pathname_lookup(fs, parent_dir(newpath));
+find empty dirent slot in parent;
+slot.d_inumber = target;
+copy final name into slot.d_name;
+tin.i_nlink++;</pre>
+      <p>Hard link adds a directory entry to same inode; it does not copy file data.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Upgrade Small V6 Inode</h2>
+      <pre>uint16_t ptrs[256];
+for i in 0..7: ptrs[i] = in->i_addr[i];
+for i in 8..255: ptrs[i] = 0;
+clear in->i_addr[0..7];
+in->i_addr[0] = new_indirect_sector;
+in->i_mode |= ILARG;</pre>
+      <p>Old data blocks stay put; only the inode's addressing format changes.</p>
+    </section>
+  </div>
+</article>
+
+<article class="sheet">
+  <header><h1>CS111 Final Cheatsheet: Crash Recovery, VMs, Trust, Last-Minute Traps</h1><div class="sub">Page 6 / 6</div></header>
+  <div class="cols">
+    <section>
+      <h2>Crash Recovery Problem</h2>
+      <p>Filesystem updates often require multiple disk writes. Crash between writes can leave metadata inconsistent.</p>
+      <ul class="tight">
+        <li><b>Data loss</b>: recent user data missing but filesystem structure ok.</li>
+        <li><b>Inconsistency</b>: metadata contradicts itself; worse.</li>
+        <li>Atomic operation: appears all-or-nothing.</li>
+        <li>Durability: once reported done, survives crash.</li>
+        <li>Consistency: filesystem invariants hold.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Common Inconsistencies</h2>
+      <ul class="tight">
+        <li>Inode points to block marked free.</li>
+        <li>Block allocated to two files.</li>
+        <li>Directory entry points to missing/free inode.</li>
+        <li>Link count does not match directory references.</li>
+        <li>Free bitmap/list disagrees with inodes.</li>
+        <li>Cached dirty metadata lost while data written, or vice versa.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><code>fsck</code></h2>
+      <ul class="tight">
+        <li>Post-crash checker scans filesystem and repairs inconsistencies.</li>
+        <li>Can be slow; needs whole-structure scan.</li>
+        <li>May preserve consistency but not necessarily recover newest intended data.</li>
+        <li>Repairs should be idempotent: safe to repeat after another crash.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Ordered Writes</h2>
+      <p>Write blocks in a safe order so every crash point leaves recoverable/acceptable state.</p>
+      <ul class="tight">
+        <li>Example allocation: initialize data/inode before making directory entry visible.</li>
+        <li>Can trade data loss for metadata consistency.</li>
+        <li>Hard to get right for complex multi-block updates.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Write-Ahead Logging</h2>
+      <ol class="tight">
+        <li>Write intended updates to log.</li>
+        <li>Commit log transaction.</li>
+        <li>Apply updates to real filesystem locations.</li>
+        <li>Checkpoint/truncate log when safe.</li>
+      </ol>
+      <ul class="tight">
+        <li>Recovery: committed transaction replayed; uncommitted ignored.</li>
+        <li>Write-ahead rule: log reaches disk before home-location updates.</li>
+        <li>Transaction groups updates into all-or-nothing unit.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Virtual Machines</h2>
+      <ul class="tight">
+        <li>VM virtualizes whole hardware-like machine, not just process address space.</li>
+        <li>Guest OS runs inside VM; hypervisor/VMM manages real hardware.</li>
+        <li>Benefits: isolation, consolidation, portability, snapshots.</li>
+        <li>Challenges: privileged instructions, device virtualization, memory virtualization, performance.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Trust / Ethics</h2>
+      <ul class="tight">
+        <li>Trust = accepting vulnerability to another actor/system because you expect acceptable behavior.</li>
+        <li>Agency: who can act/decide? Who is affected?</li>
+        <li>Trust by assumption: assume system/person is trustworthy.</li>
+        <li>Trust by inference: infer from evidence/history/signals.</li>
+        <li>Trust by substitution: trust intermediary/certifier/tool instead.</li>
+        <li>Over-trust: relying beyond warranted evidence/capability.</li>
+        <li>Discuss stakeholders, pervasiveness, time/long-term effects, incentives, accountability.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Final-Code Traps</h2>
+      <ul class="tight">
+        <li>After <code>fork</code>, both parent and child continue from next instruction.</li>
+        <li><code>execvp</code> success means no old-code lines after it run.</li>
+        <li>FD redirection before <code>exec</code> survives into new program.</li>
+        <li>Pipe EOF requires all write ends closed.</li>
+        <li><code>waitpid</code> waits for process, not thread.</li>
+        <li>Threads share globals/heap/open files; processes after fork do not share ordinary memory.</li>
+        <li>User-level thread metadata lives in process memory, so fork copies it as data.</li>
+        <li>Condition variable waits must be in <code>while</code>.</li>
+        <li>Interrupt disabling is internal/brief; user mutex does not disable interrupts for whole critical section.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Address Translation Checklist</h2>
+      <ol class="tight">
+        <li>Identify page/segment size.</li>
+        <li>Split virtual address into VPN/offset or segment/offset.</li>
+        <li>Check valid/protection/bound.</li>
+        <li>Map VPN->PPN or add base.</li>
+        <li>Keep same offset.</li>
+        <li>If invalid/not resident: page fault/trap.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Inode Offset Checklist</h2>
+      <ol class="tight">
+        <li><code>logical_block = offset / block_size</code>.</li>
+        <li><code>inside = offset % block_size</code>.</li>
+        <li>If logical block in direct range, use direct pointer.</li>
+        <li>Else subtract direct count; check single indirect capacity.</li>
+        <li>Else subtract single capacity; compute double-indirect indexes.</li>
+        <li>Pointers per indirect block = block size / pointer size.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>One-Line Exam Answers</h2>
+      <ul class="tight">
+        <li>Race? Shared mutable state accessed without sufficient synchronization.</li>
+        <li>Deadlock? Cycle of waiting with no preemption/order violation.</li>
+        <li>Thrashing? Working sets exceed memory, paging dominates.</li>
+        <li>BSD priority? Recent CPU use lowers priority; waiting/blocking improves it.</li>
+        <li>Dynamic linking? Shared library symbols resolved/loaded at load/run time.</li>
+        <li>Crash consistency? Need ordered writes/logging/fsck to preserve metadata invariants.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Create File Crash Points</h2>
+      <p>Typical writes: allocate inode, initialize inode, allocate data block, write data, update inode pointers/size, add directory entry, update free map/link count.</p>
+      <ul class="tight">
+        <li>Dir entry before initialized inode -> name points to garbage.</li>
+        <li>Inode pointer before data initialized -> file exposes old garbage block contents.</li>
+        <li>Free map says block free while inode points to it -> future double allocation.</li>
+        <li>Allocated but unreachable block -> leak; less dangerous than double allocation.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Logging Recovery Logic</h2>
+      <ul class="tight">
+        <li>No commit record: ignore transaction; it was not promised durable.</li>
+        <li>Commit present: redo/replay updates until home locations reflect transaction.</li>
+        <li>Redo must be idempotent because crash can happen during recovery.</li>
+        <li>Checkpoint means logged updates have reached home locations, so log can be truncated/reused.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Ordered Write Rule Examples</h2>
+      <ul class="tight">
+        <li>Write new data block before inode points to it.</li>
+        <li>Write inode before directory entry makes name reachable.</li>
+        <li>For deletion, remove directory entry before freeing inode/blocks.</li>
+        <li>Goal is usually metadata consistency first, even if newest user data can be lost.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>VM Implementation Terms</h2>
+      <ul class="tight">
+        <li>Trap-and-emulate: guest privileged operation traps to hypervisor; hypervisor emulates effect.</li>
+        <li>Direct execution: safe ordinary instructions run directly on CPU for speed.</li>
+        <li>Shadow page tables: hypervisor-maintained mappings from guest virtual to machine physical when hardware support limited.</li>
+        <li>Nested paging/EPT: hardware helps translate guest virtual -> guest physical -> machine physical.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>VM Weird Details</h2>
+      <ul class="tight">
+        <li><b>Hosted VMM</b>: runs on top of a conventional host OS; VMM is an app/service, host OS controls real hardware.</li>
+        <li><b>Full simulation</b>: simulate CPU/memory/devices/traps; very flexible but slow.</li>
+        <li><b>Direct execution</b>: ordinary guest instructions run on real CPU; privileged/sensitive operations trap.</li>
+        <li>Guest <code>CLI</code> should disable virtual interrupts for that virtual CPU, not real machine interrupts for everyone.</li>
+        <li>Virtual I/O devices: guest reads/writes virtual device registers; hypervisor simulates device and injects virtual interrupt on completion.</li>
+        <li>Three address spaces idea: guest virtual, guest physical, machine physical.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Trust Answer Skeleton</h2>
+      <ol class="tight">
+        <li>State the trust relationship: who trusts whom/what, for what action.</li>
+        <li>Identify stakeholders, including indirect affected parties.</li>
+        <li>Separate capability, intent, evidence, incentives, accountability.</li>
+        <li>Name trust type: assumption, inference, substitution, or over-trust.</li>
+        <li>Discuss pervasiveness/time: scale, lock-in, future effects, reversibility.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>High-Yield Definitions</h2>
+      <ul class="tight">
+        <li>Idempotent: doing it multiple times has same effect as once.</li>
+        <li>Working set: pages actively needed by process in recent window.</li>
+        <li>Root of trust: component assumed trustworthy because other trust depends on it.</li>
+        <li>Reference bit: hardware/software bit indicating page was accessed.</li>
+        <li>Dirty bit: page/block modified since loaded; must be written back before eviction.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>When Asked "Why?"</h2>
+      <ul class="tight">
+        <li>Why locks? Mutual exclusion over shared mutable state.</li>
+        <li>Why CVs? Sleep without busy-waiting until predicate may change.</li>
+        <li>Why paging? Fixed-size allocation, protection, sparse spaces, demand loading.</li>
+        <li>Why TLB? Page-table walks are expensive; cache translations.</li>
+        <li>Why logging? Multi-write updates need crash-atomic appearance.</li>
+        <li>Why FTL? Flash erase/write/wear constraints differ from disk interface.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Crash / Trust Rapid Fire</h2>
+      <ul class="tight">
+        <li>Crash can happen after any disk write unless problem states atomic group.</li>
+        <li>Disk write completion order may differ from issue order unless forced/ordered by system.</li>
+        <li>Journaling/logging converts many home-location writes into a recoverable transaction protocol.</li>
+        <li>Redo log records after-images; undo log records old values; course mostly needs high-level WAL idea.</li>
+        <li>Commit record is the boundary between "must replay" and "ignore".</li>
+        <li>Inconsistent free map can allocate same block twice or leak a block.</li>
+        <li>Idempotent recovery matters because crash can occur during recovery itself.</li>
+        <li>VM isolation depends on hypervisor correctness; guest OS is not fully trusted by host.</li>
+        <li>Virtualization extends the OS idea: provide an abstraction that looks like hardware.</li>
+        <li>Trust by substitution: trusting compiler/package manager/certificate authority instead of personally verifying all code.</li>
+        <li>Over-trust example: assuming software is safe because it is popular or polished.</li>
+        <li>Ethics answers should name concrete stakeholders and harms, not just "users".</li>
+        <li>Agency question: who can consent, override, inspect, or contest the system's actions?</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Past-Final Short-Answer Traps</h2>
+      <ul class="tight">
+        <li><b><code>stack_switch</code></b>: switching T1 -> T2 returns using T2's saved return address; T1's return address is used when switching back.</li>
+        <li><b>close-on-exec bit</b>: belongs in descriptor-table entry, not open-file table entry, because two fds to same file may differ.</li>
+        <li><b>Privileged?</b> syscall trap: unprivileged; return-from-kernel, set page-map base, disable interrupts: privileged; TLB invalidate/jump-table fill can be unprivileged.</li>
+        <li><b>Linker?</b> combines sections, creates symbol table, modifies code/data relocation addresses, chooses segment addresses; dynamic loader fills lazy import/jump table.</li>
+        <li><b>Condition variables</b>: copying is invalid because wait queues would be duplicated/split nonsensically.</li>
+        <li><b>MRU vs LRU</b>: MRU can beat LRU on looping pattern like <code>ABCDABCD</code> with 3 frames.</li>
+        <li><b>Agential gullibility</b>: agent/company trusts another agent/system beyond justified evidence, e.g. removing safeguards and skipping QA because prior project seemed reliable.</li>
+        <li><b>FAT math</b>: 16-bit FAT -> at most <code>2^16</code> blocks; 512B blocks -> <code>2^25</code>B disk; FAT memory <code>2^16 * 2 = 2^17</code>B.</li>
+        <li><b>PML entry address</b>: physical frame from previous-level entry; offset = relevant 9-bit index shifted left 3 because each entry is 8B.</li>
+        <li><b>V6 erase front</b>: erase exactly one 512B block -> shift pointers/modify indirect blocks; erase less than block -> rewrite data blocks.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Recovery Method Comparison</h2>
+      <table>
+        <tr><th>method</th><th>strength</th><th>cost/trap</th></tr>
+        <tr><td><code>fsck</code></td><td>repairs after crash</td><td>slow, may lose recent data</td></tr>
+        <tr><td>ordered writes</td><td>simple consistency discipline</td><td>hard for complex updates</td></tr>
+        <tr><td>logging</td><td>transactional recovery</td><td>extra writes/log management</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Worked: Crash-Safe Update Skeleton</h2>
+      <pre>// redo logging shape
+write_log("begin T");
+write_log("new bitmap block");
+write_log("new inode block");
+write_log("commit T"); flush_log();
+install bitmap block to home location;
+install inode block to home location;
+clear/checkpoint log;</pre>
+      <ul class="tight">
+        <li>Crash before commit: ignore log; old filesystem should remain valid.</li>
+        <li>Crash after commit: replay all logged updates, even if some home writes happened.</li>
+        <li>Replay must be idempotent: same committed update twice gives same final state.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Final Strategy</h2>
+      <ul class="tight">
+        <li>For code traces: write process/thread identities and shared vs copied state first.</li>
+        <li>For monitor design: state variables + wait predicates before code.</li>
+        <li>For address translation: compute offset bits first.</li>
+        <li>For filesystem math: convert byte offset to logical block number first.</li>
+        <li>For crash recovery: list writes, then examine crash after each write.</li>
+        <li>For ethics: identify trust relationship and stakeholders explicitly.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Coding Section Coverage Checklist</h2>
+      <ul class="tight">
+        <li>Trace <code>fork</code> values/process count/output order; remember copied memory.</li>
+        <li>Write shell code: <code>fork</code>, <code>execvp</code>, <code>waitpid</code>, redirection, pipe, close unused FDs.</li>
+        <li>Use <code>argv</code>/<code>char *args[]</code> with final <code>NULL</code>; distinguish string <code>'\0'</code>.</li>
+        <li>Trace fd table/open-file sharing, <code>dup2</code> direction, pipe EOF behavior.</li>
+        <li>Fix shared-state race with mutex/RAII; explain why <code>x++</code> is not atomic.</li>
+        <li>Write monitor code: state fields, lock, <code>while</code> predicate, wait, update, notify.</li>
+        <li>Handle selected waiters/grouping with queues/records, not just counters.</li>
+        <li>Spot deadlock/starvation and add lock ordering/fairness/generation state.</li>
+        <li>Compute base/bound, page offset/VPN/PPN, multilevel indexes, replacement traces.</li>
+        <li>Use Assignment 7 V6 APIs for inode scans, dir scans, path lookup, hard links, indirect blocks.</li>
+        <li>List crash points and decide leak vs dangling pointer vs inconsistent metadata.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Worked: Crash Ordering</h2>
+      <p>Append one new block to file. Needed writes: data block D, inode pointer/size I, free bitmap B.</p>
+      <table>
+        <tr><th>bad order</th><th>crash consequence</th></tr>
+        <tr><td>I before D</td><td>file may point at uninitialized/old garbage data</td></tr>
+        <tr><td>I before B</td><td>inode uses block that free map may later allocate elsewhere</td></tr>
+        <tr><td>B before I</td><td>allocated block may be leaked if crash before inode points to it</td></tr>
+      </table>
+      <p>Often acceptable order prefers leak over inconsistency: write D, mark/prepare allocation, then make inode reference visible, with recovery/logging to clean up.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Log Recovery</h2>
+      <pre>log: [update A][update B][COMMIT]</pre>
+      <p>Commit present -> replay A and B to home locations, even if crash happened halfway through applying. No commit -> ignore. Replay must be idempotent.</p>
+      <pre>log: [update A][update B]   // no commit</pre>
+      <p>Ignore because transaction was not committed/durable.</p>
+    </section>
+
+    <section>
+      <h2>Worked: Trust Answer</h2>
+      <p>Prompt: "Should users trust an auto-update system?"</p>
+      <ol class="tight">
+        <li>Trust relation: user trusts vendor/updater to install correct code.</li>
+        <li>Evidence: signatures, vendor history, reproducible builds, audits.</li>
+        <li>Substitution: user trusts signing keys/package infrastructure instead of inspecting code.</li>
+        <li>Risks: compromised key, malicious update, dependency attack, forced changes.</li>
+        <li>Stakeholders: users, admins, affected third parties, vendor, attackers.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Trust Weird Details</h2>
+      <ul class="tight">
+        <li><b>xz/ssh attack</b>: supply-chain trust failure; trusted maintainer/project path was used to introduce malicious behavior.</li>
+        <li><b>Confirmation bias</b>: people trust evidence more when it matches expectations; platforms can profit from it.</li>
+        <li><b>False trust in numbers</b>: quantitative output can look objective even when measurement/model is flawed.</li>
+        <li><b>Generative AI</b>: easy to over-trust because fluent output sounds authoritative; verify against primary logs/tests/sources.</li>
+        <li><b>Synthetic media</b>: photos/video/audio used to imply authenticity because fabrication was hard; deepfakes weaken that inference.</li>
+        <li>Linux trust examples: users trust Linux through reputation/distribution/community; developers trust via review, maintainers, tests, signed releases, social/process evidence.</li>
+      </ul>
+    </section>
+  </div>
+</article>
+
+</body>
+</html>
